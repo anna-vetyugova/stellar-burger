@@ -1,0 +1,9 @@
+.main {
+  width: 600px;
+  height: 696px;
+  overflow: auto;
+}
+.list {
+  padding: 0;
+  margin: 0;
+}

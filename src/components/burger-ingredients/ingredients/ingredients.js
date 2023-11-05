@@ -4,7 +4,7 @@ import IngredientItem from "../ingredient-item/ingredient-item";
 
 const Ingredients = ({ type, ingredients }) => {
   return (
-    <section className={"custom-scroll " + ingredientsStyles.container}>
+    <section>
       <h3 className="text text_type_main-medium">{type}</h3>
       <ul className={ingredientsStyles.list}>
         {ingredients.map((item) => (

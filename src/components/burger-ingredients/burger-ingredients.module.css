@@ -1,9 +1,10 @@
 .main {
   width: 600px;
+  height: 912px;
   display: flex;
   margin-top: 40px;
   flex-direction: column;
 }
 .menu {
-  height: 600px;
+  overflow: auto;
 }

@@ -1,0 +1,20 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  width: 600px;
+  height: 696px;
+  margin-top: 80px;
+  margin-left: 40px;
+}
+
+.priceInfo {
+  display: flex;
+  flex-direction: row;
+  column-gap: 8px;
+  align-items: center;
+  justify-content: flex-end;
+}
+.image {
+  width: 36px;
+  height: 36px;
+}
