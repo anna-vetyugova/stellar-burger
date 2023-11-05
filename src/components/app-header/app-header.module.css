@@ -1,0 +1,27 @@
+.header {
+  background-color: #1C1C21;
+  display: flex;
+  justify-content: center;
+  height: 88px;
+}
+.container {
+  width: 1280px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 0;
+}
+.links {
+  display: flex;
+  flex-direction: row;
+  column-gap: 48px;
+}
+.link {
+  text-decoration: none;
+  color: #f2f2f3;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  display: flex;
+}

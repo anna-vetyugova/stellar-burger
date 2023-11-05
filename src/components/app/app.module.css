@@ -1,7 +1,22 @@
 .app {
+  font-family: 'JetBrains', Arial, sans-serif;
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  /* height: 100vh; */
   background-color: #131316;
   color: #f2f2f3;
+  width: 1920px;
+  margin: 0 auto;
+
+  /*сглаживание*/
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+
+  /*при изменении масштаба страницы размер шрифта изменялся пропорционально*/
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+
+  /*рендеринг шрифта*/
+  text-rendering: optimizeLegibility;
 }
