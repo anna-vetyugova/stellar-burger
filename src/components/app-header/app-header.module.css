@@ -5,7 +5,8 @@
   height: 88px;
 }
 .container {
-  width: 1280px;
+  /* width: 1280px; */
+  width: calc(100% - 640px);
   display: flex;
   flex-direction: row;
   justify-content: space-between;
