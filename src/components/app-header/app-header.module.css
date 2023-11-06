@@ -5,17 +5,17 @@
   height: 88px;
 }
 .container {
-  /* width: 1280px; */
   width: calc(100% - 640px);
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
+  flex-direction: row;
   align-items: center;
   padding: 16px 0;
 }
 .links {
   display: flex;
   flex-direction: row;
+  align-items: center;
   column-gap: 48px;
 }
 .link {
@@ -25,4 +25,7 @@
   font-weight: 400;
   line-height: 24px;
   display: flex;
+}
+.logo {
+  margin-left: 84px;
 }

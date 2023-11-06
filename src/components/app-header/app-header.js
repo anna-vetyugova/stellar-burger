@@ -10,8 +10,9 @@ class AppHeader extends React.Component {
           <div className={headerStyles.links}>
             <a href="#" className={headerStyles.link}><BurgerIcon/><p className="text text_type_main-default ml-2">Конструктор</p></a>
             <a href="#" className={headerStyles.link}><ListIcon type="secondary" /><p className="text text_type_main-default text_color_inactive ml-2">Лента заказов</p></a>
+            <a href="#" className={headerStyles.logo}><Logo /></a>
           </div>
-          <a href="#" className={headerStyles.link}><Logo /></a>
+
           <a href="#" className={headerStyles.link}><ProfileIcon type="secondary" /><p className="text text_type_main-default text_color_inactive ml-2">Личный кабинет</p></a>
         </div>
       </header>

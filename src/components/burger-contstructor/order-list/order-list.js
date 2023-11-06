@@ -1,16 +1,68 @@
 import React from "react";
-import OrderItem from "./order-item/order-item";
 import orderListStyles from "./order-list.module.css";
+import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import burgerIcon from "../../../images/bun-1.png";
+import PropTypes from 'prop-types';
 
+const orderListItemPropTypes = PropTypes.shape({
+  _id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired,
+  image: PropTypes.string.isRequired,
+});
+OrderList.propTypes = {
+  ingredient: PropTypes.arrayOf(
+    PropTypes.shape({
+      _id: orderListItemPropTypes.isRequired,
+      name: orderListItemPropTypes.isRequired,
+      type: orderListItemPropTypes.isRequired,
+      price: orderListItemPropTypes.isRequired,
+      image: orderListItemPropTypes.isRequired
+    })
+  )
+};
 const OrderList = ({ ingredient }) => {
   return (
-    <section className={"custom-scroll " + orderListStyles.main}>
-      <ul className={orderListStyles.list}>
-        {ingredient.map((item) => (
-          <OrderItem ingredient={item} key={item._id} />
-        ))}
-      </ul>
+    <section className={"pl-4 pr-2 " + orderListStyles.main}>
+      <div className={orderListStyles.element}>
+        <ConstructorElement
+          type="top"
+          isLocked={true}
+          text="Краторная булка N-200i (верх)"
+          price={200}
+          thumbnail={burgerIcon}
+        />
+      </div>
+      <div className={"custom-scroll mt-4 " + orderListStyles.container}>
+        <ul className={orderListStyles.list}>
+          {ingredient.map((item) => (
+            item.type !== 'bun' ? (
+              <li className={"mb-4 "  + orderListStyles.item} key={item._id}>
+                <DragIcon type="primary" />
+                <ConstructorElement
+                  text={item.name}
+                  price={item.price}
+                  thumbnail={item.image}
+                />
+              </li>
+            ) : (
+              null
+            )
+          ))}
+        </ul> 
+      </div>
+      <div className={orderListStyles.element}>
+        <ConstructorElement
+          type="bottom"
+          isLocked={true}
+          text="Краторная булка N-200i (низ)"
+          price={200}
+          thumbnail={burgerIcon}
+        />
+      </div>
     </section>
   );
 };
+
 export default OrderList;

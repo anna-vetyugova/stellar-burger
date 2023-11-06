@@ -1,10 +1,9 @@
 import React from "react";
 import { data } from "../../utils/data";
-
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-
 import burgerIngredientsStyles from "./burger-ingredients.module.css";
 import Ingredients from "./ingredients/ingredients";
+
 
 function BurgerIngredientsTabs() {
   const [current, setCurrent] = React.useState("one");
