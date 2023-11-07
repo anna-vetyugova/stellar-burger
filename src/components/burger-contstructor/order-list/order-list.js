@@ -11,17 +11,6 @@ const orderListItemPropTypes = PropTypes.shape({
   price: PropTypes.number.isRequired,
   image: PropTypes.string.isRequired,
 });
-OrderList.propTypes = {
-  ingredient: PropTypes.arrayOf(
-    PropTypes.shape({
-      _id: orderListItemPropTypes.isRequired,
-      name: orderListItemPropTypes.isRequired,
-      type: orderListItemPropTypes.isRequired,
-      price: orderListItemPropTypes.isRequired,
-      image: orderListItemPropTypes.isRequired
-    })
-  )
-};
 const OrderList = ({ ingredient }) => {
   return (
     <section className={"pl-4 pr-2 " + orderListStyles.main}>
@@ -41,6 +30,8 @@ const OrderList = ({ ingredient }) => {
               <li className={"mb-4 "  + orderListStyles.item} key={item._id}>
                 <DragIcon type="primary" />
                 <ConstructorElement
+                  type="middle"
+                  isLocked={false}
                   text={item.name}
                   price={item.price}
                   thumbnail={item.image}
@@ -64,5 +55,17 @@ const OrderList = ({ ingredient }) => {
     </section>
   );
 };
-
+OrderList.propTypes = {
+  ingredient: PropTypes.arrayOf(orderListItemPropTypes)
+};
+ConstructorElement.propTypes = {
+  type: PropTypes.string.isRequired,
+  isLocked: PropTypes.bool.isRequired,
+  text: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired,
+  thumbnail: PropTypes.string.isRequired
+};
+DragIcon.propTypes = {
+  type: PropTypes.string.isRequired
+};
 export default OrderList;

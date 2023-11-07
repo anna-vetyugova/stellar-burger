@@ -6,16 +6,21 @@ import Ingredients from "./ingredients/ingredients";
 
 
 function BurgerIngredientsTabs() {
-  const [current, setCurrent] = React.useState("one");
+  const [current, setCurrent] = React.useState("bun-tab");
+  const setTab = (tab) => {
+    setCurrent(tab);
+    const element = document.getElementById(tab);
+    if (element) element.scrollIntoView({ behavior: "smooth" });
+  };
   return (
     <div style={{ display: "flex" }} className="mb-5">
-      <Tab value="one" active={current === "one"} onClick={setCurrent}>
+      <Tab id="bun-tab" value="bun-tab" active={current === "bun-tab"} onClick={setTab}>
         Булки
       </Tab>
-      <Tab value="two" active={current === "two"} onClick={setCurrent}>
+      <Tab id="sauce-tab" value="sauce-tab" active={current === "sauce-tab"} onClick={setTab}>
         Соусы
       </Tab>
-      <Tab value="three" active={current === "three"} onClick={setCurrent}>
+      <Tab id="main-tab" value="main-tab" active={current === "main-tab"} onClick={setTab}>
         Начинки
       </Tab>
     </div>
@@ -30,18 +35,21 @@ function BurgerIngredients() {
       <div className={"mt-5 custom-scroll " + burgerIngredientsStyles.menu}>
         <Ingredients
           type="Булки"
+          id="bun-tab"
           ingredients={data.filter((item) => {
             return item.type === "bun";
           })}
         />
         <Ingredients
           type="Соусы"
+          id="sauce-tab"
           ingredients={data.filter((item) => {
             return item.type === "sauce";
           })}
         />
         <Ingredients
           type="Начинка"
+          id="main-tab"
           ingredients={data.filter((item) => {
             return item.type === "main";
           })}

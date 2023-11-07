@@ -3,22 +3,16 @@ import ingredientsStyles from "../ingredients/ingredients.module.css";
 import IngredientItem from "../ingredient-item/ingredient-item";
 import PropTypes from 'prop-types';
 
-Ingredients.propTypes = {
-  type: PropTypes.string.isRequired,
-  ingredient: PropTypes.arrayOf(
-    PropTypes.shape({
-      _id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      type: PropTypes.string.isRequired,
-      price: PropTypes.number.isRequired,
-      image: PropTypes.string.isRequired
-    })
-  )
-}
-
-const Ingredients = ({ type, ingredients }) => {
+const ingredientPropTypes = PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
+    image: PropTypes.string.isRequired
+  });
+const Ingredients = ({ type, ingredients, id }) => {
   return (
-    <section>
+    <section id={id}>
       <h3 className="text text_type_main-medium">{type}</h3>
       <ul className={ingredientsStyles.list}>
         {ingredients.map((item) => (
@@ -28,4 +22,9 @@ const Ingredients = ({ type, ingredients }) => {
     </section>
   );
 };
+Ingredients.propTypes = {
+  id: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+  ingredient: PropTypes.arrayOf(ingredientPropTypes)
+}
 export default Ingredients;
