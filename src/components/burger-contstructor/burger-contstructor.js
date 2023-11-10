@@ -3,14 +3,13 @@ import burgerConstructor from './burger-contstructor.module.css'
 import OrderList from "./order-list/order-list";
 import ingredientIcon from "../../images/ingredient-icon.svg"
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
-import { data } from "../../utils/data";
 
 
-function BurgerConstructor() {
+const BurgerConstructor = ({ingredients}) => {
   return (
     <section className={burgerConstructor.main}>
       <OrderList
-          ingredient={data.map((item) => {
+          ingredient={ingredients.map((item) => {
             return item;
           })}
         />
