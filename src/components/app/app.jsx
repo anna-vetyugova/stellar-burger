@@ -1,8 +1,14 @@
 import styles from "./app.module.css";
+
 import AppHeader from "../app-header/app-header";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-contstructor/burger-contstructor";
+import Modal from "../modal/modal";
+import IngredientDetails from "../ingredient-details/ingredient-details";
+import OrderDetails from "../order-details/order-details";
+
 import React, {useState, useEffect} from "react";
+import ReactDOM from "react-dom";
 
 function App() {
   const url = 'https://norma.nomoreparties.space/api/ingredients';
@@ -10,7 +16,8 @@ function App() {
     isLoading: false,
     hasError: false,
     data: []
-  })
+  });
+
   useEffect(() => {
     const getBurgerIngredients = async () => {
     setState({ ...state, hasError: false, isLoading: true });
@@ -23,13 +30,15 @@ function App() {
     }
 
     getBurgerIngredients();
-  }, [])
+  }, []);
+
+
   return (
     <div className={styles.app}>
       <AppHeader />
       <main className={styles.content}>
         <BurgerIngredients ingredients={state.data} />
-        <BurgerConstructor ingredients={state.data}  />
+        <BurgerConstructor ingredients={state.data} />
       </main>
     </div>
   );
