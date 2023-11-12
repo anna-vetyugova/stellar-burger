@@ -17,7 +17,7 @@ IngredientDetails.propTypes = {
 function IngredientDetails({ ingredient }) {
   return (
     <>
-    <div className={styles.main}>
+    <section className={styles.main}>
       <img className={styles.image + " pl-5 pr-5"} src={ingredient.image_large} alt={ingredient.name}></img>
       <div className={styles.content}>
         <h3 className="text text_type_main-medium">{ingredient.name}</h3>
@@ -40,7 +40,7 @@ function IngredientDetails({ ingredient }) {
           </div>
         </div>
       </div>
-    </div>
+    </section>
     </>
   );
 }

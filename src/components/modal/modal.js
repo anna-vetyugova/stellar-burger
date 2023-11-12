@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState, useCallback } from "react";
+import React from "react";
 import ReactDOM from "react-dom";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import modalStyles from "./modal.module.css";
@@ -7,39 +7,38 @@ import ModalOverlay from "../modal-overlay/modal-overlay";
 
 const modalRoot = document.getElementById("react-modals");
 
-const Modal = ({ children, closeModal, header }) => {
-  const modalRef = React.useRef();
+const Modal = ({ children, header, closeModal }) => {
+  const modalRef = React.useRef(null);
 
-  const closeOnOverlayClick = (e) => {
-    if (modalRef.current && !modalRef.current.contains(e.target)) {
-      closeModal();
-    }
-  };
-  const closeOnEscape = (e) => {
-    if (e.code === "Escape") {
-      closeModal();
-    }
-  };
   React.useEffect(() => {
-    document.addEventListener("click", closeOnOverlayClick);
-    document.addEventListener("keydown", closeOnEscape);
-    return () => {
-      document.removeEventListener("click", closeOnOverlayClick);
-      document.removeEventListener("keydown", closeOnEscape);  
+    const handleCloseOnEscape = (e) => {
+        if (e.key === 'Escape') {
+          closeModal();
+        }
     }
-  }, []);
+    const handleCloseOnOverlay = (e) => {
+      if (modalRef.current && !modalRef.current.contains(e.target)) {
+        closeModal();
+      }
+  }
+    document.addEventListener('keydown', handleCloseOnEscape);
+    document.addEventListener('click', handleCloseOnOverlay);
+    return () => {
+      document.removeEventListener("keydown", handleCloseOnEscape); 
+      document.removeEventListener('click', handleCloseOnOverlay);  
+    }
+  }, [])
 
   return ReactDOM.createPortal(
     <>
-      <div className={modalStyles.modal} ref={modalRef}>
-        <div className={modalStyles.content}>
-          <div className={modalStyles.header}>
-            <h3 className="text text_type_main-large">{header}</h3>
+      <section className={modalStyles.modal} ref={modalRef}>
+        <div className={modalStyles.header}>
+          <h3 className="text text_type_main-large">{header}</h3>
+          <div className={modalStyles.closeIconContainer}>
             <CloseIcon type="primary" onClick={closeModal}/>
-
           </div>
-        </div> 
-      </div>
+        </div>
+      </section>
       {children}
       <ModalOverlay onClick={closeModal} />
     </>,

@@ -3,6 +3,8 @@ import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import burgerIngredientsStyles from "./burger-ingredients.module.css";
 import Ingredients from "./ingredients/ingredients";
 import Modal from "../modal/modal";
+import IngredientDetails from "../ingredient-details/ingredient-details";
+
 
 function BurgerIngredientsTabs() {
   const [current, setCurrent] = React.useState("bun-tab");
@@ -27,7 +29,8 @@ function BurgerIngredientsTabs() {
 }
 
 // function BurgerIngredients() {
-const BurgerIngredients = ({ingredients,}) => {
+const BurgerIngredients = ({ingredients}) => {
+  const [ingredient, setModalState] = useState(false);
   return (
     <section className={burgerIngredientsStyles.main}>
       <h1 className="text text_type_main-large mb-5">Соберите бургер</h1>
@@ -36,7 +39,7 @@ const BurgerIngredients = ({ingredients,}) => {
         <Ingredients
           type="Булки"
           id="bun-tab"   
-  
+          onOpen={setModalState}
           ingredients={ingredients.filter((item) => {
             return item.type === "bun";
           })}
@@ -44,6 +47,7 @@ const BurgerIngredients = ({ingredients,}) => {
         <Ingredients
           type="Соусы"
           id="sauce-tab"
+          onOpen={setModalState}
           ingredients={ingredients.filter((item) => {
             return item.type === "sauce";
           })}
@@ -51,11 +55,16 @@ const BurgerIngredients = ({ingredients,}) => {
         <Ingredients
           type="Начинка"
           id="main-tab"
+          onOpen={setModalState}
           ingredients={ingredients.filter((item) => {
             return item.type === "main";
           })}
         />
       </div>
+      { ingredient && 
+          <Modal closeModal={ () => setModalState(false) } header={"Детали ингредиента"}>
+            <IngredientDetails ingredient={ingredient} />
+          </Modal> }
     </section>
   );
 }

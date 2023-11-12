@@ -23,10 +23,9 @@ const BurgerConstructor = ({ingredients}) => {
           Оформить заказ
         </Button>
       </div>
-      {modalState && <Modal closeModal={closeModal}><OrderDetails /></Modal>}
+      {modalState && <Modal closeModal={closeModal} ><OrderDetails /></Modal>}
     </section>
   );
 }
-
 
 export default BurgerConstructor;
