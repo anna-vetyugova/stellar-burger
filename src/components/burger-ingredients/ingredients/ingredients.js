@@ -1,16 +1,7 @@
-import React, { useState } from "react";
 import ingredientsStyles from "../ingredients/ingredients.module.css";
 import IngredientItem from "../ingredient-item/ingredient-item";
 import PropTypes from 'prop-types';
-
-
-const ingredientPropTypes = PropTypes.shape({
-    _id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    image: PropTypes.string.isRequired
-  });
+import { orderListItemPropTypes } from "../../../utils/prop-types";
 
 const Ingredients = ({ type, ingredients, id, onOpen }) => {
   
@@ -28,7 +19,7 @@ const Ingredients = ({ type, ingredients, id, onOpen }) => {
 Ingredients.propTypes = {
   id: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
-  ingredient: PropTypes.arrayOf(ingredientPropTypes),
+  ingredient: PropTypes.arrayOf(orderListItemPropTypes),
   onOpen: PropTypes.func.isRequired
 }
 export default Ingredients;

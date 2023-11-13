@@ -3,14 +3,8 @@ import orderListStyles from "./order-list.module.css";
 import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import burgerIcon from "../../../images/bun-1.png";
 import PropTypes from 'prop-types';
+import { orderListItemPropTypes } from "../../../utils/prop-types";
 
-const orderListItemPropTypes = PropTypes.shape({
-  _id: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
-  price: PropTypes.number.isRequired,
-  image: PropTypes.string.isRequired,
-});
 const OrderList = ({ ingredient }) => {
   return (
     <section className={"pl-4 pr-2 " + orderListStyles.main}>

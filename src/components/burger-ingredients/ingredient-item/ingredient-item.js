@@ -3,6 +3,7 @@ import ingredientItemStyles from "../ingredient-item/ingredient-item.module.css"
 import ingredientIcon from "../../../images/ingredient-icon.svg"
 import { Counter } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from 'prop-types';
+import { orderListItemPropTypes } from "../../../utils/prop-types";
 
 const IngredientItem = ({ ingredient, onOpen }) => {
   const handleClick = () => onOpen(ingredient);
@@ -22,13 +23,7 @@ Counter.propTypes = {
   count: PropTypes.number
 };
 IngredientItem.propTypes = {
-  ingredient: PropTypes.shape({
-    _id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    image: PropTypes.string.isRequired
-  }),
+  ingredient: orderListItemPropTypes,
   onOpen: PropTypes.func.isRequired
 };
 export default IngredientItem;
