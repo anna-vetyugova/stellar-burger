@@ -28,6 +28,7 @@ const Ingredients = ({ type, ingredients, id, onOpen }) => {
 Ingredients.propTypes = {
   id: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
-  ingredient: PropTypes.arrayOf(ingredientPropTypes)
+  ingredient: PropTypes.arrayOf(ingredientPropTypes),
+  onOpen: PropTypes.func.isRequired
 }
 export default Ingredients;

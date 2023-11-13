@@ -2,18 +2,6 @@ import React from "react";
 import styles from "./ingredient-details.module.css";
 import PropTypes from "prop-types";
 
-IngredientDetails.propTypes = {
-  ingredient: PropTypes.shape({
-    _id: PropTypes.string.isRequired,
-    image_large: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
-    proteins: PropTypes.number.isRequired,
-    fat: PropTypes.number.isRequired,
-    carbohydrates: PropTypes.number.isRequired,
-    calories: PropTypes.number.isRequired,
-  }),
-};
 function IngredientDetails({ ingredient }) {
   return (
     <>
@@ -44,4 +32,16 @@ function IngredientDetails({ ingredient }) {
     </>
   );
 }
+IngredientDetails.propTypes = {
+  ingredient: PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    image_large: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    proteins: PropTypes.number.isRequired,
+    fat: PropTypes.number.isRequired,
+    carbohydrates: PropTypes.number.isRequired,
+    calories: PropTypes.number.isRequired,
+  }),
+};
 export default IngredientDetails;

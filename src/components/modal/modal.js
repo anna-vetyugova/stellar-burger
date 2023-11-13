@@ -4,11 +4,12 @@ import ReactDOM from "react-dom";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import modalStyles from "./modal.module.css";
 import ModalOverlay from "../modal-overlay/modal-overlay";
+import PropTypes from "prop-types";
 
 const modalRoot = document.getElementById("react-modals");
 
 const Modal = ({ children, header, closeModal }) => {
-  const modalRef = React.useRef(null);
+  const modalRef = React.useRef();
 
   React.useEffect(() => {
     const handleCloseOnEscape = (e) => {
@@ -38,11 +39,16 @@ const Modal = ({ children, header, closeModal }) => {
             <CloseIcon type="primary" onClick={closeModal}/>
           </div>
         </div>
+        {children}
       </section>
-      {children}
       <ModalOverlay onClick={closeModal} />
     </>,
     modalRoot
   );
 };
+Modal.propTypes = {
+  children: PropTypes.element.isRequired,
+  header: PropTypes.string,
+  closeModal: PropTypes.func.isRequired,
+}
 export default Modal;

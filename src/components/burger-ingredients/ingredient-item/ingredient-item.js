@@ -28,6 +28,7 @@ IngredientItem.propTypes = {
     type: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired,
     image: PropTypes.string.isRequired
-  })
+  }),
+  onOpen: PropTypes.func.isRequired
 };
 export default IngredientItem;
