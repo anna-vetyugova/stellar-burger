@@ -1,0 +1,25 @@
+.ingredient {
+  width: 272px;
+  height: 208px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+.image {
+  width: 240px;
+  height: 120px;
+  box-sizing: border-box;
+  object-fit: contain;
+}
+.priceInfo {
+  display: flex;
+  flex-direction: row;
+  column-gap: 8px;
+  align-items: center;
+}
+
+.counter {
+  position: fixed;
+}
+
