@@ -1,9 +1,11 @@
-import React from "react";
-import { data } from "../../utils/data";
+import React, { useState } from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import burgerIngredientsStyles from "./burger-ingredients.module.css";
 import Ingredients from "./ingredients/ingredients";
-
+import Modal from "../modal/modal";
+import IngredientDetails from "../ingredient-details/ingredient-details";
+import PropTypes from 'prop-types';
+import { ingredientsDataList } from "../../utils/prop-types";
 
 function BurgerIngredientsTabs() {
   const [current, setCurrent] = React.useState("bun-tab");
@@ -27,7 +29,9 @@ function BurgerIngredientsTabs() {
   );
 }
 
-function BurgerIngredients() {
+// function BurgerIngredients() {
+const BurgerIngredients = ({ingredients}) => {
+  const [ingredient, setModalState] = useState(false);
   return (
     <section className={burgerIngredientsStyles.main}>
       <h1 className="text text_type_main-large mb-5">Соберите бургер</h1>
@@ -35,28 +39,38 @@ function BurgerIngredients() {
       <div className={"mt-5 custom-scroll " + burgerIngredientsStyles.menu}>
         <Ingredients
           type="Булки"
-          id="bun-tab"
-          ingredients={data.filter((item) => {
+          id="bun-tab"   
+          onOpen={setModalState}
+          ingredients={ingredients.filter((item) => {
             return item.type === "bun";
           })}
         />
         <Ingredients
           type="Соусы"
           id="sauce-tab"
-          ingredients={data.filter((item) => {
+          onOpen={setModalState}
+          ingredients={ingredients.filter((item) => {
             return item.type === "sauce";
           })}
         />
         <Ingredients
           type="Начинка"
           id="main-tab"
-          ingredients={data.filter((item) => {
+          onOpen={setModalState}
+          ingredients={ingredients.filter((item) => {
             return item.type === "main";
           })}
         />
       </div>
+      { ingredient && 
+          <Modal closeModal={ () => setModalState(false) } header={"Детали ингредиента"}>
+            <IngredientDetails ingredient={ingredient} />
+          </Modal> }
     </section>
   );
 }
 
+BurgerIngredients.propTypes = {
+  ingredients: PropTypes.arrayOf(ingredientsDataList)
+};
 export default BurgerIngredients;

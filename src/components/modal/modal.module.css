@@ -1,0 +1,24 @@
+.modal {
+  position: fixed;
+  width: 720px;
+  min-height: 540px;
+  max-height: 720px;
+  padding: 40px 40px 60px;
+  background-color: #1C1C21;
+  border-radius: 30px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+  box-sizing: border-box;
+}
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 64px;
+}
+.closeIconContainer {
+  cursor: pointer;
+}
