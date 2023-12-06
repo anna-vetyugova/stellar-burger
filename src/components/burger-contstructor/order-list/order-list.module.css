@@ -1,6 +1,8 @@
 .main {
   width: 600px;
-  height: 696px;
+  /* height: 696px; */
+  display: flex;
+  flex-direction: column;
 }
 .list {
   padding: 0;
@@ -8,7 +10,7 @@
 }
 .container {
   overflow: auto;
-  height: 500px;
+  /* height: 500px; */
 }
 .item {
   display: flex;

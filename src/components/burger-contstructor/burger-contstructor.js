@@ -10,11 +10,12 @@ import PropTypes from 'prop-types';
 import { ingredientsDataList } from "../../utils/prop-types";
 
 
-const BurgerConstructor = ({ingredients}) => {
+const BurgerConstructor = ({bun, ingredients}) => {
   const { modalState, openModal, closeModal } = useModal();
   return (
     <section className={burgerConstructor.main}>
       <OrderList
+          bun={bun}
           ingredient={ingredients.map((item) => {
             return item;
           })}

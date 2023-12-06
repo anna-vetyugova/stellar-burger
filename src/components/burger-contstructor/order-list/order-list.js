@@ -1,20 +1,19 @@
 import React from "react";
 import orderListStyles from "./order-list.module.css";
 import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import burgerIcon from "../../../images/bun-1.png";
 import PropTypes from 'prop-types';
 import { orderListItemPropTypes } from "../../../utils/prop-types";
 
-const OrderList = ({ ingredient }) => {
+const OrderList = ({ bun, ingredient }) => {
   return (
     <section className={"pl-4 pr-2 " + orderListStyles.main}>
       <div className={orderListStyles.element}>
         <ConstructorElement
           type="top"
           isLocked={true}
-          text="Краторная булка N-200i (верх)"
-          price={200}
-          thumbnail={burgerIcon}
+          text={bun.name + " (верх)"}
+          price={bun.price}
+          thumbnail={bun.image}
         />
       </div>
       <div className={"custom-scroll mt-4 " + orderListStyles.container}>
@@ -41,9 +40,9 @@ const OrderList = ({ ingredient }) => {
         <ConstructorElement
           type="bottom"
           isLocked={true}
-          text="Краторная булка N-200i (низ)"
-          price={200}
-          thumbnail={burgerIcon}
+          text={bun.name + " (низ)"}
+          price={bun.price}
+          thumbnail={bun.image}
         />
       </div>
     </section>
