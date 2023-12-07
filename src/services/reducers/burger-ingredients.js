@@ -17,10 +17,7 @@ export const burgerIngredientsReducer = (state = initialState, action) => {
       return { ...state, ingredientsFailed: true, ingredientsRequest: false };
     }
     case TAB_SWITCH: {
-      return {
-        ...state,
-        currentTab : action.tab
-      };
+      return {...state, currentTab : action.newTab };
     }
     default: {
       return state;

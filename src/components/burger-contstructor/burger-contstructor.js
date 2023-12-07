@@ -10,16 +10,11 @@ import PropTypes from 'prop-types';
 import { ingredientsDataList } from "../../utils/prop-types";
 
 
-const BurgerConstructor = ({bun, ingredients}) => {
+const BurgerConstructor = ({children, bun, ingredients, onDropHandler}) => {
   const { modalState, openModal, closeModal } = useModal();
   return (
     <section className={burgerConstructor.main}>
-      <OrderList
-          bun={bun}
-          ingredient={ingredients.map((item) => {
-            return item;
-          })}
-        />
+      <OrderList/>
       <div className={"mt-2 mt-5 " + burgerConstructor.priceInfo}>
         <span className="text text_type_digits-medium">100</span>
         <img src={ingredientIcon} className={burgerConstructor.image} alt={'Иконка цены'}></img>

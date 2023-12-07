@@ -1,14 +1,23 @@
+const currentIngredients = {
+  bun: null,
+  ingredients: null
+};
+const updatedIngredints = [];
 
-import { GET_CONSTRUCTOR_INGREDIENTS } from "../actions/burger-constructor";
-import { initialState } from "../initialState";
-
-export const constructorIngredientsReducer = (state = initialState, action) => {
+export const constructorIngredientsReducer = (state = currentIngredients, action) => {
   switch (action.type) {
-    case GET_CONSTRUCTOR_INGREDIENTS: {
-      return {
+    case 'ADD_BUN_INGREDIENT': {
+      return { 
         ...state,
-        currentIngredients: action.currentIngredients
-      };
+        bun: action.ingredient._id 
+      }  
+    }
+    case 'ADD_MAIN_INGREDIENT': {
+      updatedIngredints.push(action.ingredient._id);
+      return { 
+        ...state,
+        ingredients: updatedIngredints
+      }  
     }
     default: {
       return state;

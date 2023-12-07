@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import burgerIngredientsStyles from "./burger-ingredients.module.css";
 import Ingredients from "./ingredients/ingredients";
@@ -46,19 +46,20 @@ const BurgerIngredients = ({ingredients}) => {
   const currentTab = useSelector((store) => store.ingredientsList.currentTab);
   
   const handleScroll = () => {
-    const tabContainerBottom = tabContainerRef.current?.getBoundingClientRect().bottom;
-    const bunTop = bunTabRef.current?.getBoundingClientRect().top;
-    const sauceTop = sauceTabRef.current?.getBoundingClientRect().top;
-    const mainTop = mainTabRef.current?.getBoundingClientRect().top;
+    const tabsContainerBottom = tabContainerRef.current.getBoundingClientRect().bottom;
+    const bunContainerTop = bunTabRef.current.getBoundingClientRect().top;
+    const sauceContainerTop = sauceTabRef.current.getBoundingClientRect().top;
+    const mainContainerTop = mainTabRef.current.getBoundingClientRect().top;
 
-    const bunDelta = Math.abs(bunTop - tabContainerBottom);
-    const sauceDelta = Math.abs(sauceTop - tabContainerBottom);
-    const mainDelta = Math.abs(mainTop - tabContainerBottom);
-    const min = Math.min(bunDelta, sauceDelta, mainDelta);
-    const newTab = min === bunDelta ? "bun-tab" : min === sauceDelta ? "sauce-tab" : "main-tab";
+    const bunDist = Math.abs(bunContainerTop - tabsContainerBottom);
+    const sauceDist = Math.abs(sauceContainerTop - tabsContainerBottom);
+    const mainDist = Math.abs(mainContainerTop - tabsContainerBottom);
+    
+    const minDist = Math.min(bunDist, sauceDist, mainDist);
+    const newTab = minDist === bunDist ? "bun-tab" : minDist === sauceDist ? "sauce-tab" : "main-tab";
 
     if (newTab !== currentTab) {
-      return dispatch({type: TAB_SWITCH, tab: newTab});
+      return dispatch({type: TAB_SWITCH, newTab});
     }
   };
 
@@ -66,6 +67,8 @@ const BurgerIngredients = ({ingredients}) => {
     return dispatch({ type: DELETE_INGREDIENT_ITEM });
   };
  
+
+
   return (
     <section className={burgerIngredientsStyles.main}>
       <h1 className="text text_type_main-large mb-5">Соберите бургер</h1>
@@ -79,6 +82,7 @@ const BurgerIngredients = ({ingredients}) => {
             ingredients={ingredients.filter((item) => {
               return item.type === "bun";
             })}
+            
           />
         </div>
         <div ref={sauceTabRef}>
@@ -102,6 +106,7 @@ const BurgerIngredients = ({ingredients}) => {
           />
         </div>
       </div>
+
       { ingredient && 
           <Modal closeModal={ () => {setModalState(false); deleteSetItem();} } header={"Детали ингредиента"}>
             <IngredientDetails />

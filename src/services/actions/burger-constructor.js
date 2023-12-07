@@ -1,9 +1,5 @@
-export const GET_CONSTRUCTOR_INGREDIENTS = 'GET_CONSTRUCTOR_INGREDIENTS';
+export const DELETE_INGREDIENT = 'DELETE_INGREDIENT';
+export const ADD_INGREDIENT = 'ADD_INGREDIENT';
+export const MOVE_INGREDIENT = 'MOVE_INGREDIENT';
+export const CLEANING_INGREDIENT_LIST = 'CLEANING_INGREDIENT_LIST';
 
-export function getConstructorIngredietns() {
-  return function(dispatch) {
-    dispatch({
-      type: GET_CONSTRUCTOR_INGREDIENTS
-    });
-  };
-}

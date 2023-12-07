@@ -7,12 +7,13 @@ import BurgerConstructor from "../burger-contstructor/burger-contstructor";
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getIngredientsList } from "../../services/actions/burger-ingredients";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 function App() {
   
-  const { ingredients, currentIngredients } = useSelector(store => ({
+  const { ingredients } = useSelector(store => ({
     ingredients: store.ingredientsList.ingredients,
-    currentIngredients: store.ingredientsConstructor.currentIngredients
   }));
   const dispatch = useDispatch();
   useEffect(() => {
@@ -23,8 +24,10 @@ function App() {
     <div className={styles.app}>
       <AppHeader />
       <main className={styles.content}>
-        <BurgerIngredients ingredients={ingredients} />
-        <BurgerConstructor bun={currentIngredients.bun} ingredients={currentIngredients.ingredients} />
+        <DndProvider backend={HTML5Backend}>
+          <BurgerIngredients ingredients={ingredients} />
+          <BurgerConstructor/>
+        </DndProvider>
       </main>
     </div>
   );
