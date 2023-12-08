@@ -67,8 +67,6 @@ const BurgerIngredients = ({ingredients}) => {
     return dispatch({ type: DELETE_INGREDIENT_ITEM });
   };
  
-
-
   return (
     <section className={burgerIngredientsStyles.main}>
       <h1 className="text text_type_main-large mb-5">Соберите бургер</h1>

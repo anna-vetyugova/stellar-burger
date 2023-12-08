@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useMemo } from "react";
 import orderListStyles from "./order-list.module.css";
 import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from 'prop-types';
@@ -6,21 +6,18 @@ import { orderListItemPropTypes } from "../../../utils/prop-types";
 import { useDrop } from "react-dnd";
 import { useSelector, useDispatch } from "react-redux";
 import { v4 as uuidv4 } from 'uuid';
+import { DELETE_INGREDIENT } from "../../../services/actions/burger-constructor";
 
 const OrderList = () => {
   const dispatch = useDispatch();
   const refIngrList = useRef(null)
-  
-  const burgerIngredients = useSelector((store) => store.ingredientsList.ingredients);
-  const bunItem = useSelector((store) => store.ingredientsList.ingredients.filter(item => item._id === store.ingredientsConstructor.bun));
+
+  const bunItem = useSelector((store) => store.ingredientsConstructor.bun);
   const mainItems = useSelector((store) => store.ingredientsConstructor.ingredients);
 
-  const ingredients = mainItems ? mainItems.map((item) => {
-      const newItem = burgerIngredients.filter(itm => itm._id === item);
-      return newItem[0]
-    }) 
-    : null;
-  const bun = bunItem && bunItem.length > 0 ? bunItem[0] : null;
+  const ingredients = mainItems ? mainItems : null;
+
+
 
   const [{ isHover }, dropTarget] = useDrop({
     accept: ["ingredient"],
@@ -33,57 +30,68 @@ const OrderList = () => {
       })
     }
   });
- 
+  const deleteIngredient = (e) => {
+    dispatch({
+      type: DELETE_INGREDIENT,
+      id: e.target.closest('li').getAttribute('id')
+    });
+  }
 
+  // const bunPrice = bunItem ? bunItem.price : 0;
+  // function filterTodos(price) {
+  //   console.log(price*2);
+  // }
+  // const visibleTodos = useMemo(
+  //   () => filterTodos(todos, tab),
+  //   [todos, tab]
+  // );
+  
   return (
     <section className={"pr-2 " + orderListStyles.main} ref={dropTarget}>
 
-      { !bun && <div className={"constructor-element constructor-element_pos_top " + orderListStyles.headers}>Выберите булки</div> }
-      { bun && 
+      { !bunItem && <div className={"constructor-element constructor-element_pos_top " + orderListStyles.headers}>Выберите булки</div> }
+      { bunItem && 
         <div className={orderListStyles.element}>
           <ConstructorElement
             type="top"
             isLocked={true}
-            text={bun.name + " (верх)"}
-            price={bun.price}
-            thumbnail={bun.image}
+            text={bunItem.name + " (верх)"}
+            price={bunItem.price}
+            thumbnail={bunItem.image}
           />
         </div> 
       }
 
-      { !ingredients && <div className={"constructor-element " + orderListStyles.headers}>Выберите начинку</div> }
-      { ingredients && 
+      { !ingredients[0] && <div className={"constructor-element " + orderListStyles.headers}>Выберите начинку</div> }
+      { ingredients[0] && 
         <div className={"custom-scroll mt-4 " + orderListStyles.container} >
           <ul className={orderListStyles.list}>
             {ingredients.map((item) => (
-              item.type !== 'bun' ? (
-                <li className={"mb-4 "  + orderListStyles.item} key={item._id}>
-                  <DragIcon type="primary" />
-                  <ConstructorElement
-                    type="middle"
-                    isLocked={false}
-                    text={item.name}
-                    price={item.price}
-                    thumbnail={item.image}
-                  />
-                </li>
-              ) : (
-                null
-              )
+              <li className={"mb-4 "  + orderListStyles.item} key={item.key} id={item.ingredient._id}>
+                <DragIcon type="primary" />
+                <ConstructorElement
+                  type="middle"
+                  isLocked={false}
+                  text={item.ingredient.name}
+                  price={item.ingredient.price}
+                  thumbnail={item.ingredient.image}
+                  handleClose={deleteIngredient}
+                />
+              </li>
             ))}
           </ul> 
         </div> 
       }
 
-      { !bun && <div className={"constructor-element constructor-element_pos_bottom " + orderListStyles.headers}>Выберите булки</div> }
-      { bun && 
+      { !bunItem && <div className={"constructor-element constructor-element_pos_bottom " + orderListStyles.headers}>Выберите булки</div> }
+      { bunItem && 
         <div className={orderListStyles.element}>
           <ConstructorElement
             type="bottom"
             isLocked={true}
-            text={bun.name + " (низ)"}
-            price={bun.price}
-            thumbnail={bun.image}
+            text={bunItem.name + " (низ)"}
+            price={bunItem.price}
+            thumbnail={bunItem.image}
           />
         </div> 
       }

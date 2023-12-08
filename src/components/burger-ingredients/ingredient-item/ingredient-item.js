@@ -7,6 +7,7 @@ import { orderListItemPropTypes } from "../../../utils/prop-types";
 import { SET_INGREDIENT_ITEM } from "../../../services/actions/ingredient-details";
 import { useDispatch, useSelector } from 'react-redux';
 import { useDrag } from "react-dnd";
+import { INCREASE_COUNTER } from "../../../services/actions/burger-constructor";
 
 const IngredientItem = ({ ingredient, onOpen }) => {
   const handleClick = () => onOpen(ingredient);
@@ -21,9 +22,17 @@ const IngredientItem = ({ ingredient, onOpen }) => {
     item: { ingredient },
   });
 
+  const bunItem = useSelector((store) => store.ingredientsConstructor.bun);
+  const bunCounter = bunItem && bunItem._id === ingredient._id ? 1 : null ;
+  
+  const ingredients = useSelector((store) => store.ingredientsConstructor.ingredients);
+  const currentIem = ingredients.find(item => item.ingredient._id === ingredient._id);
+  const itemCounter = currentIem ? currentIem.ingredient.__v : null;
+
+  const counter = ingredient.type === 'bun' ? bunCounter : itemCounter;
   return ( 
-    <li className={ingredientItemStyles.ingredient} onClick={() => { handleClick(); setIngredientItem()}}>
-      <Counter count={233} size="small" className={ingredientItemStyles.counter} />
+    <li className={ingredientItemStyles.ingredient} onClick={() => { handleClick(); setIngredientItem()}} key={ingredient._id}>
+      { counter && <Counter count={counter} size="small" className={ingredientItemStyles.counter} /> }
       <img src={ingredient.image} alt={ingredient.name} className={"pl-4 pr-4 " + ingredientItemStyles.image} ref={dragRef}></img>
       <div className={"mt-2 mb-2 " + ingredientItemStyles.priceInfo}>
         <span className="text text_type_digits-default">{ingredient.price}</span>
