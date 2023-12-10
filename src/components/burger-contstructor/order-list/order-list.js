@@ -3,11 +3,12 @@ import orderListStyles from "./order-list.module.css";
 import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from 'prop-types';
 import { orderListItemPropTypes } from "../../../utils/prop-types";
-import { useDrop } from "react-dnd";
+import { useDrop, useDrag } from "react-dnd";
 import { useSelector, useDispatch } from "react-redux";
 import { v4 as uuidv4 } from 'uuid';
-import { DELETE_INGREDIENT } from "../../../services/actions/burger-constructor";
-import { INCREASE_TOTAL_PRICE, DECREASE_TOTAL_PRICE } from "../../../services/actions/order-details";
+
+import { INCREASE_TOTAL_PRICE } from "../../../services/actions/order-details";
+import ConstructorItem from "../constructor-item/constructor-item";
 
 const OrderList = () => {
   const dispatch = useDispatch();
@@ -31,19 +32,8 @@ const OrderList = () => {
       })
     }
   });
-  const deleteIngredient = (e) => {
-    const price = e.target.closest('li').getAttribute('price');
-    dispatch({
-      type: DELETE_INGREDIENT,
-      id: e.target.closest('li').getAttribute('id')
-    });
-    dispatch({
-      type: DECREASE_TOTAL_PRICE,
-      item: price
-    });
-  }
 
-
+  const refIngrList = useRef(null);
   return (
     <section className={"pr-2 " + orderListStyles.main} ref={dropTarget}>
 
@@ -63,19 +53,9 @@ const OrderList = () => {
       { !ingredients[0] && <div className={"constructor-element " + orderListStyles.headers}>Выберите начинку</div> }
       { ingredients[0] && 
         <div className={"custom-scroll mt-4 " + orderListStyles.container} >
-          <ul className={orderListStyles.list}>
-            {ingredients.map((item) => (
-              <li className={"mb-4 "  + orderListStyles.item} key={item.key} id={item.ingredient._id} price={item.ingredient.price}>
-                <DragIcon type="primary" />
-                <ConstructorElement
-                  type="middle"
-                  isLocked={false}
-                  text={item.ingredient.name}
-                  price={item.ingredient.price}
-                  thumbnail={item.ingredient.image}
-                  handleClose={deleteIngredient}
-                />
-              </li>
+          <ul className={orderListStyles.list} ref={refIngrList}>
+            {ingredients.map((item, index) => (
+              <ConstructorItem item={item} key={item.key} index={index} />
             ))}
           </ul> 
         </div> 

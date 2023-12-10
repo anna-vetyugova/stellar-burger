@@ -7,6 +7,8 @@ export const GET_ORDER_FAILED = 'GET_ORDER_SUCCESS';
 export const INCREASE_TOTAL_PRICE = 'INCREASE_TOTAL_PRICE';
 export const DECREASE_TOTAL_PRICE = 'DECREASE_TOTAL_PRICE';
 
+
+
 export function getNumber(ingredients) {
   return function(dispatch) {
     dispatch({
@@ -16,7 +18,7 @@ export function getNumber(ingredients) {
       if (res && res.success) {
         dispatch({
           type: GET_ORDER_SUCCESS,
-          number: res.data
+          number: res.order.number
         });
       } else {
         dispatch({

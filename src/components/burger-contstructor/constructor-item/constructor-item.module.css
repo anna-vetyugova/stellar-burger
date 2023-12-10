@@ -1,0 +1,14 @@
+.item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.main {
+  display: flex;
+  align-items: center;
+  margin-left: 8px;
+  width: 536px;
+}
+.pirceIcon {
+  margin-left: 9px
+}

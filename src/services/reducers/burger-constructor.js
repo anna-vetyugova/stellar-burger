@@ -1,5 +1,6 @@
 import { DELETE_INGREDIENT } from "../actions/burger-constructor";
-const currentIngredients = {
+import { CHANGE_ITEM_POSITION } from "../actions/burger-constructor";
+export const currentIngredients = {
   bun: null,
   ingredients: []
 };
@@ -37,6 +38,17 @@ export const constructorIngredientsReducer = (state = currentIngredients, action
         ...state
       }  
     }
+    case CHANGE_ITEM_POSITION:
+      const fromIndex = action.dragIndex;
+      const toIndex = action.hoverIndex;
+
+      const ingredients  = [...state.ingredients];
+      ingredients.splice(toIndex, 0, ingredients.splice(fromIndex, 1)[0]);
+
+      return {
+        ...state,
+        ingredients: ingredients 
+      };
     default: {
       return state;
     }

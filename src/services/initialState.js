@@ -14,7 +14,7 @@ export const initialState = {
 
   //объект созданного заказа
   orderDetails : {
-    number : 0,
+    number : '',
     total : 0
   }, 
   orderRequest: false,

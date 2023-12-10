@@ -7,7 +7,6 @@ import { orderListItemPropTypes } from "../../../utils/prop-types";
 import { SET_INGREDIENT_ITEM } from "../../../services/actions/ingredient-details";
 import { useDispatch, useSelector } from 'react-redux';
 import { useDrag } from "react-dnd";
-import { INCREASE_COUNTER } from "../../../services/actions/burger-constructor";
 
 const IngredientItem = ({ ingredient, onOpen }) => {
   const handleClick = () => onOpen(ingredient);
