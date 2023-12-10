@@ -1,11 +1,11 @@
-import { DELETE_INGREDIENT } from "../actions/burger-constructor";
-import { CHANGE_ITEM_POSITION } from "../actions/burger-constructor";
+import { DELETE_INGREDIENT, CHANGE_ITEM_POSITION } from "../actions/burger-constructor";
+import { DELETE_CONSTRUCTOR_ITEMS } from "../actions/order-details";
+
 export const currentIngredients = {
   bun: null,
   ingredients: []
 };
 const addedIngredints = [];
-
 export const constructorIngredientsReducer = (state = currentIngredients, action) => {
   switch (action.type) {
     case 'ADD_BUN_INGREDIENT': {
@@ -38,7 +38,7 @@ export const constructorIngredientsReducer = (state = currentIngredients, action
         ...state
       }  
     }
-    case CHANGE_ITEM_POSITION:
+    case CHANGE_ITEM_POSITION: {
       const fromIndex = action.dragIndex;
       const toIndex = action.hoverIndex;
 
@@ -49,6 +49,15 @@ export const constructorIngredientsReducer = (state = currentIngredients, action
         ...state,
         ingredients: ingredients 
       };
+    }
+    case DELETE_CONSTRUCTOR_ITEMS: {
+      console.log(state);
+      return { 
+        ...state,
+        bun : null,
+        ingredients : []
+      }
+    }
     default: {
       return state;
     }

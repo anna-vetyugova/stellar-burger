@@ -1,7 +1,14 @@
-
 import { GET_ORDER_REQUEST, GET_ORDER_SUCCESS, GET_ORDER_FAILED,INCREASE_TOTAL_PRICE, DECREASE_TOTAL_PRICE } from "../actions/order-details";
-import { initialState } from "../initialState";
 
+//объект созданного заказа
+const initialState = {
+  orderDetails : {
+    number : '',
+    total : 0
+  },
+  orderRequest: false,
+  orderFailed: false
+}  
 
 export const orderDetailsReducer = (state = initialState, action) => {
   switch (action.type) {

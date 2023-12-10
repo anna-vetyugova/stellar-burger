@@ -19,6 +19,9 @@ const OrderList = () => {
 
   const [{ isHover }, dropTarget] = useDrop({
     accept: ["ingredient"],
+    collect: monitor => ({
+      isHover: monitor.isOver(),
+    }),
     drop(item) {
       const type = item.ingredient.type === 'bun' ? 'ADD_BUN_INGREDIENT' : 'ADD_MAIN_INGREDIENT';
       dispatch({
@@ -30,12 +33,13 @@ const OrderList = () => {
         type: INCREASE_TOTAL_PRICE,
         total: item.ingredient.type !== 'bun' ? item.ingredient.price : 0
       })
-    }
+    },
   });
+  
 
   const refIngrList = useRef(null);
   return (
-    <section className={"pr-2 " + orderListStyles.main} ref={dropTarget}>
+    <section className={"pr-2 " + orderListStyles.main} ref={dropTarget}> 
 
       { !bunItem && <div className={"constructor-element constructor-element_pos_top " + orderListStyles.headers}>Выберите булки</div> }
       { bunItem && 

@@ -22,8 +22,7 @@ const BurgerConstructor = () => {
 
   const getOrderNumber = () => {
     const ingredients = mainItems.map(item => item.ingredient._id);
-    ingredients.push(bunItem._id);
-    dispatch(getNumber(ingredients));
+    dispatch(getNumber([bunItem._id, ...ingredients, bunItem._id]));
     handleClick();
   }
 

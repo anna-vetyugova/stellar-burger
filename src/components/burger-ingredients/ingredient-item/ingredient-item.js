@@ -22,7 +22,7 @@ const IngredientItem = ({ ingredient, onOpen }) => {
   });
 
   const bunItem = useSelector((store) => store.ingredientsConstructor.bun);
-  const bunCounter = bunItem && bunItem._id === ingredient._id ? 1 : null ;
+  const bunCounter = bunItem && bunItem._id === ingredient._id ? 2 : null ;
   
   const ingredients = useSelector((store) => store.ingredientsConstructor.ingredients);
   const currentIem = ingredients.find(item => item.ingredient._id === ingredient._id);
