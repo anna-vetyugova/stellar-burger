@@ -7,17 +7,14 @@ import { useDrop } from "react-dnd";
 import { useSelector, useDispatch } from "react-redux";
 import { v4 as uuidv4 } from 'uuid';
 import { DELETE_INGREDIENT } from "../../../services/actions/burger-constructor";
+import { INCREASE_TOTAL_PRICE, DECREASE_TOTAL_PRICE } from "../../../services/actions/order-details";
 
 const OrderList = () => {
   const dispatch = useDispatch();
-  const refIngrList = useRef(null)
 
   const bunItem = useSelector((store) => store.ingredientsConstructor.bun);
   const mainItems = useSelector((store) => store.ingredientsConstructor.ingredients);
-
   const ingredients = mainItems ? mainItems : null;
-
-
 
   const [{ isHover }, dropTarget] = useDrop({
     accept: ["ingredient"],
@@ -27,25 +24,26 @@ const OrderList = () => {
         type: type,
         ingredient: item.ingredient,
         uniqueId: uuidv4()
+      });
+      dispatch({
+        type: INCREASE_TOTAL_PRICE,
+        total: item.ingredient.type !== 'bun' ? item.ingredient.price : 0
       })
     }
   });
   const deleteIngredient = (e) => {
+    const price = e.target.closest('li').getAttribute('price');
     dispatch({
       type: DELETE_INGREDIENT,
       id: e.target.closest('li').getAttribute('id')
     });
+    dispatch({
+      type: DECREASE_TOTAL_PRICE,
+      item: price
+    });
   }
 
-  // const bunPrice = bunItem ? bunItem.price : 0;
-  // function filterTodos(price) {
-  //   console.log(price*2);
-  // }
-  // const visibleTodos = useMemo(
-  //   () => filterTodos(todos, tab),
-  //   [todos, tab]
-  // );
-  
+
   return (
     <section className={"pr-2 " + orderListStyles.main} ref={dropTarget}>
 
@@ -67,7 +65,7 @@ const OrderList = () => {
         <div className={"custom-scroll mt-4 " + orderListStyles.container} >
           <ul className={orderListStyles.list}>
             {ingredients.map((item) => (
-              <li className={"mb-4 "  + orderListStyles.item} key={item.key} id={item.ingredient._id}>
+              <li className={"mb-4 "  + orderListStyles.item} key={item.key} id={item.ingredient._id} price={item.ingredient.price}>
                 <DragIcon type="primary" />
                 <ConstructorElement
                   type="middle"

@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 
 const OrderDetails = () => {
   const { orderId } = useSelector(store => ({
-    orderId : store.orderDetails.itemOrder.orderId
+    orderId : store.order.orderDetails.number
   }));
   return (
     <>

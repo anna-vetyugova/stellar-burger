@@ -9,5 +9,5 @@ export const rootReducer = combineReducers({
   ingredientsList: burgerIngredientsReducer,
   ingredientDetails: ingredientDetailsReducer,
   ingredientsConstructor: constructorIngredientsReducer,
-  orderDetails: orderDetailsReducer
+  order: orderDetailsReducer
 });

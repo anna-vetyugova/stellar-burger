@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useMemo} from "react";
 import burgerConstructor from './burger-contstructor.module.css'
 import OrderList from "./order-list/order-list";
 import ingredientIcon from "../../images/ingredient-icon.svg"
@@ -8,17 +8,42 @@ import { useModal } from "../hooks/useModal";
 import Modal from "../modal/modal";
 import PropTypes from 'prop-types';
 import { ingredientsDataList } from "../../utils/prop-types";
+import { UPDATE_TOTAL_PRICE } from "../../services/actions/order-details";
+import { useDispatch, useSelector } from "react-redux";
+import { getNumber } from "../../services/actions/order-details";
 
-
-const BurgerConstructor = ({children, bun, ingredients, onDropHandler}) => {
+const BurgerConstructor = () => {
   const { modalState, openModal, closeModal } = useModal();
-  return (
+  const handleClick = () => openModal();
+
+  const dispatch = useDispatch();
+
+  const bunItem = useSelector((store) => store.ingredientsConstructor.bun);
+  const mainItems = useSelector((store) => store.ingredientsConstructor.ingredients);
+  console.log(mainItems);
+  const getNumber = () => {
+    const ingredients = mainItems.map(item => item.ingredient._id);
+    ingredients.push(bunItem._id);
+    // const newNumber = getOrderNumber(ingredients)
+    //   .then((res) => {
+    //     return res;
+    //   });
+    dispatch(getNumber(ingredients));
+    // console.log(newNumber);
+    // handleClick();
+  }
+
+  const bunPrice = bunItem ? bunItem.price*2 : 0;
+  const mainPrice = useSelector((store) => store.order.orderDetails.total);
+  const totalPrice = mainPrice + bunPrice;
+
+    return (
     <section className={burgerConstructor.main}>
       <OrderList/>
       <div className={"mt-2 mt-5 " + burgerConstructor.priceInfo}>
-        <span className="text text_type_digits-medium">100</span>
+        <span className="text text_type_digits-medium">{totalPrice}</span>
         <img src={ingredientIcon} className={burgerConstructor.image} alt={'Иконка цены'}></img>
-        <Button htmlType="button" type="primary" size="medium" onClick={openModal}>
+        <Button htmlType="button" type="primary" size="medium" onClick={getNumber}>
           Оформить заказ
         </Button>
       </div>

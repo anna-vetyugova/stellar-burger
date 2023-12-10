@@ -13,9 +13,12 @@ export const initialState = {
   currentTab : 'bun-tab',
 
   //объект созданного заказа
-  itemOrder : {
-    orderId : '666666'
+  orderDetails : {
+    number : 0,
+    total : 0
   }, 
+  orderRequest: false,
+  orderFailed: false,
 
   //список всех ингредиентов в текущем конструкторе бургера
   currentIngredients : {
