@@ -1,6 +1,10 @@
 .main {
   width: 600px;
-  height: 696px;
+  max-height: 696px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: end;
 }
 .list {
   padding: 0;
@@ -8,13 +12,21 @@
 }
 .container {
   overflow: auto;
-  height: 500px;
 }
 .item {
   display: flex;
   align-items: center;
   column-gap: 8px;
+  min-width: 600px;
+  justify-content: flex-end;
 }
 .element {
   margin-left: 32px;
+  min-width: 536px;
+}
+.headers {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 536px
 }

@@ -1,40 +1,33 @@
 import styles from "./app.module.css";
-import { getIngredients } from "../../utils/burger-api";
+//import { getIngredients } from "../../utils/burger-api";
 import AppHeader from "../app-header/app-header";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-contstructor/burger-contstructor";
 
-import React, {useState, useEffect} from "react";
-
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { getIngredientsList } from "../../services/actions/burger-ingredients";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 function App() {
-
-  const [state, setState] = useState({ 
-    isLoading: false,
-    hasError: false,
-    data: []
-  });
-
+  
+  const { ingredients } = useSelector(store => ({
+    ingredients: store.ingredientsList.ingredients,
+  }));
+  const dispatch = useDispatch();
   useEffect(() => {
-    const getBurgerIngredients = async () => {
-      setState({ ...state, hasError: false, isLoading: true });
-      getIngredients()
-      .then(res => setState({ ...state, data: res.data, isLoading: false }))
-      .catch(e => {
-        setState({ ...state, hasError: true, isLoading: false });
-      });
-    }
-
-    getBurgerIngredients();
-  }, []);
-
+    dispatch(getIngredientsList());
+   }, []);
 
   return (
     <div className={styles.app}>
       <AppHeader />
       <main className={styles.content}>
-        <BurgerIngredients ingredients={state.data} />
-        <BurgerConstructor ingredients={state.data} />
+        <DndProvider backend={HTML5Backend}>
+          <BurgerIngredients ingredients={ingredients} />
+          <BurgerConstructor/>
+        </DndProvider>
       </main>
     </div>
   );

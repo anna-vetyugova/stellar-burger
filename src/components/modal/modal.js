@@ -10,7 +10,6 @@ const modalRoot = document.getElementById("react-modals");
 
 const Modal = ({ children, header, closeModal }) => {
   const modalRef = React.useRef();
-
   React.useEffect(() => {
     const handleCloseOnEscape = (e) => {
         if (e.key === 'Escape') {
