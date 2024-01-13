@@ -1,36 +1,65 @@
-import styles from "./app.module.css";
-//import { getIngredients } from "../../utils/burger-api";
-import AppHeader from "../app-header/app-header";
-import BurgerIngredients from "../burger-ingredients/burger-ingredients";
-import BurgerConstructor from "../burger-contstructor/burger-contstructor";
-
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getIngredientsList } from "../../services/actions/burger-ingredients";
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
+import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
+import styles from "../app/app.module.css";
+import { HomePage } from '../../pages/home';
+import AppHeader from '../app-header/app-header';
+import IngredientDetails from '../ingredient-details/ingredient-details';
+import Modal from '../modal/modal';
+import { getIngredientsList } from '../../services/actions/burger-ingredients';
+import { DELETE_INGREDIENT_ITEM } from '../../services/actions/ingredient-details';
 
 function App() {
-  
-  const { ingredients } = useSelector(store => ({
-    ingredients: store.ingredientsList.ingredients,
-  }));
+  const location = useLocation();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const background = location.state && location.state.background;
+  
+  const handleModalClose = () => {
+    // Возвращаемся к предыдущему пути при закрытии модалки
+    navigate(-1);
+    deleteSetItem();
+  };
+
   useEffect(() => {
     dispatch(getIngredientsList());
    }, []);
+ 
+   const deleteSetItem = () => {
+    return dispatch({ type: DELETE_INGREDIENT_ITEM });
+  };
+
+  const { ingredientsIsLoaded } = useSelector(store => store.ingredientsList);
+  console.log(ingredientsIsLoaded);
 
   return (
-    <div className={styles.app}>
-      <AppHeader />
-      <main className={styles.content}>
-        <DndProvider backend={HTML5Backend}>
-          <BurgerIngredients ingredients={ingredients} />
-          <BurgerConstructor/>
-        </DndProvider>
-      </main>
-    </div>
+    <>
+      <div className={styles.app}>
+        <AppHeader />
+        {ingredientsIsLoaded &&
+          <Routes location={background || location}>
+            <Route path='/' element={<HomePage />} />
+            <Route path='/ingredients/:ingredientId' element={<IngredientDetails />} />
+            {/* <Route path="*" element={<NotFound404 />} /> */}
+          </Routes>
+        }
+
+        {background && (
+            <Routes>
+              <Route
+                path='/ingredients/:ingredientId'
+                element={
+                  <Modal closeModal={handleModalClose} header={"Детали ингредиента"}>
+                    <IngredientDetails />
+                  </Modal>
+                }
+              />
+            </Routes>
+          )}
+      </div>
+    </>
   );
+
 }
 
 export default App;

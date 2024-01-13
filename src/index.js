@@ -6,10 +6,10 @@ import reportWebVitals from "./reportWebVitals";
 
 import { compose, createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
-
 // Корневой редьюсер, который обрабатывает экшены
 import { rootReducer } from "./services/reducers";
 import thunk from 'redux-thunk';
+import { BrowserRouter } from "react-router-dom";
 
 const composeEnhancers =
   typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
@@ -17,15 +17,16 @@ const composeEnhancers =
     : compose;
 
 const enhancer = composeEnhancers(applyMiddleware(thunk));
-
 const store = createStore(rootReducer, enhancer);
 
 ReactDOM.render(
     // Оборачиваем приложение компонентом Provider из пакета react-redux
     <React.StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
+      <BrowserRouter>
+        <Provider store={store}>
+          <App />
+        </Provider>
+      </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')
 ); 

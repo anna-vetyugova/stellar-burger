@@ -2,12 +2,9 @@ import React, { useState, useRef, useEffect } from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import burgerIngredientsStyles from "./burger-ingredients.module.css";
 import Ingredients from "./ingredients/ingredients";
-import Modal from "../modal/modal";
-import IngredientDetails from "../ingredient-details/ingredient-details";
 import PropTypes from 'prop-types';
 import { ingredientsDataList } from "../../utils/prop-types";
 import { useDispatch, useSelector } from 'react-redux';
-import { DELETE_INGREDIENT_ITEM } from "../../services/actions/ingredient-details";
 import { TAB_SWITCH } from "../../services/actions/burger-ingredients";
 
 
@@ -34,7 +31,11 @@ const BurgerIngredientsTabs = React.forwardRef((props, ref) => {
   );
 });
 
-const BurgerIngredients = ({ingredients}) => {
+const BurgerIngredients = () => {
+  const { ingredients } = useSelector(store => ({
+    ingredients: store.ingredientsList.ingredients,
+    }));
+
   const [ingredient, setModalState] = useState(false);
   const dispatch = useDispatch();
   
@@ -63,10 +64,6 @@ const BurgerIngredients = ({ingredients}) => {
     }
   };
 
-  const deleteSetItem = () => {
-    return dispatch({ type: DELETE_INGREDIENT_ITEM });
-  };
- 
   return (
     <section className={burgerIngredientsStyles.main}>
       <h1 className="text text_type_main-large mb-5">Соберите бургер</h1>
@@ -104,11 +101,6 @@ const BurgerIngredients = ({ingredients}) => {
           />
         </div>
       </div>
-
-      { ingredient && 
-          <Modal closeModal={ () => {setModalState(false); deleteSetItem();} } header={"Детали ингредиента"}>
-            <IngredientDetails />
-          </Modal> }
     </section>
   );
 };

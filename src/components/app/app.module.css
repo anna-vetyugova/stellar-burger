@@ -20,8 +20,3 @@
   /*рендеринг шрифта*/
   text-rendering: optimizeLegibility;
 }
-.content {
-  display: flex;
-  width: 1280px;
-  margin: 0 auto;
-}
