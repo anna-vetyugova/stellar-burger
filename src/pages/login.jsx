@@ -1,64 +1,62 @@
-import styles from "../pages/login.module.css"
-import { Input, Button } from "@ya.praktikum/react-developer-burger-ui-components";
+import styles from "../pages/styles.module.css"
+import { EmailInput, Button, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import React, { useState, useRef } from "react";
-import { Link } from "react-router-dom";
-
-
+import { Link, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from 'react-redux';
+import { login } from "../services/actions/user-data";
 export function LoginPage() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const isLogin = useSelector((store) => store.user.isLogin);
+  if (isLogin) {
+    navigate('/');
+  }
+  const [formValue, setFormValue] = useState({
+    email: '',
+    password: ''
+  })
+  const onChange = e => {
+    setFormValue({ ...formValue, [e.target.name]: e.target.value });
+  }
 
-  const [value, setValue] = useState(null)
-  const inputRef = useRef(null)
-  const onIconClick = () => {
-    setTimeout(() => inputRef.current.focus(), 0)
-    alert('Icon Click Callback')
+  const onSubmit = (e) => {
+    e.preventDefault();
+    dispatch(login(formValue));
   }
   return (
     <section className={styles.main}>
       <h3 className="text text_type_main-medium">Вход</h3>
-      <div className={styles.inputs}>
-        <Input
-        type={'text'}
-        placeholder={'E-mail'}
-        onChange={e => setValue(e.target.value)}
-        // icon={'CurrencyIcon'}
-        value={value}
-        name={'name'}
-        error={false}
-        ref={inputRef}
-        onIconClick={onIconClick}
-        errorText={'Ошибка'}
-        size={'default'}
-        extraClass="ml-1"
-        width="480px"
+      <form className={styles.form} onSubmit={onSubmit}>
+        <EmailInput
+          onChange={onChange}
+          value={formValue.email}
+          name={'email'}
+          isIcon={false}
+          placeholder="E-mail"
+  
+          extraClass="mb-2"
+ 
         />
-        <Input
-        type={'text'}
-        placeholder={'Пароль'}
-        onChange={e => setValue(e.target.value)}
-        icon={'ShowIcon'}
-        value={value}
-        name={'name'}
-        error={false}
-        ref={inputRef}
-        onIconClick={onIconClick}
-        errorText={'Ошибка'}
-        size={'default'}
-        extraClass="ml-1"
+        <PasswordInput
+          onChange={onChange}
+          value={formValue.password}
+          name={'password'}
+          extraClass="mb-2"
         />
         <div className={styles.button}>
-          <Button htmlType="button" type="primary" size="medium">Войти</Button>
+          <Button htmlType="button" type="primary" size="medium" to={`/login`} onClick={onSubmit}>Войти</Button>
         </div>
         <div className={styles.links}>
           <div className={styles.linkContainer}>
             <p className="text text_type_main-default text_color_inactive">Вы — новый пользователь?</p>
-            <Link className={"text text_type_main-default text_color_active " + styles.link}>Зарегистрироваться</Link>
+            <Link className={"text text_type_main-default text_color_active " + styles.link}  to={`/register`}>Зарегистрироваться</Link>
           </div>
           <div className={styles.linkContainer}>
             <p className="text text_type_main-default text_color_inactive">Забыли пароль?</p>
-            <Link className={"text text_type_main-default text_color_active " + styles.link}>Восстановить пароль</Link>
+            <Link className={"text text_type_main-default text_color_active " + styles.link} to={`/forgot-password`}>Восстановить пароль</Link>
           </div>
         </div>
-      </div>
+      </form>
     </section>
   )
 }

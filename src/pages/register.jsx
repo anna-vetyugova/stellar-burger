@@ -1,71 +1,71 @@
-import styles from "../pages/register.module.css"
-import { Input, Button } from "@ya.praktikum/react-developer-burger-ui-components";
+import styles from "../pages/styles.module.css"
+import { Input, Button, EmailInput, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import React, { useState, useRef } from "react";
 import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from 'react-redux';
+import { registerNewUser } from "../services/actions/user-data";
 
 export function RegisterPage() {
-
-  const [value, setValue] = useState(null)
-  const inputRef = useRef(null)
-  const onIconClick = () => {
-    setTimeout(() => inputRef.current.focus(), 0)
-    alert('Icon Click Callback')
+  const dispatch = useDispatch();
+  const [formValue, setFormValue] = useState({
+    name: '',
+    email: '',
+    password: ''
+  })
+  const onChange = e => {
+    setFormValue({ ...formValue, [e.target.name]: e.target.value });
   }
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    dispatch(registerNewUser(formValue));
+  }
+
   return (
     <section className={styles.main} to={`/register`}>
       <h3 className="text text_type_main-medium">Регистрация</h3>
-      <div className={styles.inputs}>
+      <form className={styles.form} onSubmit={onSubmit}>
         <Input
         type={'text'}
         placeholder={'Имя'}
-        onChange={e => setValue(e.target.value)}
-        // icon={'CurrencyIcon'}
-        value={value}
+        value={formValue.name}
         name={'name'}
         error={false}
-        ref={inputRef}
-        onIconClick={onIconClick}
         errorText={'Ошибка'}
         size={'default'}
         extraClass="ml-1"
         width="480px"
+        onChange={onChange}
+        aria-required={true}
         />
-        <Input
-        type={'text'}
-        placeholder={'E-mail'}
-        onChange={e => setValue(e.target.value)}
-        // icon={'CurrencyIcon'}
-        value={value}
-        name={'name'}
-        error={false}
-        ref={inputRef}
-        onIconClick={onIconClick}
-        errorText={'Ошибка'}
-        size={'default'}
-        extraClass="ml-1"
+        <EmailInput
+          onChange={onChange}
+          value={formValue.email}
+          name={'email'}
+          placeholder="E-mail"
+          isIcon={false}
+          extraClass="mb-2"
+          aria-required={true}
         />
-        <Input
-        type={'text'}
-        placeholder={'Пароль'}
-        onChange={e => setValue(e.target.value)}
-        icon={'ShowIcon'}
-        value={value}
-        name={'name'}
-        error={false}
-        ref={inputRef}
-        onIconClick={onIconClick}
-        errorText={'Ошибка'}
-        size={'default'}
-        extraClass="ml-1"
+        <PasswordInput
+        onChange={onChange}
+        value={formValue.password}
+        name={'password'}
+        extraClass="mb-2"
+        aria-required={true}
         />
         <div className={styles.button}>
-          <Button htmlType="button" type="primary" size="medium">Зарегистрироваться</Button>
+          <Button htmlType="button" type="primary" size="medium" onClick={onSubmit}>Зарегистрироваться</Button>
         </div>
+
         <div className={styles.links}>
-          <Link className={"text text_type_main-default text_color_inactive " + styles.link}>Уже зарегистрированы?</Link>
-          <Link className={"text text_type_main-default text_color_active " + styles.link}>Войти</Link>
+          <div className={styles.linkContainer}>
+            <p className="text text_type_main-default text_color_inactive">Уже зарегистрированы?</p>
+            <Link className={"text text_type_main-default text_color_active " + styles.link} to={`/login`}>Войти</Link>
+          </div>
         </div>
-      </div>
+
+      </form>
     </section>
   );
 }
