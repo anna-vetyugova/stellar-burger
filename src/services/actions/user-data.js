@@ -20,9 +20,9 @@ export const getUser = () => {
   };
 };
 
-export const login = () => {
+export const login = (form) => {
   return async (dispatch) => {
-    const res = await api.login();
+    const res = await api.login(form);
     localStorage.setItem("accessToken", res.accessToken);
     localStorage.setItem("refreshToken", res.refreshToken);
     dispatch(setUser(res.user));
@@ -57,9 +57,10 @@ export const registr = (form) => {
 
 export const logout = () => {
   return async (dispatch) => {
-    await api.logout();
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
-    dispatch(setUser(null));
-  };
+    await api.logout().then(() => {
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
+      dispatch(setUser(null));
+    }).catch(res => console.error(res));
+  }
 };

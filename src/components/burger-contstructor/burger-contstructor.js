@@ -1,4 +1,4 @@
-import React, {useMemo} from "react";
+import React, {useMemo, useState} from "react";
 import burgerConstructor from './burger-contstructor.module.css'
 import OrderList from "./order-list/order-list";
 import ingredientIcon from "../../images/ingredient-icon.svg"
@@ -12,6 +12,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { getNumber } from "../../services/actions/order-details";
 
 const BurgerConstructor = () => {
+  const user = useSelector((store) => store.user.user);
+  console.log(user);
   const { modalState, openModal, closeModal } = useModal();
   const handleClick = () => openModal();
 
@@ -30,9 +32,9 @@ const BurgerConstructor = () => {
   const mainPrice = useSelector((store) => store.order.orderDetails.total);
   const totalPrice = mainPrice + bunPrice;
 
-  const disabled = bunPrice && mainItems.length>0 ? '' : 'disabled';
+  const disabled = bunPrice && mainItems.length>0 && user ? '' : 'disabled';
 
-    return (
+  return (
     <section className={burgerConstructor.main}>
       <OrderList/>
       <div className={"mt-2 mt-5 " + burgerConstructor.priceInfo}>

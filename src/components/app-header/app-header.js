@@ -15,8 +15,8 @@ function AppHeader() {
             <BurgerIcon type={(location.pathname === '/') ? "primary" : "secondary"} />
             Конструктор
           </NavLink>
-          <NavLink to={`/`} className={headerStyles.link} style={({ isActive }) => ({ color: isActive ? '#f2f2f3' : '#8585AD' })}>
-            <ListIcon type={(location.pathname === '/') ? "primary" : "secondary"} />
+          <NavLink to={`/orders`} className={headerStyles.link} style={({ isActive }) => ({ color: isActive ? '#f2f2f3' : '#8585AD' })}>
+            <ListIcon type={(location.pathname === '/orders') ? "primary" : "secondary"} />
             Лента заказов
           </NavLink>
           <a href="/" className={headerStyles.logo}><Logo /></a>

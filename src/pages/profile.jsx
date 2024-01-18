@@ -5,45 +5,50 @@ import { Link, NavLink } from "react-router-dom";
 import { Outlet } from "react-router-dom";
 import { Navigate, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import { logout } from "../services/actions/user-data";
 
 export function Profile() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const [form, setValue] = useState({ name: '', email: '', password: '' });
   
+  const user = useSelector((store) => store.user.user);
+  
+  const [isActive, setActive] = useState(false);
+  const [form, setValue] = useState({ name: user.name, email: user.email, password: '' });
   const onChange = e => {
     setValue({ ...form, [e.target.name]: e.target.value });
+    setActive(true);
   }
   const onSubmit = (e) => {
     e.preventDefault();
-
   }
+  const onClick = (e) => {
+    e.preventDefault();
+    dispatch(logout());
+  }
+  console.log(localStorage.getItem("refreshToken"));
   return (
     <section className={styles.main}>
       
       <div className={styles.navigation}>
         <div className={styles.navLinks}>
-          <NavLink className={"text text_type_main-medium " + styles.navLink} style={({ isActive }) => ({ color: isActive ? '#F2F2F3' : '' })}>Профиль</NavLink>
-          <NavLink className={"text text_type_main-medium text_color_inactive " + styles.navLink} style={({ isActive }) => ({ color: isActive ? '#F2F2F3' : '' })}>История заказов</NavLink>
-          <NavLink className={"text text_type_main-medium text_color_inactive " + styles.navLink} style={({ isActive }) => ({ color: isActive ? '#F2F2F3' : '' })}>Выход</NavLink>
+          <NavLink to={`/profile`} className={"text text_type_main-medium " + styles.navLink} style={({ isActive }) => ({ color: isActive ? '#F2F2F3' : '' })}>Профиль</NavLink>
+          <NavLink to={`/profile/orders`} className={"text text_type_main-medium text_color_inactive " + styles.navLink} style={({ isActive }) => ({ color: isActive ? '#F2F2F3' : '' })}>История заказов</NavLink>
+          <NavLink to={`/`} onClick={onClick} className={"text text_type_main-medium text_color_inactive " + styles.navLink} style={({ isActive }) => ({ color: isActive ? '#F2F2F3' : '' })}>Выход</NavLink>
         </div>
         <p className="text text_type_main-small text_color_inactive">В этом разделе вы можете изменить свои персональные данные</p>
       </div>
       
       <div className={styles.inputs}>
-        <Input
-          type={'text'}
-          placeholder={'Имя'}
+        <EmailInput
+          onChange={onChange}
           value={form.name}
           name={'name'}
-          error={false}
-          errorText={'Ошибка'}
-          size={'default'}
-          extraClass="ml-1"
-          width="480px"
-          onChange={onChange}
+          placeholder="Имя"
+          isIcon={false}
+          extraClass="mb-2"
           aria-required={true}
+          isIcon={true}
         />
         <EmailInput
           onChange={onChange}
@@ -53,16 +58,24 @@ export function Profile() {
           isIcon={false}
           extraClass="mb-2"
           aria-required={true}
+          isIcon={true}
         />
-        <PasswordInput
+        <EmailInput
           onChange={onChange}
           value={form.password}
           name={'password'}
+          placeholder="Пароль"
+          isIcon={false}
           extraClass="mb-2"
           aria-required={true}
+          isIcon={true}
         />
-
-      
+        { isActive && 
+        <div>
+          <Button htmlType="button" type="secondary" size="medium" >Отмена</Button>
+          <Button htmlType="button" type="primary" size="medium">Сохранить</Button>
+        </div>
+        }
       </div>
       <Outlet />
     </section>

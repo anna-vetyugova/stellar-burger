@@ -94,12 +94,15 @@ const resetPassword = async (form) => request('password-reset/reset', {
   body: JSON.stringify(form)
 })
 
-const logout = () =>
-  new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve();
-    }, 1000);
-  });  
+const logout = async () => request('auth/logout', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    'token': localStorage.getItem("refreshToken"),
+  })
+}) 
 
 export const api = {
   getUser,
