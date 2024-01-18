@@ -1,66 +1,65 @@
-import { getUserStatus, registerUser, loginUser } from "../../utils/burger-api";
+import { api } from "../../utils/burger-api";
 
-export const GET_USER_DATA = 'GET_USER_DATA';
-export const GET_USER_ERROR = 'GET_USER_ERROR';
+export const SET_AUTH_CHECKED = "SET_AUTH_CHECKED";
+export const SET_USER = "SET_USER";
 
-export const SET_NEW_USER = 'SET_NEW_USER';
-export const SET_NEW_USER_ERROR = 'SET_NEW_USER_ERROR';
+export const setAuthChecked = (value) => ({
+  type: SET_AUTH_CHECKED,
+  payload: value,
+});
 
-export const SET_LOGIN_STATUS = 'SET_LOGIN_STATUS';
-export const SET_LOGIN_ERROR = 'SET_LOGIN_ERROR';
+export const setUser = (user) => ({
+  type: SET_USER,
+  payload: user,
+});
 
-export function getUserAuthStatus() {
-  return function(dispatch) {
-    getUserStatus().then(res => {
-      console.log('asdf');
-      if (res && res.success) {
-        dispatch({
-          type: GET_USER_DATA
-        })
-      } 
-    })
-    .catch(res => {
-      dispatch({
-        type: GET_USER_ERROR,
-        error: res
-      });
-    })
+export const getUser = () => {
+  return async (dispatch) => {
+    const res = await api.getUser();
+    dispatch(setUser(res.user));
   };
-}
-export function registerNewUser(userData) {
-  return function(dispatch) {
-    registerUser(userData).then(res => {
-      if (res && res.success) {
-        dispatch({
-          type: SET_NEW_USER
-        })
-      } 
-    })
-    .catch(res => {
-      dispatch({
-        type: SET_NEW_USER_ERROR,
-        error: res
-      });
-    })
+};
+
+export const login = () => {
+  return async (dispatch) => {
+    const res = await api.login();
+    localStorage.setItem("accessToken", res.accessToken);
+    localStorage.setItem("refreshToken", res.refreshToken);
+    dispatch(setUser(res.user));
+    dispatch(setAuthChecked(true));
   };
-}
-export function login(userData) {
-  return function(dispatch) {
-    console.log(userData);
-    loginUser(userData).then(res => {
-      if (res && res.success) {
-        localStorage.setItem("accessToken", res.accessToken);
-        localStorage.setItem("refreshToken", res.refreshToken);
-        dispatch({
-          type: SET_LOGIN_STATUS
-        })
-      } 
-    })
-    .catch(res => {
-      dispatch({
-        type: SET_LOGIN_ERROR,
-        error: res
-      });
-    })
-  }
-}
+};
+
+export const checkUserAuth = () => {
+    return (dispatch) => {
+        if (localStorage.getItem("accessToken")) {
+            dispatch(getUser())
+              .catch(() => {
+                  localStorage.removeItem("accessToken");
+                  localStorage.removeItem("refreshToken");
+                  dispatch(setUser(null));
+               })
+              .finally(() => dispatch(setAuthChecked(true)));
+        } else {
+            dispatch(setAuthChecked(true));
+        }
+    };
+};
+export const registr = (form) => {
+  return async (dispatch) => {
+    const res = await api.registr(form);
+    localStorage.setItem("accessToken", res.accessToken);
+    localStorage.setItem("refreshToken", res.refreshToken);
+    dispatch(setUser(res.user));
+    dispatch(setAuthChecked(true));
+  };
+};
+
+export const logout = () => {
+  return async (dispatch) => {
+    await api.logout();
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+    dispatch(setUser(null));
+  };
+};

@@ -8,22 +8,18 @@ import IngredientDetails from '../ingredient-details/ingredient-details';
 import Modal from '../modal/modal';
 import { getIngredientsList } from '../../services/actions/burger-ingredients';
 import { DELETE_INGREDIENT_ITEM } from '../../services/actions/ingredient-details';
-import { getUserAuthStatus } from '../../services/actions/user-data';
+import { Outlet } from 'react-router-dom';
+
+import { checkUserAuth } from '../../services/actions/user-data';
+import { OnlyAuth, OnlyUnAuth } from '../protected-route';
+
+
 function App() {
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const background = location.state && location.state.background;
 
-  // проверяем, авторизован ли пользователь, если нет, то перенаправим на страницу входа
-  const checkUser = useSelector((store) => store.user.isAuthenticated);
-  if (checkUser) {
-    navigate('/');
-  } 
-  // else {
-  //   navigate('/');
-  // }
-  console.log(checkUser);
   const handleModalClose = () => {
     // Возвращаемся к предыдущему пути при закрытии модалки
     navigate(-1);
@@ -32,8 +28,8 @@ function App() {
 
   useEffect(() => {
     dispatch(getIngredientsList());
-    dispatch(getUserAuthStatus());
-   }, []);
+    dispatch(checkUserAuth());
+   }, [dispatch]);
  
    const deleteSetItem = () => {
     return dispatch({ type: DELETE_INGREDIENT_ITEM });
@@ -48,14 +44,17 @@ function App() {
         {ingredientsIsLoaded &&
           <Routes location={background || location}>
             <Route path='/' element={<HomePage />} />
-            <Route path='/ingredients/:ingredientId' element={<IngredientDetails header={"Детали ингредиента"} />} />
-        
-            <Route path='/login' element={<LoginPage />} />
-            <Route path='/register' element={<RegisterPage />} />
-            <Route path='/forgot-password' element={<ForgotPassword />} />
-            <Route path='/reset-password' element={<ResetPassword />} />
-            <Route path='/profile' element={<Profile />} />
+      
+            <Route path='/login' element={<OnlyUnAuth component={<LoginPage/>} />} />
+            <Route path='/register' element={<OnlyUnAuth component={<RegisterPage/>} />} />
+            <Route path='/forgot-password' element={<OnlyUnAuth component={<ForgotPassword/>} />} />
+            <Route path='/reset-password' element={<OnlyUnAuth component={<ResetPassword/>} />} />
 
+            <Route path='/profile' element={<OnlyAuth component={<Profile/>} />}>
+              {/* <Route index path='/profile/orders' element={<OnlyAuth component={<ResetPassword/>} />} /> */}
+              {/* <Route path='/profile/orders/:orderNumber' element={<OnlyAuth component={<ResetPassword/>} />} /> */}
+            </Route>
+            <Route path='/ingredients/:ingredientId' element={<IngredientDetails header={"Детали ингредиента"} />} />
             {/* <Route path="*" element={<NotFound404 />} /> */}
           </Routes>
         }

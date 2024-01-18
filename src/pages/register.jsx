@@ -3,22 +3,30 @@ import { Input, Button, EmailInput, PasswordInput } from "@ya.praktikum/react-de
 import React, { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
-import { registerNewUser } from "../services/actions/user-data";
+import { registr } from "../services/actions/user-data";
+import { Navigate, useNavigate } from 'react-router-dom';
 
 export function RegisterPage() {
   const dispatch = useDispatch();
-  const [formValue, setFormValue] = useState({
-    name: '',
-    email: '',
-    password: ''
-  })
-  const onChange = e => {
-    setFormValue({ ...formValue, [e.target.name]: e.target.value });
-  }
+  const navigate = useNavigate();
 
+  const [form, setValue] = useState({ email: '', password: '' });
+  const user = useSelector((store) => store.user.user);
+  
+  if (user) {
+    return (
+      <Navigate
+        to={'/'}
+      />
+    );
+  }
+  
+  const onChange = e => {
+    setValue({ ...form, [e.target.name]: e.target.value });
+  }
   const onSubmit = (e) => {
     e.preventDefault();
-    dispatch(registerNewUser(formValue));
+    dispatch(registr(form));
   }
 
   return (
@@ -28,7 +36,7 @@ export function RegisterPage() {
         <Input
         type={'text'}
         placeholder={'Имя'}
-        value={formValue.name}
+        value={form.name}
         name={'name'}
         error={false}
         errorText={'Ошибка'}
@@ -40,7 +48,7 @@ export function RegisterPage() {
         />
         <EmailInput
           onChange={onChange}
-          value={formValue.email}
+          value={form.email}
           name={'email'}
           placeholder="E-mail"
           isIcon={false}
@@ -49,7 +57,7 @@ export function RegisterPage() {
         />
         <PasswordInput
         onChange={onChange}
-        value={formValue.password}
+        value={form.password}
         name={'password'}
         extraClass="mb-2"
         aria-required={true}

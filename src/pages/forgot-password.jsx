@@ -1,39 +1,43 @@
 import styles from "../pages/styles.module.css"
-import { Input, Button } from "@ya.praktikum/react-developer-burger-ui-components";
+import { Input, Button, EmailInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import React, { useState, useRef } from "react";
 import { Link } from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from 'react-redux';
+import { Navigate } from 'react-router-dom';
+import { api } from "../utils/burger-api";
 
 export function ForgotPassword() {
-
-  const [value, setValue] = useState(null)
-  const inputRef = useRef(null)
-  const onIconClick = () => {
-    setTimeout(() => inputRef.current.focus(), 0)
-    alert('Icon Click Callback')
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [form, setValue] = useState({ email: '' });
+  const user = useSelector((store) => store.user.user);
+  
+  const onChange = e => {
+    setValue({ ...form, [e.target.name]: e.target.value });
+  }
+  const onSubmit = (e) => {
+    e.preventDefault(); //return res.ok === true ? res.json() : Promise.reject(`Ошибка: ${res.status}`);
+    api.forgetPassword().then((res) => {
+      localStorage.setItem("isReset", true);
+      navigate('/reset-password');
+    }).catch(res => console.error(res))
   }
   return (
     <section className={styles.main}>
       <h3 className="text text_type_main-medium">Восстановаление пароля</h3>
       <form className={styles.form}>
-        <Input
-        type={'text'}
-        placeholder={'Укажите e-mail'}
-        onChange={e => setValue(e.target.value)}
-        // icon={'CurrencyIcon'}
-        value={value}
-        name={'name'}
-        error={false}
-        ref={inputRef}
-        onIconClick={onIconClick}
-        errorText={'Ошибка'}
-        size={'default'}
-        extraClass="ml-1"
-        width="480px"
+        <EmailInput
+          onChange={onChange}
+          value={form.email}
+          name={'email'}
+          isIcon={false}
+          placeholder="E-mail"
+          extraClass="mb-2"
         />
      
         <div className={styles.button}>
-          <Button htmlType="button" type="primary" size="medium">Восстановить</Button>
+          <Button htmlType="button" type="primary" size="medium" onClick={onSubmit}>Восстановить</Button>
         </div>
 
         <div className={styles.links}>

@@ -3,43 +3,47 @@ import { EmailInput, Button, PasswordInput } from "@ya.praktikum/react-developer
 import React, { useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
+import { Navigate } from 'react-router-dom';
 import { login } from "../services/actions/user-data";
+
+
 export function LoginPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const isLogin = useSelector((store) => store.user.isLogin);
-  if (isLogin) {
-    navigate('/');
+  const [form, setValue] = useState({ email: '', password: '' });
+  const user = useSelector((store) => store.user.user);
+  
+  if (user) {
+    return (
+      <Navigate
+        to={'/'}
+      />
+    );
   }
-  const [formValue, setFormValue] = useState({
-    email: '',
-    password: ''
-  })
+  
   const onChange = e => {
-    setFormValue({ ...formValue, [e.target.name]: e.target.value });
+    setValue({ ...form, [e.target.name]: e.target.value });
   }
-
   const onSubmit = (e) => {
     e.preventDefault();
-    dispatch(login(formValue));
+    dispatch(login(form));
   }
+
   return (
     <section className={styles.main}>
       <h3 className="text text_type_main-medium">Вход</h3>
       <form className={styles.form} onSubmit={onSubmit}>
         <EmailInput
           onChange={onChange}
-          value={formValue.email}
+          value={form.email}
           name={'email'}
           isIcon={false}
           placeholder="E-mail"
-  
           extraClass="mb-2"
- 
         />
         <PasswordInput
           onChange={onChange}
-          value={formValue.password}
+          value={form.password}
           name={'password'}
           extraClass="mb-2"
         />
