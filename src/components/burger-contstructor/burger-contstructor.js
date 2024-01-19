@@ -10,10 +10,12 @@ import PropTypes from 'prop-types';
 import { ingredientsDataList } from "../../utils/prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { getNumber } from "../../services/actions/order-details";
+import { useNavigate } from 'react-router-dom';
 
 const BurgerConstructor = () => {
   const user = useSelector((store) => store.user.user);
-  console.log(user);
+  const navigate = useNavigate();
+  
   const { modalState, openModal, closeModal } = useModal();
   const handleClick = () => openModal();
 
@@ -23,6 +25,11 @@ const BurgerConstructor = () => {
   const mainItems = useSelector((store) => store.ingredientsConstructor.ingredients);
 
   const getOrderNumber = () => {
+    if (!user) {
+      navigate('/login');
+      return null
+    } 
+
     const ingredients = mainItems.map(item => item.ingredient._id);
     dispatch(getNumber([bunItem._id, ...ingredients, bunItem._id]));
     handleClick();
@@ -32,7 +39,7 @@ const BurgerConstructor = () => {
   const mainPrice = useSelector((store) => store.order.orderDetails.total);
   const totalPrice = mainPrice + bunPrice;
 
-  const disabled = bunPrice && mainItems.length>0 && user ? '' : 'disabled';
+  const disabled = bunPrice && mainItems.length>0 ? '' : 'disabled';
 
   return (
     <section className={burgerConstructor.main}>

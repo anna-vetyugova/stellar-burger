@@ -104,11 +104,25 @@ const logout = async () => request('auth/logout', {
   })
 }) 
 
+// обновление пароля через сброс
+const updateUserProfile = async (form) => fetchWithRefresh('auth/user', {
+  method: 'PATCH',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': localStorage.getItem("accessToken")
+  },
+  body: JSON.stringify({
+    'email': form.email,
+    'name': form.name,
+  })
+});
+
 export const api = {
   getUser,
   login,
   logout,
   registr,
   resetPassword,
-  forgetPassword
+  forgetPassword,
+  updateUserProfile
 };

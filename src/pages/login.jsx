@@ -1,7 +1,7 @@
 import styles from "../pages/styles.module.css"
 import { EmailInput, Button, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import React, { useState, useRef } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 import { login } from "../services/actions/user-data";
@@ -10,9 +10,10 @@ import { login } from "../services/actions/user-data";
 export function LoginPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const [form, setValue] = useState({ email: '', password: '' });
   const user = useSelector((store) => store.user.user);
-  
+
   if (user) {
     return (
       <Navigate

@@ -64,3 +64,12 @@ export const logout = () => {
     }).catch(res => console.error(res));
   }
 };
+
+export const updateUserProfile = (form) => {
+  return async (dispatch) => {
+    await api.updateUserProfile(form).then((res) => {
+      dispatch(setUser(res.user));
+      dispatch(setAuthChecked(true));
+    }).catch(res => console.error(res));
+  }
+};
