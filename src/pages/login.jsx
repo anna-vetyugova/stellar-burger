@@ -49,7 +49,7 @@ export function LoginPage() {
           extraClass="mb-2"
         />
         <div className={styles.button}>
-          <Button htmlType="button" type="primary" size="medium" to={`/login`} onClick={onSubmit}>Войти</Button>
+          <Button htmlType="submit" type="primary" size="medium" to={`/login`}>Войти</Button>
         </div>
         <div className={styles.links}>
           <div className={styles.linkContainer}>

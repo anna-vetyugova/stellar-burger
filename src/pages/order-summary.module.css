@@ -1,0 +1,12 @@
+.main {
+  margin-left: 68px;
+  margin-top: 112px;
+}
+.status {
+  display: flex;
+  
+}
+.section {
+  display: flex;
+  flex-direction: column;
+}

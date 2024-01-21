@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import styles from "../app/app.module.css";
-import { HomePage, RegisterPage, LoginPage, ForgotPassword, ResetPassword, Profile, OrderFeed } from '../../pages';
+import { HomePage, RegisterPage, LoginPage, ForgotPassword, ResetPassword, Profile, Orders } from '../../pages';
 import AppHeader from '../app-header/app-header';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import Modal from '../modal/modal';
@@ -49,12 +49,13 @@ function App() {
             <Route path='/forgot-password' element={<OnlyUnAuth component={<ForgotPassword/>} />} />
             <Route path='/reset-password' element={<OnlyUnAuth component={<ResetPassword/>} />} />
             
-            <Route path='/order-feed' element={<OnlyAuth component={<OrderFeed/>} />} />
+            
             <Route path='/profile' element={<OnlyAuth component={<Profile/>} />}>
               <Route index path='/profile/orders' element={<OnlyAuth />} />
               <Route path='/profile/orders/:orderNumber' element={<OnlyAuth />} />
             </Route>
-
+            
+            <Route path='/orders' element={<Orders />} />
             <Route path='/ingredients/:ingredientId' element={<IngredientDetails header={"Детали ингредиента"} />} />
             {/* <Route path="*" element={<NotFound404 />} /> */}
           </Routes>

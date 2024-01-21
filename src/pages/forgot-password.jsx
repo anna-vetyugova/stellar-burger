@@ -18,7 +18,7 @@ export function ForgotPassword() {
   }
   const onSubmit = (e) => {
     e.preventDefault(); //return res.ok === true ? res.json() : Promise.reject(`Ошибка: ${res.status}`);
-    api.forgetPassword().then((res) => {
+    api.forgetPassword(form).then((res) => {
       localStorage.setItem("isReset", true);
       navigate('/reset-password');
     }).catch(res => console.error(res))
@@ -26,7 +26,7 @@ export function ForgotPassword() {
   return (
     <section className={styles.main}>
       <h3 className="text text_type_main-medium">Восстановаление пароля</h3>
-      <form className={styles.form}>
+      <form className={styles.form} onSubmit={onSubmit}>
         <EmailInput
           onChange={onChange}
           value={form.email}
@@ -37,7 +37,7 @@ export function ForgotPassword() {
         />
      
         <div className={styles.button}>
-          <Button htmlType="button" type="primary" size="medium" onClick={onSubmit}>Восстановить</Button>
+          <Button htmlType="submit" type="primary" size="medium">Восстановить</Button>
         </div>
 
         <div className={styles.links}>

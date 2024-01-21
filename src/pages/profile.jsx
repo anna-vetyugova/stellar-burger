@@ -48,7 +48,7 @@ export function Profile() {
         <p className="text text_type_main-small text_color_inactive">В этом разделе вы можете изменить свои персональные данные</p>
       </div>
       
-      <div className={styles.inputs}>
+      <form className={styles.inputs} onSubmit={onSubmit}>
         <Input
           type={'text'}
           placeholder='Имя'
@@ -84,10 +84,10 @@ export function Profile() {
         { isActive && 
         <div>
           <Button htmlType="button" type="secondary" size="medium" onClick={onReset}>Отмена</Button>
-          <Button htmlType="button" type="primary" size="medium" onClick={onSubmit}>Сохранить</Button>
+          <Button htmlType="submit" type="primary" size="medium">Сохранить</Button>
         </div>
         }
-      </div>
+      </form>
       <Outlet />
     </section>
   );

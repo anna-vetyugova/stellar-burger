@@ -69,7 +69,6 @@ export function OrderFeed() {
             <span className={"text text_type_digits-default " + styles.price}>480<CurrencyIcon/></span>
           </div>
         </div>
-
       </div>
     </section>
   )

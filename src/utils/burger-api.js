@@ -83,6 +83,7 @@ const forgetPassword = async (form) => request('password-reset', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
+    'Authorization': localStorage.getItem("accessToken")
   },
   body: JSON.stringify(form)
 })
@@ -111,10 +112,7 @@ const updateUserProfile = async (form) => fetchWithRefresh('auth/user', {
     'Content-Type': 'application/json',
     'Authorization': localStorage.getItem("accessToken")
   },
-  body: JSON.stringify({
-    'email': form.email,
-    'name': form.name,
-  })
+  body: JSON.stringify(form)
 });
 
 export const api = {

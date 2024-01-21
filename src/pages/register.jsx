@@ -63,7 +63,7 @@ export function RegisterPage() {
         aria-required={true}
         />
         <div className={styles.button}>
-          <Button htmlType="button" type="primary" size="medium" onClick={onSubmit}>Зарегистрироваться</Button>
+          <Button htmlType="submit" type="primary" size="medium">Зарегистрироваться</Button>
         </div>
 
         <div className={styles.links}>
