@@ -1,7 +1,7 @@
 .main {
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: flex-start;
   margin-top: 120px;
   /* position: fixed;
   top: 0;
@@ -10,7 +10,7 @@
   left: 50%;
   transform: translate(-50%, -50%); */
   z-index: 2;
-  width: 860px;
+  /* width: 860px; */
   margin-left: 320px;
 }
 .inputs {
@@ -30,6 +30,7 @@
   flex-direction: column;
   justify-content: center;
   margin-bottom: 80px;
+  width: 320px;
 }
 .navLink {
   text-decoration: none;

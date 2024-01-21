@@ -1,4 +1,4 @@
-import styles from "../pages/order-summary.module.css"
+import styles from "../pages/orders-summary.module.css"
 import React, { useState, useRef } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';

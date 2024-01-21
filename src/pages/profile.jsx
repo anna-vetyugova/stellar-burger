@@ -3,14 +3,14 @@ import { Input, EmailInput, PasswordInput, Button } from "@ya.praktikum/react-de
 import React, { useState, useRef } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { Outlet } from "react-router-dom";
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout, updateUserProfile } from "../services/actions/user-data";
 
 export function Profile() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  
+  const location = useLocation();
   const user = useSelector((store) => store.user.user);
   
   const [isActive, setActive] = useState(false);
@@ -36,6 +36,9 @@ export function Profile() {
     setIsDisabled(!isDisabled);
     setTimeout(() => inputRef.current.focus(), 0)
   };
+
+  console.log(location);
+
   return (
     <section className={styles.main}>
       
@@ -48,6 +51,7 @@ export function Profile() {
         <p className="text text_type_main-small text_color_inactive">В этом разделе вы можете изменить свои персональные данные</p>
       </div>
       
+      { location.pathname === '/profile' && 
       <form className={styles.inputs} onSubmit={onSubmit}>
         <Input
           type={'text'}
@@ -87,7 +91,12 @@ export function Profile() {
           <Button htmlType="submit" type="primary" size="medium">Сохранить</Button>
         </div>
         }
-      </form>
+      </form> }
+
+
+
+
+
       <Outlet />
     </section>
   );
