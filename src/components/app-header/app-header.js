@@ -22,7 +22,7 @@ function AppHeader() {
           <a href="/" className={headerStyles.logo}><Logo /></a>
         </div>
         <NavLink to={`/profile`} className={headerStyles.link} style={({ isActive }) => ({ color: isActive ? '#f2f2f3' : '#8585AD' })}>
-            <ProfileIcon type={(location.pathname === '/profile') ? "primary" : "secondary"} />
+            <ProfileIcon type={(location.pathname === '/profile' || location.pathname === '/profile/orders') ? "primary" : "secondary"} />
             Личный кабинет
           </NavLink>
       </div>

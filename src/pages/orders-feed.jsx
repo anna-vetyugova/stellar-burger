@@ -16,6 +16,8 @@ import salad from '../images/salad.png'
 export function OrdersFeed() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
+
   const isActive = true;
 
   const onChange = e => {
@@ -41,6 +43,9 @@ export function OrdersFeed() {
           <h2 className="text text_type_main-medium">
             Death Star Starship Main бургер
           </h2>
+          { location.pathname === '/profile/orders' && 
+            <span className="text text_type_main-small">Создан</span>
+          }
           <div className={styles.orderTotal}>
             <div className={styles.ingredientsContainer}>
               {/* временная верстка для ПР ч.2 */}
