@@ -19,37 +19,30 @@ export function OrdersSummary() {
 
   return (
     <section className={styles.main}>
-      <div>
+
         <div className={styles.status}>
           <div className={styles.section}>
-            <p className="text text_type_main-medium">Готовы</p>
+            <p className="text text_type_main-medium mb-6">Готовы</p>
             <div className={styles.section}>
-              <span>034533</span>
-              <span>034532</span>
-              <span>034530</span>
-              <span>034527</span>
-              <span>034527</span>
-              <span>034525</span>
+              {/* <span className={"text text_type_digits-default mb-2 " + styles.orderNumber}>034533</span> */}
             </div>
           </div>
           <div className={styles.section}> 
-            <p className="text text_type_main-medium">В работе</p>
+            <p className="text text_type_main-medium mb-6">В работе</p>
             <div className={styles.section}>
-              <span>034538</span>
-              <span>034541</span>
-              <span>034542</span>
+              {/* <span className="text text_type_digits-default mb-2">034538</span> */}
             </div>
           </div>
         </div>
         <div>
           <p className="text text_type_main-medium">Выполнено за все время:</p>
-          <span>28 752</span>
+          {/* <span className={"text text_type_digits-large " + styles.number}>28 752</span> */}
         </div>
         <div>
           <p className="text text_type_main-medium">Выполнено за сегодня</p>
-          <span>138</span>
+          {/* <span className={"text text_type_digits-large "  + styles.number}>138</span> */}
         </div>
-      </div>
+
     </section>
   )
 }
