@@ -24,23 +24,23 @@ export function OrdersSummary() {
           <div className={styles.section}>
             <p className="text text_type_main-medium mb-6">Готовы</p>
             <div className={styles.section}>
-              {/* <span className={"text text_type_digits-default mb-2 " + styles.orderNumber}>034533</span> */}
+              <span className={"text text_type_digits-default mb-2 " + styles.orderNumber}>034533</span>
             </div>
           </div>
           <div className={styles.section}> 
             <p className="text text_type_main-medium mb-6">В работе</p>
             <div className={styles.section}>
-              {/* <span className="text text_type_digits-default mb-2">034538</span> */}
+              <span className="text text_type_digits-default mb-2">034538</span>
             </div>
           </div>
         </div>
         <div>
           <p className="text text_type_main-medium">Выполнено за все время:</p>
-          {/* <span className={"text text_type_digits-large " + styles.number}>28 752</span> */}
+          <span className={"text text_type_digits-large " + styles.number}>28 752</span>
         </div>
         <div>
           <p className="text text_type_main-medium">Выполнено за сегодня</p>
-          {/* <span className={"text text_type_digits-large "  + styles.number}>138</span> */}
+          <span className={"text text_type_digits-large "  + styles.number}>138</span>
         </div>
 
     </section>

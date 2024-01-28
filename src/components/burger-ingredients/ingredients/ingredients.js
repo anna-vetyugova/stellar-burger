@@ -6,7 +6,7 @@ import { orderListItemPropTypes } from "../../../utils/prop-types";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 
-const Ingredients = ({ type, ingredients, id, onOpen,  }) => {
+const Ingredients = ({ type, ingredients, id, onOpen  }) => {
   const location = useLocation();
   return (
     <section id={id}>
