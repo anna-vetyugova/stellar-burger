@@ -51,7 +51,6 @@ export const constructorIngredientsReducer = (state = currentIngredients, action
       };
     }
     case DELETE_CONSTRUCTOR_ITEMS: {
-      console.log(state);
       return { 
         ...state,
         bun : null,

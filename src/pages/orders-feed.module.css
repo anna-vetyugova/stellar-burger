@@ -1,14 +1,10 @@
 .main {
-  min-width: 584px;
-  max-width: 844px;
-  height: 812px;
   margin-bottom: 40px;
   flex-direction: column;
-  width: 100%;
 }
 .orders {
   overflow: auto;
-  height: 600px;
+  height: 870px;
 }
 .orderContainer {
   display: flex;
@@ -21,8 +17,16 @@
   box-sizing: border-box;
   text-decoration: none;
   color: inherit;
+  min-width: 584px;
+  max-width: 844px;
+}
+.orderItemContainer {
+  min-width: 584px;
+  max-width: 844px;
+  list-style: none;
 }
 .list {
   margin: 0;
   padding: 0;
+  /* margin-right: 8px; */
 }

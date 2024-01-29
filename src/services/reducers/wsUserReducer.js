@@ -11,7 +11,7 @@ import { getCurrentTimestamp } from "../../utils/datetime";
 const initialState = {
   wsConnected: false,
   messages: [],
-      error: undefined
+  error: undefined
 }; 
 
 export const wsUserReducer = (state = initialState, action) => {
@@ -21,7 +21,7 @@ export const wsUserReducer = (state = initialState, action) => {
     case WS_USER_CONNECTION_SUCCESS:
       return {
         ...state,
-                error: undefined,
+        error: undefined,
         wsConnected: true
       };
 
@@ -30,7 +30,7 @@ export const wsUserReducer = (state = initialState, action) => {
     case WS_USER_CONNECTION_ERROR:
       return {
         ...state,
-                error: action.payload,
+        error: action.payload,
         wsConnected: false
       };
 
@@ -39,7 +39,7 @@ export const wsUserReducer = (state = initialState, action) => {
     case WS_USER_CONNECTION_CLOSED:
       return {
         ...state,
-                error: undefined,
+        error: undefined,
         wsConnected: false
       };
 
@@ -48,12 +48,22 @@ export const wsUserReducer = (state = initialState, action) => {
         // В messages передадим данные, которые пришли с сервера
     case WS_USER_GET_MESSAGE:
       const timestamp = getCurrentTimestamp();
+      console.log(action.payload.orders);
       return {
         ...state,
-                error: undefined,
-                messages: [...state.messages, { ...action.payload, timestamp: getCurrentTimestamp()} ],
+        error: undefined,
+        messages: state.messages.length
+        ? [...state.messages, { ...action.payload, timestamp: new Date().getTime() / 1000 }]
+        : [{ ...action.payload, timestamp: new Date().getTime() / 1000 }]
       };
+      case WS_USER_CONNECTION_START:
+        return {
+          ...state,
+          error: false,
+          wsConnected: true
+        };
     default:
       return state;
   }
+  
 }; 

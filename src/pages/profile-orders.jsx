@@ -5,7 +5,7 @@ import { OrdersFeed } from "./orders-feed";
 export function ProfileOrders() {
   return (
     <main className={styles.main}>
-      <OrdersFeed/> 
+      <OrdersFeed /> 
     </main>
   );
 }

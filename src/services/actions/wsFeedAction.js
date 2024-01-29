@@ -5,9 +5,10 @@ export const WS_FEED_CONNECTION_CLOSED = 'WS_FEED_CONNECTION_CLOSED';
 export const WS_FEED_GET_MESSAGE = 'WS_FEED_GET_MESSAGE';
 export const WS_FEED_SEND_MESSAGE = 'WS_FEED_SEND_MESSAGE';
 
-export const wsFeedConnectionStart = () => {
+export const wsFeedConnectionStart = (url) => {
   return {
-    type: WS_FEED_CONNECTION_START
+    type: WS_FEED_CONNECTION_START,
+    payload: url
   };
 };
 export const wsFeedConnectionSuccess = () => {
@@ -28,14 +29,14 @@ export const wsFeedConnectionClosed = () => {
   };
 };
 
-export const wsGetMessage = message => {
+export const wsGetFeedMessage = message => {
   return {
     type: WS_FEED_GET_MESSAGE,
     payload: message
   };
 };
 
-export const wsSendMessage = message => {
+export const wsSendFeedMessage = message => {
   return {
     type: WS_FEED_SEND_MESSAGE,
     payload: message

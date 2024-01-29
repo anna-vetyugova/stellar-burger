@@ -9,11 +9,14 @@ import { logout } from "../services/actions/user-data";
 export function Profile() {
   const dispatch = useDispatch();
   const location = useLocation();
+  const orderNumber = useSelector(store => store.order.orderFeed);
+  console.log('orderNumber = ' +orderNumber);
+ 
   const logOut = (e) => {
     e.preventDefault();
     dispatch(logout());
   }
-
+  if (!orderNumber) {
   return (
     <section className={styles.main}>
       <div className={styles.navigation}>
@@ -29,4 +32,8 @@ export function Profile() {
       <Outlet />
     </section>
   );
+  }
+  else {
+    return null
+  }
 }

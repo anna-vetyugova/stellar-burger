@@ -16,13 +16,13 @@ function AppHeader() {
             Конструктор
           </NavLink>
           <NavLink to={`/feed`} className={headerStyles.link} style={({ isActive }) => ({ color: isActive ? '#f2f2f3' : '#8585AD' })}>
-            <ListIcon type={(location.pathname === '/feed') ? "primary" : "secondary"} />
+            <ListIcon type={(location.pathname.includes('/feed')) ? "primary" : "secondary"} />
             Лента заказов
           </NavLink>
           <a href="/" className={headerStyles.logo}><Logo /></a>
         </div>
         <NavLink to={`/profile`} className={headerStyles.link} style={({ isActive }) => ({ color: isActive ? '#f2f2f3' : '#8585AD' })}>
-            <ProfileIcon type={(location.pathname === '/profile' || location.pathname === '/profile/orders') ? "primary" : "secondary"} />
+            <ProfileIcon type={(location.pathname.includes('/profile')) ? "primary" : "secondary"} />
             Личный кабинет
           </NavLink>
       </div>

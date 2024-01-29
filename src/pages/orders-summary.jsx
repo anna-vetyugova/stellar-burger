@@ -1,46 +1,46 @@
 import styles from "../pages/orders-summary.module.css"
 import React, { useState, useRef } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
-import { Navigate } from 'react-router-dom';
-import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
 export function OrdersSummary() {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const isActive = true;
+  const { wsConnected, messages } = useSelector(store => store.wsFeed);
+  const actualOrders = messages ? messages[messages.length-1]: null;
 
-  const onChange = e => {
-    e.preventDefault();
-  }
-  const onSubmit = (e) => {
-    e.preventDefault();
-  }
+  const readyOrders = actualOrders && wsConnected ? actualOrders.orders.filter( item => item.status === 'done').map(item => item.number): null;
+  const ordersInProgress = actualOrders && wsConnected ? actualOrders.orders.filter( item => item.status === 'pending').map(item => item.number): null;
 
   return (
     <section className={styles.main}>
 
         <div className={styles.status}>
-          <div className={styles.section}>
+          <div>
             <p className="text text_type_main-medium mb-6">Готовы</p>
             <div className={styles.section}>
-              <span className={"text text_type_digits-default mb-2 " + styles.orderNumber}>034533</span>
+              {readyOrders && readyOrders.length > 0 && readyOrders.map( (item, index) => {
+                return (<span className={"text text_type_digits-default mb-2 " + styles.orderNumber} key={index}>{item}</span>)
+              })
+              }
             </div>
           </div>
           <div className={styles.section}> 
             <p className="text text_type_main-medium mb-6">В работе</p>
             <div className={styles.section}>
-              <span className="text text_type_digits-default mb-2">034538</span>
+            {ordersInProgress && ordersInProgress.length > 0 && ordersInProgress.map( (item, index) => {
+                if(index < 10) {
+                  return ( <span className="text text_type_digits-default mb-2" key={index}>{item}</span>)
+                }
+              })
+              }
             </div>
           </div>
         </div>
         <div>
           <p className="text text_type_main-medium">Выполнено за все время:</p>
-          <span className={"text text_type_digits-large " + styles.number}>28 752</span>
+          <span className={"text text_type_digits-large " + styles.number}>{actualOrders && actualOrders.total}</span>
         </div>
         <div>
           <p className="text text_type_main-medium">Выполнено за сегодня</p>
-          <span className={"text text_type_digits-large "  + styles.number}>138</span>
+          <span className={"text text_type_digits-large "  + styles.number}>{actualOrders && actualOrders.totalToday}</span>
         </div>
 
     </section>

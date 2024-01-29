@@ -10,4 +10,4 @@ import { ProfileEdit } from './profile-edit';
 import { FeedInfo } from './feed-info';
 // import { NotFound404 } from './not-found';
 
-export { HomePage, RegisterPage, LoginPage, ForgotPassword, ResetPassword, Profile, Feed, ProfileOrders, ProfileEdit, FeedInfo }
+export { HomePage, RegisterPage, LoginPage, ForgotPassword, ResetPassword, Profile, Feed, ProfileOrders, ProfileEdit,FeedInfo  }

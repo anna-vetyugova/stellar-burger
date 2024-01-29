@@ -1,4 +1,6 @@
-export const socketMiddleware = (wsUrl, wsActions) => {
+export const wsUrl= `wss://norma.nomoreparties.space`;
+
+export const socketMiddleware = (wsActions) => {
   return store => {
     let socket = null;
 
@@ -7,9 +9,15 @@ export const socketMiddleware = (wsUrl, wsActions) => {
       const { type, payload } = action;
       const { wsInit, wsSendMessage, onOpen, onClose, onError, onMessage } = wsActions;
       const { user } = getState().user;
-      if (type === wsInit && user) {
-        socket = new WebSocket(`${wsUrl}?token=${accessToken}`);
+      
+      // console.log('type = ' + type);
+      // console.log('wsInit = ' + wsInit);
+      // console.log('payload = ' + payload);  
+     
+      if (type === wsInit) {
+        socket = new WebSocket(payload); 
       }
+
       if (socket) {
         socket.onopen = event => {
           dispatch({ type: onOpen, payload: event });
@@ -18,7 +26,7 @@ export const socketMiddleware = (wsUrl, wsActions) => {
         socket.onerror = event => {
           dispatch({ type: onError, payload: event });
         };
-
+        
         socket.onmessage = event => {
           const { data } = event;
           const parsedData = JSON.parse(data);
@@ -32,13 +40,10 @@ export const socketMiddleware = (wsUrl, wsActions) => {
         };
 
         if (type === wsSendMessage) {
-          const message = payload;
-          // message.token = user.token;
- 
+          const message = { ...payload, token: user.token };
           socket.send(JSON.stringify(message));
         }
       }
-
       next(action);
     };
   };

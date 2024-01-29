@@ -5,9 +5,10 @@ export const WS_USER_CONNECTION_CLOSED = 'WS_USER_CONNECTION_CLOSED';
 export const WS_USER_GET_MESSAGE = 'WS_USER_GET_MESSAGE';
 export const WS_USER_SEND_MESSAGE = 'WS_USER_SEND_MESSAGE';
 
-export const wsUserConnectionStart = () => {
+export const wsUserConnectionStart = (url) => {
   return {
-    type: WS_USER_CONNECTION_START
+    type: WS_USER_CONNECTION_START,
+    payload: url
   };
 };
 export const wsUserConnectionSuccess = () => {
@@ -28,14 +29,15 @@ export const wsUserConnectionClosed = () => {
   };
 };
 
-export const wsGetMessage = message => {
+export const wsGetUserMessage = message => {
   return {
     type: WS_USER_GET_MESSAGE,
     payload: message
   };
 };
 
-export const wsSendMessage = message => {
+export const wsSendUserMessage = message => {
+  
   return {
     type: WS_USER_SEND_MESSAGE,
     payload: message

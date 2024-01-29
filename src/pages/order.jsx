@@ -7,21 +7,21 @@ import { Navigate } from 'react-router-dom';
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { FormattedDate } from "@ya.praktikum/react-developer-burger-ui-components";
 
-// временная верстка для ПР ч.2
-import bun from '../images/bun-01.png';
-import core from '../images/core.png';
-import sauce from '../images/sauce-03.png';
-import meat from '../images/meat-03.png';
-import salad from '../images/salad.png'
 
 export function Order(props) {
+  const orderData = props.order;
   const location = useLocation();
-  const today = new Date();
+  const today = new Date(orderData.createdAt);
+
+  const ingredients = useSelector((store) => store.ingredientsList.ingredients);
+  const orderIngredients = orderData.ingredients.map((id) => ingredients.find(item => item._id === id));
+  const orderPrice = orderIngredients.map(item => item.price).reduce((acc, current) => acc + current, 0);
+
   return (
-    <section key={props.order} className={styles.orderMain} >
+    <section key={orderData._id} className={styles.orderMain} >
       <div className={styles.orderData}>
         <span className="text text_type_digits-default">
-          #034535
+          {orderData.number}
         </span>
         <span className="text text_type_main-small text_color_inactive">
           <FormattedDate
@@ -39,26 +39,34 @@ export function Order(props) {
         </span>
       </div>
       <h2 className="text text_type_main-medium">
-        Death Star Starship Main бургер
+        {orderData.name}
       </h2>
       { location.pathname === '/profile/orders' && 
-        <span className="text text_type_main-small">Создан</span>
+        <span className="text text_type_main-small" style={{ color : orderData.status === 'done' ? '#00cccc' : ''}}>{ orderData.status === 'done' ? 'Выполнен' : orderData.status === 'created' ? 'Создан' : orderData.status === 'pending' ? 'Готовится' : ''}</span>
       }
       <div className={styles.orderTotal}>
         <div className={styles.ingredientsContainer}>
-          {/* временная верстка для ПР ч.2 */}
-          <div className={styles.ingredient} ><img src={bun}></img></div>
-          <div className={styles.ingredient} style={{ marginLeft: '48px', zIndex: 5}}><img src={sauce}></img></div>
-          <div className={styles.ingredient} style={{ marginLeft: '96px', zIndex: 4}}><img src={core}></img></div>
-          <div className={styles.ingredient} style={{ marginLeft: '144px', zIndex: 3}}><img src={meat}></img></div>
-          <div className={styles.ingredient} style={{ marginLeft: '192px', zIndex: 2}}><img src={salad}></img></div>
-          <div className={styles.ingredient + ' ' + styles.ingredient_last}  style={{ marginLeft: '240px', zIndex: 1}}>
-            <img src={bun} style={{ opacity: 0.5}}></img>
-            <span className={"text text_type_main-default " + styles.counter}>+3</span>
-          </div>
+          {orderIngredients.map((ingregientItem, index, arr) => {
+
+            if (index < 5) return (
+              <div className={styles.ingredient} key={index} style={{ marginLeft: index === 0 ? 0 : 48*index + 'px', zIndex: arr.length-index}}>
+                <img src={ingregientItem.image_mobile} className={styles.image}></img>
+              </div>
+            )
+
+            else if (index === 5) return (
+              <div className={styles.ingredient} key={index} style={{ marginLeft: '240px', zIndex: 1}}> 
+                <img src={ingregientItem.image_mobile} className={styles.image}></img>
+                {arr.length-1 > 5 && <span className={"text text_type_main-default " + styles.counter}>+{arr.length-1-index}</span>}
+              </div>
+            )
+
+            else return null
+            })
+          }
         </div>
-        <span className={"text text_type_digits-default " + styles.price}>0<CurrencyIcon/></span>
+        <span className={"text text_type_digits-default " + styles.price}>{orderPrice}<CurrencyIcon/></span>
       </div>
     </section>
-  );
+  )
 }

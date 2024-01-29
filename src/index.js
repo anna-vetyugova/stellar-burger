@@ -46,13 +46,12 @@ const wsUserActions = {
   onMessage: WS_USER_GET_MESSAGE
 };
 
-
 const composeEnhancers =
   typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
     ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
     : compose;
 
-const enhancer = composeEnhancers(applyMiddleware(thunk, socketMiddleware(wsFeedActions), socketMiddleware(wsUserActions)));
+const enhancer = composeEnhancers(applyMiddleware(thunk, socketMiddleware(wsUserActions), socketMiddleware(wsFeedActions)));
 const store = createStore(rootReducer, enhancer);
 
 

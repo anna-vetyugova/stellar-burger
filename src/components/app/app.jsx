@@ -53,11 +53,11 @@ function App() {
             <Route path='/profile' element={<OnlyAuth component={<Profile/>} />}>
             <Route index element={<OnlyAuth component={<ProfileEdit/>} />} />
               <Route path='/profile/orders' element={<OnlyAuth component={<ProfileOrders/>} />} />
-              <Route path='/profile/orders/:orderNumber' element={<OnlyAuth />} />
+              <Route path='/profile/orders/:orderNumber' element={<OnlyAuth component={<FeedInfo/>}/>} />
             </Route>
-            
-            {/* <Route path="/feed" element={<Feed/>}/> */}
-            <Route path="/feed" element={<FeedInfo />} />
+
+            <Route path='/feed' element={<Feed/>}/>
+            <Route path='/feed/:number' element={<FeedInfo />} />
 
             <Route path='/ingredients/:ingredientId' element={<IngredientDetails header={"Детали ингредиента"} />} />
             {/* <Route path="*" element={<NotFound404 />} /> */}
@@ -74,7 +74,14 @@ function App() {
                   </Modal>
                 }
               />
-            
+              <Route
+                path='/feed/:number'
+                element={<FeedInfo />}
+              />
+              <Route
+                path='/profile/orders/:number'
+                element={<FeedInfo />}
+              />
             
             </Routes>
           )}

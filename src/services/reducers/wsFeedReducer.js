@@ -21,28 +21,26 @@ export const wsFeedReducer = (state = initialState, action) => {
     case WS_FEED_CONNECTION_SUCCESS:
       return {
         ...state,
-                error: undefined,
+        error: undefined,
         wsConnected: true
       };
-
         // Опишем обработку экшена с типом WS_CONNECTION_ERROR
         // Установим флаг wsConnected в состояние false и передадим ошибку из action.payload
     case WS_FEED_CONNECTION_ERROR:
       return {
         ...state,
-                error: action.payload,
+        error: action.payload,
         wsConnected: false
       };
-
         // Опишем обработку экшена с типом WS_CONNECTION_CLOSED, когда соединение закрывается
         // Установим флаг wsConnected в состояние false
     case WS_FEED_CONNECTION_CLOSED:
       return {
         ...state,
-                error: undefined,
-        wsConnected: false
+        error: undefined,
+        wsConnected: false,
+        messages: []
       };
-
         // Опишем обработку экшена с типом WS_GET_MESSAGE
         // Обработка происходит, когда с сервера возвращаются данные
         // В messages передадим данные, которые пришли с сервера
@@ -50,9 +48,16 @@ export const wsFeedReducer = (state = initialState, action) => {
       const timestamp = getCurrentTimestamp();
       return {
         ...state,
-                error: undefined,
-                messages: [...state.messages, { ...action.payload, timestamp: getCurrentTimestamp()} ],
+        error: undefined,
+        messages: [...state.messages, { ...action.payload, timestamp: getCurrentTimestamp()} ],
       };
+    case WS_FEED_CONNECTION_START:
+
+      return {
+        ...state,
+        error: false,
+        wsConnected: true
+      }
     default:
       return state;
   }
