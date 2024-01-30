@@ -10,7 +10,6 @@ export function Profile() {
   const dispatch = useDispatch();
   const location = useLocation();
   const orderNumber = useSelector(store => store.order.orderFeed);
-  console.log('orderNumber = ' +orderNumber);
  
   const logOut = (e) => {
     e.preventDefault();

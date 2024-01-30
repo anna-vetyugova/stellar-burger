@@ -1,9 +1,7 @@
 import styles from "../pages/order.module.css"
-
-import React, { useState, useRef } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
-import { useSelector, useDispatch } from 'react-redux';
-import { Navigate } from 'react-router-dom';
+import React from "react";
+import { useLocation } from "react-router-dom";
+import { useSelector } from 'react-redux';
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { FormattedDate } from "@ya.praktikum/react-developer-burger-ui-components";
 

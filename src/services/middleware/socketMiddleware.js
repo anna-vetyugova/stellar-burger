@@ -7,7 +7,7 @@ export const socketMiddleware = (wsActions) => {
     return next => action => {
       const { dispatch, getState } = store;
       const { type, payload } = action;
-      const { wsInit, wsSendMessage, onOpen, onClose, onError, onMessage } = wsActions;
+      const { wsInit, wsSendMessage, wsClose, onOpen, onClose, onError, onMessage } = wsActions;
       const { user } = getState().user;
       
       // console.log('type = ' + type);
@@ -38,6 +38,12 @@ export const socketMiddleware = (wsActions) => {
         socket.onclose = event => {
           dispatch({ type: onClose, payload: event });
         };
+
+        if (type === wsClose) {
+          console.log('Stop WS connection');
+          socket.close();
+          socket = null;
+        }
 
         if (type === wsSendMessage) {
           const message = { ...payload, token: user.token };

@@ -1,32 +1,22 @@
 import styles from "../pages/feed-info.module.css";
 
 
-import React, { useState, useRef, useEffect } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
-import { Navigate } from 'react-router-dom';
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useParams } from 'react-router-dom';
 import { FormattedDate } from "@ya.praktikum/react-developer-burger-ui-components";
-
-import { wsFeedConnectionStart } from "../services/actions/wsFeedAction";
-import { wsFeedConnectionClosed } from "../services/actions/wsFeedAction";
-import { wsUrl } from "../services/middleware";
 import { getFeedOrderData, SET_ORDER_NUMBER, DELETE_ORDER_NUMBER } from "../services/actions/order-details";
 
-// временная верстка для ПР ч.2
-import bun from '../images/bun-01.png';
-import core from '../images/core.png';
-import sauce from '../images/sauce-03.png';
-import meat from '../images/meat-03.png';
-import salad from '../images/salad.png'
 
-export function FeedInfo() {
+export function FeedInfo({modal}) {
   const location = useLocation();
   const { wsConnected, messages } = useSelector(store => store.wsFeed);
+
   const dispatch = useDispatch();
   const { number } = useParams();
-  console.log(number);
+
   useEffect(()=>{
       dispatch({type: SET_ORDER_NUMBER, number });
       dispatch(getFeedOrderData(number));
@@ -49,13 +39,15 @@ export function FeedInfo() {
       }
     });
     const orderPrice = orderIngredients.map(item => item.price).reduce((acc, current) => acc + current, 0);
+
+    // console.log(modal);
     return ( 
-      <section className={styles.main} >
+      <section className={styles.main} style={{ marginTop: !modal ? '120px' : ''}}>
         <div className={styles.container}>
-          <span className={"text text_type_digits-default " + styles.number}>
-          {orderData.number}
-          </span>
-          <h2 className="text text_type_main-medium mb-3">
+          {!modal && <span className={"text text_type_digits-default " + styles.number}>
+            #{number}
+          </span>}
+          <h2 className="text text_type_main-medium mb-3 mt-5">
           {orderData.name}
           </h2>
           <span className="text text_type_main-small" style={{ color: '#0CC', marginBottom: '60px'}}>Выполнен</span>

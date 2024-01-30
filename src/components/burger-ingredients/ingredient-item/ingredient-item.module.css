@@ -12,7 +12,7 @@
   height: 120px;
   box-sizing: border-box;
   object-fit: contain;
-  z-index: 2;
+  z-index: 1;
 }
 .priceInfo {
   display: flex;

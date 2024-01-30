@@ -1,10 +1,9 @@
 import styles from "../pages/styles.module.css"
-import { Input, Button, EmailInput } from "@ya.praktikum/react-developer-burger-ui-components";
-import React, { useState, useRef } from "react";
+import { Button, EmailInput } from "@ya.praktikum/react-developer-burger-ui-components";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
-import { Navigate } from 'react-router-dom';
 import { api } from "../utils/burger-api";
 
 export function ForgotPassword() {

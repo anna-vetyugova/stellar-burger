@@ -1,13 +1,12 @@
 import styles from "../pages/orders-feed.module.css";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { Navigate } from "react-router-dom";
-import { Outlet, useParams } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import { Order } from "./order";
-import { wsFeedConnectionStart, wsFeedConnectionClosed } from "../services/actions/wsFeedAction";
+import { wsFeedConnectionStart, wsFeedConnectionClosed, wsFeedConnectionStop } from "../services/actions/wsFeedAction";
 import { wsUrl } from "../services/middleware";
-import { wsUserConnectionStart, wsUserConnectionClosed } from "../services/actions/wsUserAction";
+import { wsUserConnectionStart, wsUserConnectionClosed, wsUserConnectionStop } from "../services/actions/wsUserAction";
 import { refreshToken } from "../utils/burger-api";
 
 export function OrdersFeed() {
@@ -32,9 +31,11 @@ export function OrdersFeed() {
     }
     return () => {
       if (location.pathname.includes('/feed')) {
+        dispatch(wsFeedConnectionStop());
         dispatch(wsFeedConnectionClosed());
       }
       else {
+        dispatch(wsUserConnectionStop());
         dispatch(wsUserConnectionClosed());
       }
     }

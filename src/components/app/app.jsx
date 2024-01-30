@@ -53,11 +53,11 @@ function App() {
             <Route path='/profile' element={<OnlyAuth component={<Profile/>} />}>
             <Route index element={<OnlyAuth component={<ProfileEdit/>} />} />
               <Route path='/profile/orders' element={<OnlyAuth component={<ProfileOrders/>} />} />
-              <Route path='/profile/orders/:orderNumber' element={<OnlyAuth component={<FeedInfo/>}/>} />
             </Route>
+            <Route path='/profile/orders/:number' element={<OnlyAuth component={<FeedInfo modal={false} />}/>} />
 
             <Route path='/feed' element={<Feed/>}/>
-            <Route path='/feed/:number' element={<FeedInfo />} />
+            <Route path='/feed/:number' element={<FeedInfo modal={false} />} />
 
             <Route path='/ingredients/:ingredientId' element={<IngredientDetails header={"Детали ингредиента"} />} />
             {/* <Route path="*" element={<NotFound404 />} /> */}
@@ -76,11 +76,19 @@ function App() {
               />
               <Route
                 path='/feed/:number'
-                element={<FeedInfo />}
+                element={
+                  <Modal closeModal={handleModalClose}>
+                    <FeedInfo modal={true} />
+                  </Modal>
+                }
               />
               <Route
                 path='/profile/orders/:number'
-                element={<FeedInfo />}
+                element={
+                  <Modal closeModal={handleModalClose} >
+                    <FeedInfo modal={true} />
+                  </Modal>
+                }
               />
             
             </Routes>

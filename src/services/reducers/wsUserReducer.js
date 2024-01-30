@@ -48,7 +48,6 @@ export const wsUserReducer = (state = initialState, action) => {
         // В messages передадим данные, которые пришли с сервера
     case WS_USER_GET_MESSAGE:
       const timestamp = getCurrentTimestamp();
-      console.log(action.payload.orders);
       return {
         ...state,
         error: undefined,
