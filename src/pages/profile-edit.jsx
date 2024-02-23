@@ -1,11 +1,9 @@
 import styles from "../pages/profile.module.css"
 import { Input, EmailInput, PasswordInput, Button } from "@ya.praktikum/react-developer-burger-ui-components";
-import React, { useState, useRef } from "react";
-import { Link, NavLink } from "react-router-dom";
-import { Outlet } from "react-router-dom";
-import { Navigate, useNavigate, useLocation } from 'react-router-dom';
+import React, { useState } from "react";
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { logout, updateUserProfile } from "../services/actions/user-data";
+import { updateUserProfile } from "../services/actions/user-data";
 
 export function ProfileEdit() {
   const dispatch = useDispatch();

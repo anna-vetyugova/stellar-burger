@@ -1,0 +1,63 @@
+
+.orderMain {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.orderData {
+  display: flex;
+  justify-content: space-between;
+}
+.orderTotal {
+  display: flex;
+  justify-content: space-between;
+  height: 64px;
+  align-items: center;
+}
+.price {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-left: 24px;
+}
+
+.ingredientsContainer {
+  height: 56px;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  z-index: 1;
+}
+.ingredient {
+  display: flex;
+  width: 64px;
+  height: 64px;
+  box-sizing: border-box;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100px;
+  border: 2px solid #801AB2;
+  background: #131316;
+  position: absolute;
+  left: 0;
+}
+
+.counter {
+  position: absolute;
+}
+/* .counter::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #131316;
+  opacity: 0.6;
+  width: 64px;
+  height: 64px;
+  border-radius: 98px;
+} */
+.image {
+  width: 112px;
+}

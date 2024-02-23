@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import styles from "../app/app.module.css";
-import { HomePage, RegisterPage, LoginPage, ForgotPassword, ResetPassword, Profile, Orders, ProfileOrders, ProfileEdit } from '../../pages';
+import { HomePage, RegisterPage, LoginPage, ForgotPassword, ResetPassword, Profile, Feed, ProfileOrders, ProfileEdit, FeedInfo } from '../../pages';
 import AppHeader from '../app-header/app-header';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import Modal from '../modal/modal';
@@ -53,10 +53,12 @@ function App() {
             <Route path='/profile' element={<OnlyAuth component={<Profile/>} />}>
             <Route index element={<OnlyAuth component={<ProfileEdit/>} />} />
               <Route path='/profile/orders' element={<OnlyAuth component={<ProfileOrders/>} />} />
-              <Route path='/profile/orders/:orderNumber' element={<OnlyAuth />} />
             </Route>
-            
-            <Route path='/orders' element={<Orders />} />
+            <Route path='/profile/orders/:number' element={<OnlyAuth component={<FeedInfo modal={false} />}/>} />
+
+            <Route path='/feed' element={<Feed/>}/>
+            <Route path='/feed/:number' element={<FeedInfo modal={false} />} />
+
             <Route path='/ingredients/:ingredientId' element={<IngredientDetails header={"Детали ингредиента"} />} />
             {/* <Route path="*" element={<NotFound404 />} /> */}
           </Routes>
@@ -72,6 +74,23 @@ function App() {
                   </Modal>
                 }
               />
+              <Route
+                path='/feed/:number'
+                element={
+                  <Modal closeModal={handleModalClose}>
+                    <FeedInfo modal={true} />
+                  </Modal>
+                }
+              />
+              <Route
+                path='/profile/orders/:number'
+                element={
+                  <Modal closeModal={handleModalClose} >
+                    <FeedInfo modal={true} />
+                  </Modal>
+                }
+              />
+            
             </Routes>
           )}
       </div>

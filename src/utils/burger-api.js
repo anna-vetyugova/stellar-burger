@@ -10,15 +10,36 @@ export function getIngredients() {
   return request('ingredients')
 }
 
-export function getOrderNumber(ingredients) {
-  return request('orders', {
-    method: 'POST',
+// export function getOrderNumber(ingredients) {
+//   return request('orders', {
+//     method: 'POST',
+//     headers: {'Content-Type': 'application/json'},
+//     body: JSON.stringify({
+//       ingredients: ingredients
+//     })
+//   })
+// }
+
+export const getOrderNumber = async (ingredients) => fetchWithRefresh('orders', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': localStorage.getItem("accessToken")
+  },
+  body: JSON.stringify({
+    ingredients: ingredients
+  })
+})
+
+
+export function getOrderData(number) {
+  return request(`orders/${number}`, {
+    method: 'GET',
     headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({
-      ingredients: ingredients
-    })
   })
 }
+
+
 
 // const checkReponse = (res) => {
 //   return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
