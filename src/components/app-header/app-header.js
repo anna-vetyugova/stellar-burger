@@ -2,17 +2,29 @@ import React from "react";
 import headerStyles from "./app-header.module.css";
 import { Logo, BurgerIcon, ListIcon, ProfileIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from 'prop-types';
+import { NavLink } from "react-router-dom";
+import { useLocation } from 'react-router-dom';
 
 function AppHeader() {
+  const location = useLocation(); 
   return (
     <header className={headerStyles.header}> 
       <div className={headerStyles.container}>
-        <div className={headerStyles.links}>
-          <a href="#" className={headerStyles.link}><BurgerIcon/><p className="text text_type_main-default ml-2">Конструктор</p></a>
-          <a href="#" className={headerStyles.link}><ListIcon type="secondary" /><p className="text text_type_main-default text_color_inactive ml-2">Лента заказов</p></a>
-          <a href="#" className={headerStyles.logo}><Logo /></a>
+        <div className={headerStyles.links}> 
+          <NavLink to={`/`} className={headerStyles.link} style={({ isActive }) => ({ color: isActive ? '#f2f2f3' : '#8585AD' })}>
+            <BurgerIcon type={(location.pathname === '/') ? "primary" : "secondary"} />
+            Конструктор
+          </NavLink>
+          <NavLink to={`/orders`} className={headerStyles.link} style={({ isActive }) => ({ color: isActive ? '#f2f2f3' : '#8585AD' })}>
+            <ListIcon type={(location.pathname === '/orders') ? "primary" : "secondary"} />
+            Лента заказов
+          </NavLink>
+          <a href="/" className={headerStyles.logo}><Logo /></a>
         </div>
-        <a href="#" className={headerStyles.link}><ProfileIcon type="secondary" /><p className="text text_type_main-default text_color_inactive ml-2">Личный кабинет</p></a>
+        <NavLink to={`/profile`} className={headerStyles.link} style={({ isActive }) => ({ color: isActive ? '#f2f2f3' : '#8585AD' })}>
+            <ProfileIcon type={(location.pathname === '/profile' || location.pathname === '/profile/orders') ? "primary" : "secondary"} />
+            Личный кабинет
+          </NavLink>
       </div>
     </header>
   );

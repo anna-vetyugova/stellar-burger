@@ -41,7 +41,7 @@ const OrderList = () => {
   return (
     <section className={"pr-2 " + orderListStyles.main} ref={dropTarget}> 
 
-      { !bunItem && <div className={"constructor-element constructor-element_pos_top " + orderListStyles.headers}>Выберите булки</div> }
+      { !bunItem && <div className={orderListStyles.headers + " " + orderListStyles.top}>Выберите булки</div> }
       { bunItem && 
         <div className={orderListStyles.element}>
           <ConstructorElement
@@ -54,7 +54,7 @@ const OrderList = () => {
         </div> 
       }
 
-      { !ingredients[0] && <div className={"constructor-element " + orderListStyles.headers}>Выберите начинку</div> }
+      { !ingredients[0] && <div className={orderListStyles.headers}>Выберите начинку</div> }
       { ingredients[0] && 
         <div className={"custom-scroll mt-4 " + orderListStyles.container} >
           <ul className={orderListStyles.list} ref={refIngrList}>
@@ -65,7 +65,7 @@ const OrderList = () => {
         </div> 
       }
 
-      { !bunItem && <div className={"constructor-element constructor-element_pos_bottom " + orderListStyles.headers}>Выберите булки</div> }
+      { !bunItem && <div className={orderListStyles.headers + " " + orderListStyles.bottom}>Выберите булки</div> }
       { bunItem && 
         <div className={orderListStyles.element}>
           <ConstructorElement

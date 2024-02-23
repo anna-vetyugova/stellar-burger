@@ -3,6 +3,7 @@ export const initialState = {
   ingredients : [], 
   ingredientsRequest: false,
   ingredientsFailed: false,
+  ingredientsIsLoaded: false,
 
   currentTab : 'bun-tab',
 };

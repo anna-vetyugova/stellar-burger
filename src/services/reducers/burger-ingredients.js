@@ -7,14 +7,15 @@ export const burgerIngredientsReducer = (state = initialState, action) => {
     case GET_INGREDIENTS_REQUEST: {
       return {
         ...state,
-        ingredientsRequest: true
+        ingredientsRequest: true,
+        ingredientsIsLoaded: false
       };
     }
     case GET_INGREDIENTS_SUCCESS: {
-      return { ...state, ingredientsFailed: false, ingredients: action.ingredients, ingredientsRequest: false };
+      return { ...state, ingredientsFailed: false, ingredients: action.ingredients, ingredientsRequest: false, ingredientsIsLoaded: true };
     }
     case GET_INGREDIENTS_FAILED: {
-      return { ...state, ingredientsFailed: true, ingredientsRequest: false };
+      return { ...state, ingredientsFailed: true, ingredientsRequest: false, ingredientsIsLoaded: false };
     }
     case TAB_SWITCH: {
       return {...state, currentTab : action.newTab };

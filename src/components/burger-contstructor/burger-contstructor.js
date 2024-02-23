@@ -1,4 +1,4 @@
-import React, {useMemo} from "react";
+import React, {useMemo, useState} from "react";
 import burgerConstructor from './burger-contstructor.module.css'
 import OrderList from "./order-list/order-list";
 import ingredientIcon from "../../images/ingredient-icon.svg"
@@ -10,8 +10,12 @@ import PropTypes from 'prop-types';
 import { ingredientsDataList } from "../../utils/prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { getNumber } from "../../services/actions/order-details";
+import { useNavigate } from 'react-router-dom';
 
 const BurgerConstructor = () => {
+  const user = useSelector((store) => store.user.user);
+  const navigate = useNavigate();
+  
   const { modalState, openModal, closeModal } = useModal();
   const handleClick = () => openModal();
 
@@ -21,6 +25,11 @@ const BurgerConstructor = () => {
   const mainItems = useSelector((store) => store.ingredientsConstructor.ingredients);
 
   const getOrderNumber = () => {
+    if (!user) {
+      navigate('/login');
+      return null
+    } 
+
     const ingredients = mainItems.map(item => item.ingredient._id);
     dispatch(getNumber([bunItem._id, ...ingredients, bunItem._id]));
     handleClick();
@@ -32,7 +41,7 @@ const BurgerConstructor = () => {
 
   const disabled = bunPrice && mainItems.length>0 ? '' : 'disabled';
 
-    return (
+  return (
     <section className={burgerConstructor.main}>
       <OrderList/>
       <div className={"mt-2 mt-5 " + burgerConstructor.priceInfo}>
