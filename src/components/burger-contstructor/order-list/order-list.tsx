@@ -1,28 +1,31 @@
-import React, { useRef, useMemo } from "react";
+import React, { useRef, useMemo, FC, useState } from "react";
+
 import orderListStyles from "./order-list.module.css";
 import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import PropTypes from 'prop-types';
-import { orderListItemPropTypes } from "../../../utils/prop-types";
+
 import { useDrop, useDrag } from "react-dnd";
-import { useSelector, useDispatch } from "react-redux";
 import { v4 as uuidv4 } from 'uuid';
 
 import { INCREASE_TOTAL_PRICE } from "../../../services/actions/order-details";
 import ConstructorItem from "../constructor-item/constructor-item";
 
-const OrderList = () => {
-  const dispatch = useDispatch();
+import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
+import { TIngredients } from "../../../utils/prop-types";
 
-  const bunItem = useSelector((store) => store.ingredientsConstructor.bun);
-  const mainItems = useSelector((store) => store.ingredientsConstructor.ingredients);
-  const ingredients = mainItems ? mainItems : null;
+
+export const OrderList: FC = () => {  
+  const dispatch = useAppDispatch();
+
+  const ingredientsConstructor = useAppSelector((store) => store.ingredientsConstructor);
+  const bunItem : TIngredients = ingredientsConstructor['bun'];
+  const mainItems: {key: string, ingredient: TIngredients}[] = ingredientsConstructor['ingredients'];
 
   const [{ isHover }, dropTarget] = useDrop({
     accept: ["ingredient"],
-    collect: monitor => ({
+    collect: (monitor: { isOver: () => any; }) => ({
       isHover: monitor.isOver(),
     }),
-    drop(item) {
+    drop(item: { ingredient: { type: string; price: any; }; }) {
       const type = item.ingredient.type === 'bun' ? 'ADD_BUN_INGREDIENT' : 'ADD_MAIN_INGREDIENT';
       dispatch({
         type: type,
@@ -36,8 +39,9 @@ const OrderList = () => {
     },
   });
   
+  // const refIngrList = useRef(null);
+  const refIngrList = useRef<HTMLUListElement>(null);
 
-  const refIngrList = useRef(null);
   return (
     <section className={"pr-2 " + orderListStyles.main} ref={dropTarget}> 
 
@@ -54,12 +58,12 @@ const OrderList = () => {
         </div> 
       }
 
-      { !ingredients[0] && <div className={orderListStyles.headers}>Выберите начинку</div> }
-      { ingredients[0] && 
+      { mainItems.length === 0 && <div className={orderListStyles.headers}>Выберите начинку</div> }
+      { mainItems.length > 0 && 
         <div className={"custom-scroll mt-4 " + orderListStyles.container} >
           <ul className={orderListStyles.list} ref={refIngrList}>
-            {ingredients.map((item, index) => (
-              <ConstructorItem item={item} key={item.key} index={index} />
+            { mainItems.map((item, index) => (
+              <ConstructorItem item={item.ingredient} key={item.key} index={index} />
             ))}
           </ul> 
         </div> 
@@ -80,17 +84,5 @@ const OrderList = () => {
     </section>
   );
 };
-OrderList.propTypes = {
-  ingredient: PropTypes.arrayOf(orderListItemPropTypes)
-};
-ConstructorElement.propTypes = {
-  type: PropTypes.string.isRequired,
-  isLocked: PropTypes.bool.isRequired,
-  text: PropTypes.string.isRequired,
-  price: PropTypes.number.isRequired,
-  thumbnail: PropTypes.string.isRequired
-};
-DragIcon.propTypes = {
-  type: PropTypes.string.isRequired
-};
+
 export default OrderList;

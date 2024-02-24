@@ -1,7 +1,8 @@
 import { useSelector } from "react-redux";
 import { Navigate, useLocation } from "react-router-dom";
-
+// import { FC, useEffect, useState, ReactElement } from 'react';
 const Protected = ({ onlyUnAuth = false, component }) => {
+ //export const ProtectedRouteElement: FC<{ element: ReactElement}> = ({ element }) => { 
   // isAuthChecked это флаг, показывающий что проверка токена произведена
   // при этом результат этой проверки не имеет значения, важно только,
   // что сам факт проверки имел место.

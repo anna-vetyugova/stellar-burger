@@ -5,8 +5,13 @@ import { constructorIngredientsReducer } from './burger-constructor';
 import { orderDetailsReducer } from './order-details';
 import { userAuthentificationReducer } from './user-data';
 
+import { configureStore } from '@reduxjs/toolkit';
+import { useDispatch } from 'react-redux';
+
 import { wsFeedReducer } from './wsFeedReducer';
 import { wsUserReducer } from './wsUserReducer';
+
+import { store } from '../..';
 
 // Корневой редьюсер
 export const rootReducer = combineReducers({
@@ -18,3 +23,7 @@ export const rootReducer = combineReducers({
   wsUser: wsUserReducer,
   wsFeed: wsFeedReducer
 });
+
+
+export type RootState = ReturnType<typeof rootReducer>
+export type AppDispatch = ReturnType<typeof store.dispatch>

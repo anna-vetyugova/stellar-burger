@@ -7,7 +7,7 @@ import OrderDetails from "../order-details/order-details";
 import { useModal } from "../hooks/useModal";
 import Modal from "../modal/modal";
 import PropTypes from 'prop-types';
-import { ingredientsDataList } from "../../utils/prop-types";
+import { ingredientsDataList } from "../../utils/prop-types.ts";
 import { useDispatch, useSelector } from "react-redux";
 import { getNumber } from "../../services/actions/order-details";
 import { useNavigate } from 'react-router-dom';

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import ingredientsStyles from "../ingredients/ingredients.module.css";
 import IngredientItem from "../ingredient-item/ingredient-item";
 import PropTypes from 'prop-types';
-import { orderListItemPropTypes } from "../../../utils/prop-types";
+import { orderListItemPropTypes } from "../../../utils/prop-types.ts";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 

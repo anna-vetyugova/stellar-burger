@@ -1,18 +1,24 @@
-import React, { useEffect } from "react";
+import React, { useEffect, FC } from "react";
 import styles from "./ingredient-details.module.css";
-import { useDispatch, useSelector } from 'react-redux';
-import { ingredientsDataList } from "../../utils/prop-types";
+import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import { useParams } from "react-router-dom";
-function IngredientDetails({header}) {
-  const ingredients = useSelector((store) => store.ingredientsList.ingredients);
+
+import { TIngredients } from "../../utils/prop-types";
+
+const IngredientDetails: FC<{ header: string | undefined }> = ({ header }) => {
+
+  const ingredients = useAppSelector((store) => store.ingredientsList.ingredients)
   const { ingredientId } = useParams();
-  const ingregientItem = ingredients.find(item => item._id === ingredientId);
-  if (!ingregientItem) {
-    return null;
+
+  const getIngredientItem = (ingredients: ReadonlyArray<TIngredients>) => {
+    const item = ingredients.find(item => item._id === ingredientId);
+    return item;
   }
-  return (
+
+  const ingregientItem = getIngredientItem(ingredients);
+
+  return ingregientItem ? (
     <>
-    { ingregientItem &&
       <section className={styles.main}>
         {header && <h3 className="text text_type_main-large">{header}</h3>}
         <img className={styles.image + " pl-5 pr-5"} src={ingregientItem.image_large} alt={ingregientItem.name}></img>
@@ -37,15 +43,8 @@ function IngredientDetails({header}) {
             </div>
           </div>
         </div>
-      </section>
-    }
-    
+      </section>   
     </>
-  );
+  ) : null;
 }
-
-IngredientDetails.propTypes = {
-  ingredient: ingredientsDataList
-};
-
 export default IngredientDetails;

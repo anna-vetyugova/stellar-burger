@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useEffect, FC } from 'react';
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import styles from "../app/app.module.css";
 import { HomePage, RegisterPage, LoginPage, ForgotPassword, ResetPassword, Profile, Feed, ProfileOrders, ProfileEdit, FeedInfo } from '../../pages';
@@ -12,12 +11,14 @@ import { DELETE_INGREDIENT_ITEM } from '../../services/actions/ingredient-detail
 import { checkUserAuth } from '../../services/actions/user-data';
 import { OnlyAuth, OnlyUnAuth } from '../protected-route';
 
+import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 
-function App() {
+const App: FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const background = location.state && location.state.background;
+  const { ingredientsIsLoaded } = useAppSelector((store) => store.ingredientsList);
 
   const handleModalClose = () => {
     // Возвращаемся к предыдущему пути при закрытии модалки
@@ -33,8 +34,6 @@ function App() {
    const deleteSetItem = () => {
     return dispatch({ type: DELETE_INGREDIENT_ITEM });
   };
-
-  const { ingredientsIsLoaded } = useSelector(store => store.ingredientsList);
 
   return (
     <>
@@ -70,7 +69,7 @@ function App() {
                 path='/ingredients/:ingredientId'
                 element={
                   <Modal closeModal={handleModalClose} header={"Детали ингредиента"}>
-                    <IngredientDetails />
+                    <IngredientDetails header={undefined} />
                   </Modal>
                 }
               />

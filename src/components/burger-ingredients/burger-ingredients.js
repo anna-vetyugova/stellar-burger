@@ -3,7 +3,7 @@ import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import burgerIngredientsStyles from "./burger-ingredients.module.css";
 import Ingredients from "./ingredients/ingredients";
 import PropTypes from 'prop-types';
-import { ingredientsDataList } from "../../utils/prop-types";
+import { ingredientsDataList } from "../../utils/prop-types.ts";
 import { useDispatch, useSelector } from 'react-redux';
 import { TAB_SWITCH } from "../../services/actions/burger-ingredients";
 

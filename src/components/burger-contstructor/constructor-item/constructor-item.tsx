@@ -1,4 +1,4 @@
-import React, { useRef, useMemo } from "react";
+import React, { useRef, useMemo, FC, MouseEvent, ReactNode } from "react";
 import constructorItem from "./constructor-item.module.css";
 import { DragIcon, DeleteIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from 'prop-types';
@@ -8,18 +8,28 @@ import { DELETE_INGREDIENT } from "../../../services/actions/burger-constructor"
 import { DECREASE_TOTAL_PRICE } from "../../../services/actions/order-details";
 import priceIcon from "../../../images/ingredient-icon.svg"
 import { CHANGE_ITEM_POSITION } from "../../../services/actions/burger-constructor";
+import { useAppDispatch } from "../../hooks/hooks";
+import { TIngredients } from "../../../utils/prop-types";
 
-const ConstructorItem = (props) => {
-  const { item, index } = props;
+export type TConstructorItem = {
+  item: TIngredients;
+  index: number
+} 
+export const ConstructorItem: FC<TConstructorItem> = ({ 
+  item, 
+  index 
+}) => {  
 
-  const ref = useRef(null);
+  const ref = useRef<HTMLLIElement>(null);
+  const dispatch = useAppDispatch();
 
-  const dispatch = useDispatch();
-  const deleteIngredient = (e) => {
-    const price = e.target.closest('li').getAttribute('price');
+  const deleteIngredient = (event: MouseEvent<HTMLSpanElement>) => {
+    const target = (event.target as HTMLElement).closest('li') as HTMLLIElement;
+    const price = target.getAttribute('data-price');
+    const id = target.getAttribute('id');
     dispatch({
       type: DELETE_INGREDIENT,
-      id: e.target.closest('li').getAttribute('id')
+      id: id
     });
     dispatch({
       type: DECREASE_TOTAL_PRICE,
@@ -27,25 +37,24 @@ const ConstructorItem = (props) => {
     });
   }
 
-
   const [{ isDrag }, drag] = useDrag({
     type: "dragItem",
     item: () => {
-      return { id: item.ingredient._id, index: index };
+      return { id: item._id, index: index };
     },
-    collect: (monitor) => ({
+    collect: (monitor: { isDragging: () => any; }) => ({
       isDrag: monitor.isDragging(),
     }),
   });
 
   const [{ handlerId }, drop] = useDrop({
     accept: "dragItem",
-    collect: (monitor) => {
+    collect: (monitor: { getHandlerId: () => any; }) => {
       return {
         handlerId: monitor.getHandlerId(),
       };
     },
-    hover(item, monitor) {
+    hover(item: { index: number | null; }, monitor: { getClientOffset: () => any; }) {
       if (!ref.current) {
         return
       }
@@ -66,10 +75,10 @@ const ConstructorItem = (props) => {
       const clientOffset = monitor.getClientOffset()
       const hoverClientY = clientOffset.y - hoverBoundingRect.top
 
-      if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
+      if (dragIndex && hoverIndex && dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
         return
       }
-      if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
+      if (dragIndex && hoverIndex && dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
         return
       }
       dispatch({
@@ -81,18 +90,18 @@ const ConstructorItem = (props) => {
     },
   });
   drag(drop(ref));
-  return (
-    <li className={"mb-4 " + constructorItem.item} id={item.ingredient._id} price={item.ingredient.price} ref={ref}>
+
+  return item ? (
+    <li className={"mb-4 " + constructorItem.item} id={item._id} data-price={item.price} ref={ref}>
       <DragIcon type="primary" key={index} />
       <div className={"constructor-element " + constructorItem.main}>
-        <img className={"constructor-element__image"} src={item.ingredient.image_mobile} alt={item.ingredient.name}></img>
-        <span className={"constructor-element__text "}>{item.ingredient.name}</span>
-        <span className={"constructor-element__price"}>{item.ingredient.price} <img src={priceIcon} className={constructorItem.pirceIcon}></img></span>
-        <span className={"constructor-element__action pr-2"}><DeleteIcon onClick={deleteIngredient}/></span>
+        <img className={"constructor-element__image"} src={item.image_mobile} alt={item.name}></img>
+        <span className={"constructor-element__text "}>{item.name}</span>
+        <span className={"constructor-element__price"}>{item.price} <img src={priceIcon} className={constructorItem.pirceIcon}></img></span>
+        <span className={"constructor-element__action pr-2"} onClick={deleteIngredient}><DeleteIcon  type={"secondary"}/></span>
       </div>
     </li>
-
-  );
+  ) : null;
 };
 
 

@@ -1,11 +1,10 @@
-import React from "react";
+import React, { FC } from "react";
 import headerStyles from "./app-header.module.css";
 import { Logo, BurgerIcon, ListIcon, ProfileIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import PropTypes from 'prop-types';
 import { NavLink } from "react-router-dom";
 import { useLocation } from 'react-router-dom';
 
-function AppHeader() {
+const AppHeader: FC = () => {
   const location = useLocation(); 
   return (
     <header className={headerStyles.header}> 
@@ -29,10 +28,4 @@ function AppHeader() {
     </header>
   );
 }
-ListIcon.propTypes = {
-  type: PropTypes.string.isRequired
-};
-ProfileIcon.propTypes = {
-  type: PropTypes.string.isRequired
-};
 export default AppHeader;

@@ -2,7 +2,7 @@ import { DELETE_INGREDIENT, CHANGE_ITEM_POSITION } from "../actions/burger-const
 import { DELETE_CONSTRUCTOR_ITEMS } from "../actions/order-details";
 
 export const currentIngredients = {
-  bun: null,
+  bun: undefined,
   ingredients: []
 };
 const addedIngredints = [];

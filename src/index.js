@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-import App from "./components/app/app";
+import App from "./components/app/app.tsx";
 import reportWebVitals from "./reportWebVitals";
 
 import { compose, createStore, applyMiddleware } from 'redux';
@@ -31,6 +31,8 @@ import {
   WS_USER_CONNECTION_STOP
  } from "./services/actions/wsUserAction";
 
+
+
  const wsFeedActions = {
   wsInit: WS_FEED_CONNECTION_START,
   wsSendMessage: WS_FEED_SEND_MESSAGE,
@@ -56,7 +58,7 @@ const composeEnhancers =
     : compose;
 
 const enhancer = composeEnhancers(applyMiddleware(thunk, socketMiddleware(wsUserActions), socketMiddleware(wsFeedActions)));
-const store = createStore(rootReducer, enhancer);
+export const store = createStore(rootReducer, enhancer);
 
 
 ReactDOM.render(

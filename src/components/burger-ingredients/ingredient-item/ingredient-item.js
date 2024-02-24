@@ -3,7 +3,7 @@ import ingredientItemStyles from "../ingredient-item/ingredient-item.module.css"
 import ingredientIcon from "../../../images/ingredient-icon.svg"
 import { Counter } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from 'prop-types';
-import { orderListItemPropTypes } from "../../../utils/prop-types";
+import { orderListItemPropTypes } from "../../../utils/prop-types.ts";
 import { SET_INGREDIENT_ITEM } from "../../../services/actions/ingredient-details";
 import { useDispatch, useSelector } from 'react-redux';
 import { useDrag } from "react-dnd";
