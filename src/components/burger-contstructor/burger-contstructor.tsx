@@ -1,4 +1,4 @@
-import React, {useMemo, useState} from "react";
+import React, {useMemo, useState, FC} from "react";
 import burgerConstructor from './burger-contstructor.module.css'
 import OrderList from "./order-list/order-list";
 import ingredientIcon from "../../images/ingredient-icon.svg"
@@ -7,22 +7,25 @@ import OrderDetails from "../order-details/order-details";
 import { useModal } from "../hooks/useModal";
 import Modal from "../modal/modal";
 import PropTypes from 'prop-types';
-import { ingredientsDataList } from "../../utils/prop-types.ts";
-import { useDispatch, useSelector } from "react-redux";
+import { ingredientsDataList } from "../../utils/prop-types";
+
 import { getNumber } from "../../services/actions/order-details";
 import { useNavigate } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from "../hooks/hooks";
+import { TIngredients } from "../../utils/prop-types";
 
-const BurgerConstructor = () => {
-  const user = useSelector((store) => store.user.user);
+export const BurgerConstructor: FC = () => {  
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  
+
+  const user = useAppSelector((store) => store.user.user);
+
+  const ingredientsConstructor = useAppSelector((store) => store.ingredientsConstructor);
+  const bunItem : TIngredients = ingredientsConstructor['bun'];
+  const mainItems: {key: string, ingredient: TIngredients}[] = ingredientsConstructor['ingredients'];
+
   const { modalState, openModal, closeModal } = useModal();
   const handleClick = () => openModal();
-
-  const dispatch = useDispatch();
-
-  const bunItem = useSelector((store) => store.ingredientsConstructor.bun);
-  const mainItems = useSelector((store) => store.ingredientsConstructor.ingredients);
 
   const getOrderNumber = () => {
     if (!user) {
@@ -36,10 +39,10 @@ const BurgerConstructor = () => {
   }
 
   const bunPrice = bunItem ? bunItem.price*2 : 0;
-  const mainPrice = useSelector((store) => store.order.orderDetails.total);
+  const mainPrice = useAppSelector((store) => store.order.orderDetails.total);
   const totalPrice = mainPrice + bunPrice;
 
-  const disabled = bunPrice && mainItems.length>0 ? '' : 'disabled';
+  const disabled = bunPrice && mainItems.length>0 ? false : true;
 
   return (
     <section className={burgerConstructor.main}>
