@@ -15,7 +15,7 @@ export type TConstructorItem = {
   item: TIngredients;
   index: number
 } 
-export const ConstructorItem: FC<TConstructorItem> = ({ 
+const ConstructorItem: FC<TConstructorItem> = ({ 
   item, 
   index 
 }) => {  

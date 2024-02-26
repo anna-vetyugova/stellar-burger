@@ -3,10 +3,8 @@ import { FC } from "react";
 import ingredientItemStyles from "../ingredient-item/ingredient-item.module.css";
 import ingredientIcon from "../../../images/ingredient-icon.svg"
 import { Counter } from "@ya.praktikum/react-developer-burger-ui-components";
-import PropTypes from 'prop-types';
-import { orderListItemPropTypes } from "../../../utils/prop-types";
+
 import { SET_INGREDIENT_ITEM } from "../../../services/actions/ingredient-details";
-import { useDispatch, useSelector } from 'react-redux';
 import { useDrag } from "react-dnd";
 
 import { TIngredients } from "../../../utils/prop-types";
@@ -14,9 +12,10 @@ import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 
 export type TIngredientItem= {
   ingredient: TIngredients;
-  onOpen : any; 
+  // onOpen : any; 
+  onOpen(value: object): void;
 } 
-export const IngredientItem: FC<TIngredientItem> = ({ 
+const IngredientItem: FC<TIngredientItem> = ({ 
     ingredient, 
     onOpen 
   }) => {  

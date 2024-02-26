@@ -1,7 +1,7 @@
 import React, { useRef, useMemo, FC, useState } from "react";
 
 import orderListStyles from "./order-list.module.css";
-import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import { useDrop, useDrag } from "react-dnd";
 import { v4 as uuidv4 } from 'uuid';
@@ -13,7 +13,7 @@ import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 import { TIngredients } from "../../../utils/prop-types";
 
 
-export const OrderList: FC = () => {  
+const OrderList: FC = () => {  
   const dispatch = useAppDispatch();
 
   const ingredientsConstructor = useAppSelector((store) => store.ingredientsConstructor);

@@ -1,39 +1,49 @@
 
-import React from "react";
+import React, { FC, type ReactNode, MouseEvent, KeyboardEvent } from "react";
 import ReactDOM from "react-dom";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import modalStyles from "./modal.module.css";
 import ModalOverlay from "../modal-overlay/modal-overlay";
-import PropTypes from "prop-types";
 import { useParams } from 'react-router-dom';
 
-const modalRoot = document.getElementById("react-modals");
+const modalRoot = document.getElementById("react-modals") as HTMLElement;
 
-const Modal = ({ children, header, closeModal }) => {
-  const modalRef = React.useRef();
+export type TModal = {
+  children?: ReactNode;
+  header?: string;
+  closeModal: () => any
+} 
+
+const Modal: FC<TModal> = ({ 
+  children, 
+  header,
+  closeModal
+  }) => { 
+
+  const modalRef = React.useRef<HTMLElement>(null);
   const { number } = useParams();
 
   React.useEffect(() => {
-    const handleCloseOnEscape = (e) => {
+    const handleCloseOnEscape = (e: KeyboardEvent) => {
         if (e.key === 'Escape') {
           closeModal();
         }
     }
-    const handleCloseOnOverlay = (e) => {
-      if (modalRef.current && !modalRef.current.contains(e.target)) {
+    const handleCloseOnOverlay = (e: MouseEvent<HTMLDivElement>) => {
+      if (modalRef.current && !modalRef.current.contains(e.target as HTMLDivElement)) {
         closeModal();
       }
-  }
-    document.addEventListener('keydown', handleCloseOnEscape);
-    document.addEventListener('click', handleCloseOnOverlay);
+    }
+    document.addEventListener('keydown', () => handleCloseOnEscape);
+    document.addEventListener('click', () => handleCloseOnOverlay);
     return () => {
-      document.removeEventListener("keydown", handleCloseOnEscape); 
-      document.removeEventListener('click', handleCloseOnOverlay);  
+      document.removeEventListener("keydown", () => handleCloseOnEscape); 
+      document.removeEventListener('click', () => handleCloseOnOverlay);  
     }
   }, [])
 
   const headerClass = header ? 'text text_type_main-large' : 'text text_type_digits-default';
-  return ReactDOM.createPortal(
+  return ReactDOM.createPortal( 
     <>
       <section className={modalStyles.modal} ref={modalRef}>
         <div className={modalStyles.header}>
@@ -44,14 +54,10 @@ const Modal = ({ children, header, closeModal }) => {
         </div>
         {children}
       </section>
-      <ModalOverlay onClick={closeModal} />
+      <ModalOverlay onClick={() => closeModal}/>
     </>,
     modalRoot
   );
 };
-Modal.propTypes = {
-  children: PropTypes.element.isRequired,
-  header: PropTypes.string,
-  closeModal: PropTypes.func.isRequired,
-}
+
 export default Modal;
