@@ -54,7 +54,7 @@ export const BurgerConstructor: FC = () => {
           Оформить заказ
         </Button>
       </div>
-      {modalState && <Modal closeModal={closeModal} ><OrderDetails /></Modal>}
+      {modalState && <Modal closeModal={closeModal}><OrderDetails /></Modal>}
     </section>
   );
 }

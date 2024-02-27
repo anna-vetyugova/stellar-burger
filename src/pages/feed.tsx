@@ -1,13 +1,11 @@
 import styles from "../pages/feed.module.css"
 import { OrdersFeed } from "./orders-feed";
 import { OrdersSummary } from "./orders-summary";
-import { useSelector } from "react-redux";
+import { FC } from "react";
+import { useAppSelector } from "../components/hooks/hooks";
 
-export function Feed() {
-const orderNumber = useSelector(store => store.order.orderFeed);
-
-// if (orderNumber) return null
-
+export const Feed: FC = () => {  
+const orderNumber = useAppSelector(store => store.order.orderFeed);
   return (
     <main className={styles.content}>
       <h1 className={"text text_type_main-large mb-5 " + styles.header}>Лента заказов</h1>

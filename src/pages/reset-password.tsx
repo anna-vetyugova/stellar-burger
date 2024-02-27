@@ -1,15 +1,16 @@
 import styles from "../pages/styles.module.css"
 import { Input, Button, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, FC, ChangeEvent, MouseEvent } from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { api } from "../utils/burger-api";
+import { useAppDispatch, useAppSelector } from "../components/hooks/hooks";
 
 export function ResetPassword() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const user = useSelector((store) => store.user.user); 
+  const user = useAppSelector((store) => store.user.user); 
   
   const [form, setValue] = useState({ password: '', token: '' });
   
@@ -21,10 +22,10 @@ export function ResetPassword() {
    }, [isReset, navigate]);
 
 
-  const onChange = e => {
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue({ ...form, [e.target.name]: e.target.value });
   }
-  const onSubmit = (e) => {
+  const onSubmit = (e: MouseEvent<HTMLFormElement>) => {
     e.preventDefault();
     api.resetPassword(form).then((res) => {
       localStorage.removeItem('isReset');

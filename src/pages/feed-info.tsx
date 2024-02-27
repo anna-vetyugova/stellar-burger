@@ -1,20 +1,22 @@
 import styles from "../pages/feed-info.module.css";
 
-
-import React, { useEffect } from "react";
+import React, { useEffect, FC } from "react";
 import { useLocation } from "react-router-dom";
-import { useSelector, useDispatch } from 'react-redux';
+
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useParams } from 'react-router-dom';
 import { FormattedDate } from "@ya.praktikum/react-developer-burger-ui-components";
 import { getFeedOrderData, SET_ORDER_NUMBER, DELETE_ORDER_NUMBER } from "../services/actions/order-details";
+import { useAppSelector, useAppDispatch } from "../components/hooks/hooks";
+import { TIngredients } from "../utils/prop-types";
 
-
-export function FeedInfo({modal}) {
+export const FeedInfo: FC<{ modal: boolean }> = ({
+  modal
+}) => {
   const location = useLocation();
-  const { wsConnected, messages } = useSelector(store => store.wsFeed);
+  const { wsConnected, messages } = useAppSelector(store => store.wsFeed);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { number } = useParams();
 
   useEffect(()=>{
@@ -25,22 +27,22 @@ export function FeedInfo({modal}) {
     }
   }, [])
 
-  const orderData = useSelector(store => store.order.orderFeedData);
-  const ingredients = useSelector((store) => store.ingredientsList.ingredients);
-  const orderIngredients = orderData ? orderData.ingredients.map((id) => ingredients.find(item => item._id === id)): null;
+  const orderData = useAppSelector(store => store.order.orderFeedData);
+  const ingredients = useAppSelector((store) => store.ingredientsList.ingredients);
+  const orderIngredients = orderData ? orderData.ingredients.map((id: string) => ingredients.find((item: { _id: string; }) => item._id === id)): null;
   
   if(orderData) {
     const today = new Date(orderData.updatedAt);
-    const updatedIngredients = [];
-    ingredients.forEach( item => {
-      const counter = orderIngredients.filter( ingredient => ingredient._id === item._id).length;
+    const updatedIngredients: {ingredient: TIngredients, counter: number}[] = [];
+
+    ingredients.forEach( (item: TIngredients) => {
+      const counter = orderIngredients.filter( (ingredient: { _id: string; }) => ingredient._id === item._id).length;
       if (counter>0) {
         updatedIngredients.push({ ingredient: item, counter: counter });
       }
     });
-    const orderPrice = orderIngredients.map(item => item.price).reduce((acc, current) => acc + current, 0);
+    const orderPrice = orderIngredients.map((item: { price: number; }) => item.price).reduce((acc: number, current: number) => acc + current, 0);
 
-    // console.log(modal);
     return ( 
       <section className={styles.main} style={{ marginTop: !modal ? '120px' : ''}}>
         <div className={styles.container}>
@@ -62,7 +64,7 @@ export function FeedInfo({modal}) {
                     <div className={styles.price}>
                       <span className="text text_type_digits-default">{item.ingredient.price}&nbsp;&#215;</span>
                       <span className="text text_type_digits-default">&nbsp;{item.counter}</span>
-                      <CurrencyIcon/>
+                      <CurrencyIcon type={"secondary"}/>
                     </div>
                   </li>
                 )
@@ -86,7 +88,7 @@ export function FeedInfo({modal}) {
               />&nbsp;i-GMT+3
             </span>
             <div className={styles.total}>
-              <span className="text text_type_digits-default">{orderPrice}&nbsp;</span><CurrencyIcon/>
+              <span className="text text_type_digits-default">{orderPrice}&nbsp;</span><CurrencyIcon type={"secondary"}/>
             </div>
           </div>
         </div>

@@ -11,7 +11,7 @@ import { getCurrentTimestamp } from "../../utils/datetime";
 const initialState = {
   wsConnected: false,
   messages: [],
-      error: undefined
+  error: undefined
 }; 
 // Создадим редьюсер для WebSocket
 export const wsFeedReducer = (state = initialState, action) => {
@@ -52,7 +52,7 @@ export const wsFeedReducer = (state = initialState, action) => {
         messages: [...state.messages, { ...action.payload, timestamp: getCurrentTimestamp()} ],
       };
     case WS_FEED_CONNECTION_START:
-
+      console.log(action);
       return {
         ...state,
         error: false,

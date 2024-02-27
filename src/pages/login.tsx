@@ -1,18 +1,18 @@
 import styles from "../pages/styles.module.css"
 import { EmailInput, Button, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
-import React, { useState } from "react";
+import React, { useState, FC, ChangeEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from 'react-redux';
+
 import { Navigate } from 'react-router-dom';
 import { login } from "../services/actions/user-data";
+import { useAppDispatch, useAppSelector } from "../components/hooks/hooks";
 
-
-export function LoginPage() {
-  const dispatch = useDispatch();
+export const LoginPage: FC = () => {   
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const [form, setValue] = useState({ email: '', password: '' });
-  const user = useSelector((store) => store.user.user);
+  const user = useAppSelector((store) => store.user.user);
 
   if (user) {
     return (
@@ -22,10 +22,10 @@ export function LoginPage() {
     );
   }
   
-  const onChange = e => {
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue({ ...form, [e.target.name]: e.target.value });
   }
-  const onSubmit = (e) => {
+  const onSubmit = (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(login(form));
   }
@@ -49,7 +49,7 @@ export function LoginPage() {
           extraClass="mb-2"
         />
         <div className={styles.button}>
-          <Button htmlType="submit" type="primary" size="medium" to={`/login`}>Войти</Button>
+          <Button htmlType="submit" type="primary" size="medium">Войти</Button>
         </div>
         <div className={styles.links}>
           <div className={styles.linkContainer}>

@@ -1,35 +1,40 @@
 import styles from "../pages/profile.module.css"
 import { Input, EmailInput, PasswordInput, Button } from "@ya.praktikum/react-developer-burger-ui-components";
-import React, { useState } from "react";
+import React, { useState, FC, MouseEvent, useRef, ChangeEvent } from "react";
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { updateUserProfile } from "../services/actions/user-data";
 
-export function ProfileEdit() {
-  const dispatch = useDispatch();
+import { updateUserProfile } from "../services/actions/user-data";
+import { useAppDispatch, useAppSelector } from "../components/hooks/hooks";
+
+export const ProfileEdit: FC = () => {
+
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-  const user = useSelector((store) => store.user.user);
+  const user = useAppSelector((store) => store.user.user);
   
   const [isActive, setActive] = useState(false);
   const [form, setValue] = useState({ name: user.name, email: user.email, password: '' });
-  const onChange = e => {
-    setValue({ ...form, [e.target.name]: e.target.value });
+  
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const target = e.target as HTMLInputElement
+    setValue({ ...form, [target.name]: target.value });
     setActive(true);
   }
-  const onSubmit = (e) => {
+  const onSubmit = (e: MouseEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(updateUserProfile(form));
   }
 
-  const onReset = (e) => {
+  const onReset = () => {
     setValue({ ...form, name : user.name, email: user.email, password: '' });
   }
   const [isDisabled, setIsDisabled] = useState(true);
-  const inputRef = React.useRef(null)
+  
+  const inputRef = useRef<HTMLInputElement>(null);
+
   const onIconClick = () => {
     setIsDisabled(!isDisabled);
-    setTimeout(() => inputRef.current.focus(), 0)
   };
 
   return (
@@ -55,7 +60,6 @@ export function ProfileEdit() {
         value={form.email}
         name={'email'}
         placeholder="Логин"
-        isIcon={false}
         extraClass="mb-2"
         aria-required={true}
         isIcon={true}

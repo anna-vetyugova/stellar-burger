@@ -1,5 +1,5 @@
 
-import React, { FC, type ReactNode, MouseEvent, KeyboardEvent } from "react";
+import React, { FC, type ReactNode, MouseEvent, PointerEvent } from "react";
 import ReactDOM from "react-dom";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import modalStyles from "./modal.module.css";
@@ -11,7 +11,7 @@ const modalRoot = document.getElementById("react-modals") as HTMLElement;
 export type TModal = {
   children?: ReactNode;
   header?: string;
-  closeModal: () => any
+  closeModal: () => void
 } 
 
 const Modal: FC<TModal> = ({ 
@@ -24,25 +24,28 @@ const Modal: FC<TModal> = ({
   const { number } = useParams();
 
   React.useEffect(() => {
-    const handleCloseOnEscape = (e: KeyboardEvent) => {
+    const handleCloseOnEscape = (e: { key: string}) => {
         if (e.key === 'Escape') {
           closeModal();
         }
     }
-    const handleCloseOnOverlay = (e: MouseEvent<HTMLDivElement>) => {
+    const handleCloseOnOverlay = (e: any) => {
       if (modalRef.current && !modalRef.current.contains(e.target as HTMLDivElement)) {
         closeModal();
       }
     }
-    document.addEventListener('keydown', () => handleCloseOnEscape);
-    document.addEventListener('click', () => handleCloseOnOverlay);
+    document.addEventListener('keydown', handleCloseOnEscape);
+    document.addEventListener('click', handleCloseOnOverlay);
     return () => {
-      document.removeEventListener("keydown", () => handleCloseOnEscape); 
-      document.removeEventListener('click', () => handleCloseOnOverlay);  
+      document.removeEventListener('keydown', handleCloseOnEscape); 
+      document.removeEventListener('click', handleCloseOnOverlay);  
     }
   }, [])
 
   const headerClass = header ? 'text text_type_main-large' : 'text text_type_digits-default';
+
+  console.log(header);
+  console.log(number);
   return ReactDOM.createPortal( 
     <>
       <section className={modalStyles.modal} ref={modalRef}>

@@ -1,13 +1,15 @@
 import styles from "../pages/orders-summary.module.css"
-import React from "react";
-import { useSelector } from 'react-redux';
+import React, { FC } from "react";
+import { useAppSelector } from "../components/hooks/hooks";
+import { TOrder } from "./order";
 
-export function OrdersSummary() {
-  const { wsConnected, messages } = useSelector(store => store.wsFeed);
-  const actualOrders = messages ? messages[messages.length-1]: null;
+export const OrdersSummary: FC = () => {
 
-  const readyOrders = actualOrders && wsConnected ? actualOrders.orders.filter( item => item.status === 'done').map(item => item.number): null;
-  const ordersInProgress = actualOrders && wsConnected ? actualOrders.orders.filter( item => item.status === 'pending').map(item => item.number): null;
+  const wsFeed: { wsConnected: boolean, messages: any } = useAppSelector(store => store.wsFeed);
+  const actualOrders = wsFeed.messages ? wsFeed.messages[wsFeed.messages.length-1]: null;
+
+  const readyOrders = actualOrders && wsFeed.wsConnected === true ? actualOrders.orders.filter( (item: { status: string; }) => item.status === 'done').map((item: { number: number; }) => item.number): null;
+  const ordersInProgress = actualOrders && wsFeed.wsConnected === true ? actualOrders.orders.filter( (item: { status: string; }) => item.status === 'pending').map((item: { number: number; }) => item.number): null;
 
   return (
     <section className={styles.main}>
@@ -16,7 +18,7 @@ export function OrdersSummary() {
           <div>
             <p className="text text_type_main-medium mb-6">Готовы</p>
             <div className={styles.section}>
-              {readyOrders && readyOrders.length > 0 && readyOrders.map( (item, index) => {
+              {readyOrders && readyOrders.length > 0 && readyOrders.map( (item: TOrder, index: number) => {
                 return (<span className={"text text_type_digits-default mb-2 " + styles.orderNumber} key={index}>{item}</span>)
               })
               }
@@ -25,7 +27,7 @@ export function OrdersSummary() {
           <div className={styles.section}> 
             <p className="text text_type_main-medium mb-6">В работе</p>
             <div className={styles.section}>
-            {ordersInProgress && ordersInProgress.length > 0 && ordersInProgress.map( (item, index) => {
+            {ordersInProgress && ordersInProgress.length > 0 && ordersInProgress.map( (item: TOrder, index: number) => {
                 if(index < 10) {
                   return ( <span className="text text_type_digits-default mb-2" key={index}>{item}</span>)
                 }

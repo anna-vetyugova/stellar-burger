@@ -1,24 +1,25 @@
 import styles from "../pages/styles.module.css"
 import { Button, EmailInput } from "@ya.praktikum/react-developer-burger-ui-components";
-import React, { useState } from "react";
+import React, { useState, FC, ChangeEvent } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from 'react-redux';
 import { api } from "../utils/burger-api";
+import { useAppDispatch, useAppSelector } from "../components/hooks/hooks";
 
-export function ForgotPassword() {
-  const dispatch = useDispatch();
+export const ForgotPassword: FC = () => {    
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [form, setValue] = useState({ email: '' });
-  const user = useSelector((store) => store.user.user);
+  const user = useAppSelector((store) => store.user.user);
   
-  const onChange = e => {
-    setValue({ ...form, [e.target.name]: e.target.value });
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const target = e.target as HTMLInputElement;
+    setValue({ ...form, [target.name]: target.value });
   }
-  const onSubmit = (e) => {
-    e.preventDefault(); //return res.ok === true ? res.json() : Promise.reject(`Ошибка: ${res.status}`);
+  const onSubmit = (e: ChangeEvent<HTMLFormElement>) => {
+    e.preventDefault(); 
     api.forgetPassword(form).then((res) => {
-      localStorage.setItem("isReset", true);
+      localStorage.setItem("isReset", 'true');
       navigate('/reset-password');
     }).catch(res => console.error(res))
   }

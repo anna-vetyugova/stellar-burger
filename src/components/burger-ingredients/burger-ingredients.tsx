@@ -105,7 +105,4 @@ const BurgerIngredients: FC = () => {
   );
 };
 
-// BurgerIngredients.propTypes = {
-//   ingredients: PropTypes.arrayOf(ingredientsDataList)
-// };
 export default BurgerIngredients;

@@ -1,11 +1,12 @@
 
-import React from "react";
+import React, { FC } from "react";
 import styles from './order-details.module.css'
 import doneIcon from '../../images/done.png'
-import { useSelector } from 'react-redux';
 
-const OrderDetails = () => {
-  const { orderId } = useSelector(store => ({
+import { useAppDispatch, useAppSelector } from "../hooks/hooks";
+
+const OrderDetails: FC  = () => {    
+  const { orderId } = useAppSelector(store => ({
     orderId : store.order.orderDetails.number
   }));
   return (

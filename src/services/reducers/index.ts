@@ -15,13 +15,13 @@ import { store } from '../..';
 
 // Корневой редьюсер
 export const rootReducer = combineReducers({
+  wsUser: wsUserReducer,
+  wsFeed: wsFeedReducer,
   ingredientsList: burgerIngredientsReducer,
   ingredientDetails: ingredientDetailsReducer,
   ingredientsConstructor: constructorIngredientsReducer,
   order: orderDetailsReducer,
-  user: userAuthentificationReducer,
-  wsUser: wsUserReducer,
-  wsFeed: wsFeedReducer
+  user: userAuthentificationReducer
 });
 
 

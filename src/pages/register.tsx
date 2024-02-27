@@ -1,17 +1,18 @@
 import styles from "../pages/styles.module.css"
 import { Input, Button, EmailInput, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, FC, ChangeEvent, MouseEvent } from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import { registr } from "../services/actions/user-data";
 import { Navigate, useNavigate } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from "../components/hooks/hooks";
 
-export function RegisterPage() {
-  const dispatch = useDispatch();
+export const RegisterPage: FC = () => {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const [form, setValue] = useState({ email: '', password: '' });
-  const user = useSelector((store) => store.user.user);
+  const [form, setValue] = useState({ name: '', email: '', password: '' });
+  const user = useAppSelector((store) => store.user.user);
   
   if (user) {
     return (
@@ -21,16 +22,16 @@ export function RegisterPage() {
     );
   }
   
-  const onChange = e => {
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue({ ...form, [e.target.name]: e.target.value });
   }
-  const onSubmit = (e) => {
+  const onSubmit = (e: MouseEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(registr(form));
   }
-
+  //to={`/register`}
   return (
-    <section className={styles.main} to={`/register`}>
+    <section className={styles.main} >
       <h3 className="text text_type_main-medium">Регистрация</h3>
       <form className={styles.form} onSubmit={onSubmit}>
         <Input

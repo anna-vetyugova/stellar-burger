@@ -1,18 +1,29 @@
 import styles from "../pages/order.module.css"
-import React from "react";
+import React, { FC } from "react";
 import { useLocation } from "react-router-dom";
-import { useSelector } from 'react-redux';
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { FormattedDate } from "@ya.praktikum/react-developer-burger-ui-components";
+import { useAppSelector } from "../components/hooks/hooks";
 
+export type TOrder = {
+  createdAt: Date;
+  ingredients: string[];
+  name: string;
+  number: number;
+  status: string;
+  updatedAt: Date;
+  _id: string
+} 
 
-export function Order(props) {
-  const orderData = props.order;
+export const Order: FC<{ order: TOrder }> = ({ order }) => {
+
   const location = useLocation();
-  const today = new Date(orderData.createdAt);
+  const today = new Date(order.createdAt);
 
-  const ingredients = useSelector((store) => store.ingredientsList.ingredients);
-  const orderIngredients = orderData.ingredients.map((id) => ingredients.find(item => item._id === id));
+  const orderData = order;
+
+  const ingredientsList = useAppSelector((store) => store.ingredientsList.ingredients);
+  const orderIngredients = orderData.ingredients.map((id) => ingredientsList.find((item: { _id: string; }) => item._id === id));
   const orderPrice = orderIngredients.map(item => item.price).reduce((acc, current) => acc + current, 0);
 
   return (
@@ -63,7 +74,7 @@ export function Order(props) {
             })
           }
         </div>
-        <span className={"text text_type_digits-default " + styles.price}>{orderPrice}<CurrencyIcon/></span>
+        <span className={"text text_type_digits-default " + styles.price}>{orderPrice}<CurrencyIcon type={"secondary"}/></span>
       </div>
     </section>
   )

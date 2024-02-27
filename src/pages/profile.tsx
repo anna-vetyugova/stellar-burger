@@ -1,18 +1,19 @@
 import styles from "../pages/profile.module.css"
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, FC } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { Outlet } from "react-router-dom";
 import { Navigate, useNavigate, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from "../services/actions/user-data";
+import { useAppDispatch, useAppSelector } from "../components/hooks/hooks";
 
-export function Profile() {
-  const dispatch = useDispatch();
+export const Profile: FC = () => {
+
+  const dispatch = useAppDispatch();
   const location = useLocation();
-  const orderNumber = useSelector(store => store.order.orderFeed);
+  const orderNumber = useAppSelector(store => store.order.orderFeed);
  
-  const logOut = (e) => {
-    e.preventDefault();
+  const logOut = () => {
     dispatch(logout());
   }
   if (!orderNumber) {
