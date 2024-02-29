@@ -5,32 +5,24 @@ import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components
 import { FormattedDate } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useAppSelector } from "../components/hooks/hooks";
 
-export type TOrder = {
-  createdAt: Date;
-  ingredients: string[];
-  name: string;
-  number: number;
-  status: string;
-  updatedAt: Date;
-  _id: string
-} 
+import { TOrder, TIngredients } from "../services/types/data";
 
 export const Order: FC<{ order: TOrder }> = ({ order }) => {
 
   const location = useLocation();
   const today = new Date(order.createdAt);
 
-  const orderData = order;
-
   const ingredientsList = useAppSelector((store) => store.ingredientsList.ingredients);
-  const orderIngredients = orderData.ingredients.map((id) => ingredientsList.find((item: { _id: string; }) => item._id === id));
-  const orderPrice = orderIngredients.map(item => item.price).reduce((acc, current) => acc + current, 0);
 
-  return (
-    <section key={orderData._id} className={styles.orderMain} >
-      <div className={styles.orderData}>
+  const orderIngredients: any[] = order.ingredients.length > 0 ? order.ingredients.map((id) => ingredientsList.find((item: { _id: string; }) => item._id === id)) : [];
+
+  const orderPrice: number = orderIngredients.length > 0 ? orderIngredients.map((item: { price: number; }) => item.price).reduce((acc: number, current: number) => acc + current, 0): 0;
+
+  return ( orderIngredients.length > 0 ?
+    <section key={order._id} className={styles.orderMain} >
+      <div className={styles.order}>
         <span className="text text_type_digits-default">
-          {orderData.number}
+          {order.number}
         </span>
         <span className="text text_type_main-small text_color_inactive">
           <FormattedDate
@@ -48,14 +40,14 @@ export const Order: FC<{ order: TOrder }> = ({ order }) => {
         </span>
       </div>
       <h2 className="text text_type_main-medium">
-        {orderData.name}
+        {order.name}
       </h2>
       { location.pathname === '/profile/orders' && 
-        <span className="text text_type_main-small" style={{ color : orderData.status === 'done' ? '#00cccc' : ''}}>{ orderData.status === 'done' ? 'Выполнен' : orderData.status === 'created' ? 'Создан' : orderData.status === 'pending' ? 'Готовится' : ''}</span>
+        <span className="text text_type_main-small" style={{ color : order.status === 'done' ? '#00cccc' : ''}}>{ order.status === 'done' ? 'Выполнен' : order.status === 'created' ? 'Создан' : order.status === 'pending' ? 'Готовится' : ''}</span>
       }
       <div className={styles.orderTotal}>
         <div className={styles.ingredientsContainer}>
-          {orderIngredients.map((ingregientItem, index, arr) => {
+          {orderIngredients.map((ingregientItem: { image_mobile: string | undefined; }, index: number, arr: string | any[]) => {
 
             if (index < 5) return (
               <div className={styles.ingredient} key={index} style={{ marginLeft: index === 0 ? 0 : 48*index + 'px', zIndex: arr.length-index}}>
@@ -76,6 +68,6 @@ export const Order: FC<{ order: TOrder }> = ({ order }) => {
         </div>
         <span className={"text text_type_digits-default " + styles.price}>{orderPrice}<CurrencyIcon type={"secondary"}/></span>
       </div>
-    </section>
+    </section> : null
   )
 }

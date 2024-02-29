@@ -2,9 +2,9 @@ import React, { useState, useRef, FC, ForwardedRef } from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import burgerIngredientsStyles from "./burger-ingredients.module.css";
 import Ingredients from "./ingredients/ingredients";
-import { TAB_SWITCH } from "../../services/actions/burger-ingredients";
 
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
+import { TAB_SWITCH } from "../../services/constants";
 
 const BurgerIngredientsTabs = React.forwardRef((props, ref : ForwardedRef<HTMLDivElement>) => {
   const currentTab = useAppSelector((store) => store.ingredientsList.currentTab);

@@ -1,5 +1,8 @@
-import { DELETE_INGREDIENT, CHANGE_ITEM_POSITION } from "../actions/burger-constructor";
-import { DELETE_CONSTRUCTOR_ITEMS } from "../actions/order-details";
+// import { DELETE_INGREDIENT, CHANGE_ITEM_POSITION } from "../actions/burger-constructor";
+// import { DELETE_CONSTRUCTOR_ITEMS } from "../actions/order-details";
+
+import { DELETE_INGREDIENT, CHANGE_ITEM_POSITION } from "../constants";
+import { DELETE_CONSTRUCTOR_ITEMS } from "../constants";
 
 export const currentIngredients = {
   bun: undefined,

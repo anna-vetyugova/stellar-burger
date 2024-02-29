@@ -1,7 +1,7 @@
 import styles from "../pages/orders-summary.module.css"
 import React, { FC } from "react";
 import { useAppSelector } from "../components/hooks/hooks";
-import { TOrder } from "./order";
+import { TOrder } from "../services/types/data";
 
 export const OrdersSummary: FC = () => {
 

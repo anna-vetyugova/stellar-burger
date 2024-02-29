@@ -4,14 +4,8 @@ import IngredientItem from "../ingredient-item/ingredient-item";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 
-import { TIngredients } from "../../../utils/prop-types";
+import { TIngredientsList, TIngredients } from "../../../services/types/data";
 
-export type TIngredientsList= {
-  type: string;
-  ingredients: ReadonlyArray<TIngredients> ;
-  onOpen(value: object): void;
-  id: string
-  } 
 const Ingredients: FC<TIngredientsList> = ({ 
   type, 
   ingredients,

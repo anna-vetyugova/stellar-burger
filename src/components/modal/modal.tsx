@@ -6,13 +6,9 @@ import modalStyles from "./modal.module.css";
 import ModalOverlay from "../modal-overlay/modal-overlay";
 import { useParams } from 'react-router-dom';
 
+import { TModal } from "../../services/types/data";
 const modalRoot = document.getElementById("react-modals") as HTMLElement;
 
-export type TModal = {
-  children?: ReactNode;
-  header?: string;
-  closeModal: () => void
-} 
 
 const Modal: FC<TModal> = ({ 
   children, 

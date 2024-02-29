@@ -6,7 +6,8 @@ import AppHeader from '../app-header/app-header';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import Modal from '../modal/modal';
 import { getIngredientsList } from '../../services/actions/burger-ingredients';
-import { DELETE_INGREDIENT_ITEM } from '../../services/actions/ingredient-details';
+
+import { DELETE_INGREDIENT_ITEM } from '../../services/constants';
 
 import { checkUserAuth } from '../../services/actions/user-data';
 import { OnlyAuth, OnlyUnAuth } from '../protected-route';

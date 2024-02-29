@@ -4,17 +4,16 @@ import { DragIcon, DeleteIcon } from "@ya.praktikum/react-developer-burger-ui-co
 import PropTypes from 'prop-types';
 import { useDrop, useDrag } from "react-dnd";
 import { useSelector, useDispatch } from "react-redux";
-import { DELETE_INGREDIENT } from "../../../services/actions/burger-constructor";
-import { DECREASE_TOTAL_PRICE } from "../../../services/actions/order-details";
-import priceIcon from "../../../images/ingredient-icon.svg"
-import { CHANGE_ITEM_POSITION } from "../../../services/actions/burger-constructor";
-import { useAppDispatch } from "../../hooks/hooks";
-import { TIngredients } from "../../../utils/prop-types";
 
-export type TConstructorItem = {
-  item: TIngredients;
-  index: number
-} 
+import { DELETE_INGREDIENT } from "../../../services/constants";
+import { DECREASE_TOTAL_PRICE } from "../../../services/constants";
+import { CHANGE_ITEM_POSITION } from "../../../services/constants";
+
+import priceIcon from "../../../images/ingredient-icon.svg"
+import { useAppDispatch } from "../../hooks/hooks";
+
+import { TIngredients, TConstructorItem } from "../../../services/types/data";
+
 const ConstructorItem: FC<TConstructorItem> = ({ 
   item, 
   index 

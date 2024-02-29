@@ -7,12 +7,12 @@ import OrderDetails from "../order-details/order-details";
 import { useModal } from "../hooks/useModal";
 import Modal from "../modal/modal";
 import PropTypes from 'prop-types';
-import { ingredientsDataList } from "../../utils/prop-types";
+import { ingredientsDataList } from "../../utils/prop-types.js";
 
 import { getNumber } from "../../services/actions/order-details";
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
-import { TIngredients } from "../../utils/prop-types";
+import { TIngredients } from "../../services/types/data";
 
 export const BurgerConstructor: FC = () => {  
   const dispatch = useAppDispatch();

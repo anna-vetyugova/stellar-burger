@@ -2,10 +2,7 @@ import modalOverlayStyles from "./modal-overlay.module.css";
 import React, { useRef, useEffect, FC, type ReactNode } from "react";
 import PropTypes from "prop-types";
 
-export type TModalOverlay = {
-  children?: ReactNode;
-  onClick: () => void;
-} 
+import { TModalOverlay } from "../../services/types/data"; 
 
 const ModalOverlay: FC<TModalOverlay>  = ({ children, onClick}) => {    
   return (

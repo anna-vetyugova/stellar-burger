@@ -4,17 +4,13 @@ import ingredientItemStyles from "../ingredient-item/ingredient-item.module.css"
 import ingredientIcon from "../../../images/ingredient-icon.svg"
 import { Counter } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import { SET_INGREDIENT_ITEM } from "../../../services/actions/ingredient-details";
+import { SET_INGREDIENT_ITEM } from "../../../services/constants";
 import { useDrag } from "react-dnd";
 
-import { TIngredients } from "../../../utils/prop-types";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 
-export type TIngredientItem= {
-  ingredient: TIngredients;
-  // onOpen : any; 
-  onOpen(value: object): void;
-} 
+import { TIngredientItem, TIngredients } from "../../../services/types/data";
+
 const IngredientItem: FC<TIngredientItem> = ({ 
     ingredient, 
     onOpen 

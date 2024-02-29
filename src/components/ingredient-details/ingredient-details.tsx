@@ -3,7 +3,7 @@ import styles from "./ingredient-details.module.css";
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import { useParams } from "react-router-dom";
 
-import { TIngredients } from "../../utils/prop-types";
+import { TIngredients } from "../../services/types/data";
 
 const IngredientDetails: FC<{ header: string | undefined }> = ({ header }) => {
 

@@ -6,9 +6,12 @@ import { useLocation } from "react-router-dom";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useParams } from 'react-router-dom';
 import { FormattedDate } from "@ya.praktikum/react-developer-burger-ui-components";
-import { getFeedOrderData, SET_ORDER_NUMBER, DELETE_ORDER_NUMBER } from "../services/actions/order-details";
+import { getFeedOrderData } from "../services/actions/order-details";
+
 import { useAppSelector, useAppDispatch } from "../components/hooks/hooks";
-import { TIngredients } from "../utils/prop-types";
+
+import { TIngredients } from "../services/types/data";
+import { SET_ORDER_NUMBER, DELETE_ORDER_NUMBER } from "../services/constants";
 
 export const FeedInfo: FC<{ modal: boolean }> = ({
   modal

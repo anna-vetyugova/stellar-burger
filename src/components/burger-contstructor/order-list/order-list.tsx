@@ -6,12 +6,11 @@ import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-comp
 import { useDrop, useDrag } from "react-dnd";
 import { v4 as uuidv4 } from 'uuid';
 
-import { INCREASE_TOTAL_PRICE } from "../../../services/actions/order-details";
 import ConstructorItem from "../constructor-item/constructor-item";
 
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
-import { TIngredients } from "../../../utils/prop-types";
-
+import { TIngredients } from "../../../services/types/data";
+import { INCREASE_TOTAL_PRICE } from "../../../services/constants";
 
 const OrderList: FC = () => {  
   const dispatch = useAppDispatch();

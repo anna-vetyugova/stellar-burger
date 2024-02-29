@@ -7,7 +7,7 @@ import { wsFeedConnectionStart, wsFeedConnectionClosed, wsFeedConnectionStop } f
 import { wsUrl } from "../services/middleware";
 import { wsUserConnectionStart, wsUserConnectionClosed, wsUserConnectionStop } from "../services/actions/wsUserAction";
 import { refreshToken } from "../utils/burger-api";
-import { TOrder } from "./order";
+import { TOrder } from "../services/types/data";
 import { useAppSelector, useAppDispatch } from "../components/hooks/hooks";
 
 

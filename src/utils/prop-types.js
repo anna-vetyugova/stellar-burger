@@ -23,17 +23,3 @@ export const ingredientsDataList = PropTypes.shape({
   __v: PropTypes.number.isRequired
 });
 
-export type TIngredients = {
-  _id: string;
-  name: string;
-  type: string;
-  proteins: string;
-  fat: string;
-  carbohydrates: string;
-  calories: string;
-  price: number;
-  image: string;
-  image_mobile: string;
-  image_large: string;
-  __v: number;
-};

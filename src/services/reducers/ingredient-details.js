@@ -1,5 +1,6 @@
 
-import { SET_INGREDIENT_ITEM, DELETE_INGREDIENT_ITEM } from "../actions/ingredient-details";
+// import { SET_INGREDIENT_ITEM, DELETE_INGREDIENT_ITEM } from "../actions/ingredient-details";
+import { SET_INGREDIENT_ITEM, DELETE_INGREDIENT_ITEM } from "../constants";
 
 const itemIngredient = '';
 
