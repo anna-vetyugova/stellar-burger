@@ -23,7 +23,8 @@ export const ProfileEdit: FC = () => {
   }
   const onSubmit = (e: MouseEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(updateUserProfile(form));
+    const accessToken = localStorage.getItem("accessToken");
+    dispatch(updateUserProfile(form, accessToken));
   }
 
   const onReset = () => {

@@ -31,55 +31,30 @@ export const setUserAction = (
 export const setAuthChecked: any = (value: boolean) => (dispatch: any) => {
   dispatch(setAuthCheckedAction(value))
 };
-// export const setAuthChecked = (value) => ({
-//   type: SET_AUTH_CHECKED,
-//   payload: value,
-// });
 
 export const setUser: any = (user: any) => (dispatch: any) => {
   dispatch(setUserAction(user))
 };
-// export const setUser = (user) => ({
-//   type: SET_USER,
-//   payload: user,
-// });
 
-
-export const getUser: any = () => (dispatch: any) => {
+export const getUser: any = (accessToken: string) => (dispatch: any) => {
   return async (dispatch: any) => {
-    const res = await api.getUser();
-    console.log('123');
+    const res = await api.getUser(accessToken);
     dispatch(setUser(res.user));
   };
 };
-// export const getUser = () => {
-//   return async (dispatch) => {
-//     const res = await api.getUser();
-//     dispatch(setUser(res.user));
-//   };
-// };
 
-export const login: any = (form: any) => async (dispatch: any) => {
-    const res = await api.login(form);
+export const login: any = (form: string) => async (dispatch: any) => {
+    const res  = await api.login(form);
     localStorage.setItem("accessToken", res.accessToken);
     localStorage.setItem("refreshToken", res.refreshToken);
     dispatch(setUser(res.user));
     dispatch(setAuthChecked(true));
 };
-// export const login = (form) => {
-//   return async (dispatch) => {
-//     const res = await api.login(form);
-//     localStorage.setItem("accessToken", res.accessToken);
-//     localStorage.setItem("refreshToken", res.refreshToken);
-//     dispatch(setUser(res.user));
-//     dispatch(setAuthChecked(true));
-//   };
-// };
-
 
 export const checkUserAuth: any = () => (dispatch: any) => {
-  if (localStorage.getItem("accessToken")) {
-      dispatch(getUser())
+  const accessToken = localStorage.getItem("accessToken");
+  if (accessToken) {
+      dispatch(getUser(accessToken))
         .catch(() => {
             localStorage.removeItem("accessToken");
             localStorage.removeItem("refreshToken");
@@ -90,22 +65,6 @@ export const checkUserAuth: any = () => (dispatch: any) => {
       dispatch(setAuthChecked(true));
   }
 };
-// export const checkUserAuth = () => {
-//     return (dispatch) => {
-//         if (localStorage.getItem("accessToken")) {
-//             dispatch(getUser())
-//               .catch(() => {
-//                   localStorage.removeItem("accessToken");
-//                   localStorage.removeItem("refreshToken");
-//                   dispatch(setUser(null));
-//                })
-//               .finally(() => dispatch(setAuthChecked(true)));
-//         } else {
-//             dispatch(setAuthChecked(true));
-//         }
-//     };
-// };
-
 
 export const registr: any = (form: any) => async (dispatch: any) => {
   const res = await api.registr(form);
@@ -114,16 +73,6 @@ export const registr: any = (form: any) => async (dispatch: any) => {
   dispatch(setUser(res.user));
   dispatch(setAuthChecked(true));
 }
-// export const registr = (form) => {
-//   return async (dispatch) => {
-//     const res = await api.registr(form);
-//     localStorage.setItem("accessToken", res.accessToken);
-//     localStorage.setItem("refreshToken", res.refreshToken);
-//     dispatch(setUser(res.user));
-//     dispatch(setAuthChecked(true));
-//   };
-// };
-
 
 export const logout: any = (form: any) => async (dispatch: any) => {
   await api.logout().then(() => {
@@ -132,28 +81,10 @@ export const logout: any = (form: any) => async (dispatch: any) => {
     dispatch(setUser(null));
   }).catch(res => console.error(res));
 }
-// export const logout = () => {
-//   return async (dispatch) => {
-//     await api.logout().then(() => {
-//       localStorage.removeItem("accessToken");
-//       localStorage.removeItem("refreshToken");
-//       dispatch(setUser(null));
-//     }).catch(res => console.error(res));
-//   }
-// };
 
-
-export const updateUserProfile: any = (form: any) => async (dispatch: any) => {
-  await api.updateUserProfile(form).then((res) => {
+export const updateUserProfile: any = (form: string, accessToken: string) => async (dispatch: any) => {
+  await api.updateUserProfile(form, accessToken).then((res) => {
     dispatch(setUser(res.user));
     dispatch(setAuthChecked(true));
   }).catch(res => console.error(res));
 }
-// export const updateUserProfile = (form) => {
-//   return async (dispatch) => {
-//     await api.updateUserProfile(form).then((res) => {
-//       dispatch(setUser(res.user));
-//       dispatch(setAuthChecked(true));
-//     }).catch(res => console.error(res));
-//   }
-// };

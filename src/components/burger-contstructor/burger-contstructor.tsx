@@ -32,9 +32,9 @@ export const BurgerConstructor: FC = () => {
       navigate('/login');
       return null
     } 
-
+    const accessToken = localStorage.getItem("accessToken");
     const ingredients = mainItems.map(item => item.ingredient._id);
-    dispatch(getNumber([bunItem._id, ...ingredients, bunItem._id]));
+    dispatch(getNumber([bunItem._id, ...ingredients, bunItem._id]), accessToken);
     handleClick();
   }
 

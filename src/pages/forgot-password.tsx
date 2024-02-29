@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { api } from "../utils/burger-api";
 import { useAppDispatch, useAppSelector } from "../components/hooks/hooks";
+import { stringify } from "uuid";
 
 export const ForgotPassword: FC = () => {    
   const dispatch = useAppDispatch();
@@ -16,12 +17,18 @@ export const ForgotPassword: FC = () => {
     const target = e.target as HTMLInputElement;
     setValue({ ...form, [target.name]: target.value });
   }
+
+  
+
   const onSubmit = (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault(); 
-    api.forgetPassword(form).then((res) => {
+    const accessToken = localStorage.getItem("accessToken");
+    if (accessToken) {
+    api.forgetPassword(form, accessToken).then((res) => {
       localStorage.setItem("isReset", 'true');
       navigate('/reset-password');
     }).catch(res => console.error(res))
+    }
   }
   return (
     <section className={styles.main}>

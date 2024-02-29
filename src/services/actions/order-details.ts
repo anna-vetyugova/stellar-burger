@@ -1,6 +1,6 @@
 import { getOrderNumber, getOrderData } from "../../utils/burger-api";
 import { GET_ORDER_REQUEST, GET_ORDER_SUCCESS, GET_ORDER_FAILED, INCREASE_TOTAL_PRICE, DECREASE_TOTAL_PRICE, DELETE_CONSTRUCTOR_ITEMS, SET_ORDER_NUMBER, SET_ORDER_DATA, DELETE_ORDER_NUMBER } from "../constants";
-
+import { TIngredients } from "../types/data";
 export interface IGetOrderRequestAction {
   readonly type: typeof GET_ORDER_REQUEST;
 }
@@ -61,9 +61,9 @@ export const setOrderDataAction = (
 
 
 
-export const getNumber: any = (ingredients: string[]) => (dispatch: any) => { 
+export const getNumber: any = (ingredients: TIngredients[], accessToken: string) => (dispatch: any) => { 
   dispatch(getOrderRequestAction());
-  getOrderNumber(ingredients).then(res => {
+  getOrderNumber(ingredients, accessToken).then(res => {
     if (res && res.success) {
       dispatch(getOrderSuccessAction(res.order.number));
       dispatch(deleteConstructorItemsAction());
