@@ -31,20 +31,26 @@ export const FeedInfo: FC<{ modal: boolean }> = ({
   }, [])
 
   const orderData = useAppSelector(store => store.order.orderFeedData);
+
   const ingredients = useAppSelector((store) => store.ingredientsList.ingredients);
-  const orderIngredients = orderData ? orderData.ingredients.map((id: string) => ingredients.find((item: { _id: string; }) => item._id === id)): null;
+  const orderIngredients = orderData ? orderData.ingredients.map((id: string) => ingredients.find((item: { _id: string; }) => item._id === id)): [];
   
   if(orderData) {
     const today = new Date(orderData.updatedAt);
     const updatedIngredients: {ingredient: TIngredients, counter: number}[] = [];
 
     ingredients.forEach( (item: TIngredients) => {
-      const counter = orderIngredients.filter( (ingredient: { _id: string; }) => ingredient._id === item._id).length;
+      const counter = orderIngredients.filter((ingredient) => {
+        if (ingredient) return ingredient._id === item._id
+      }).length
+      
       if (counter>0) {
         updatedIngredients.push({ ingredient: item, counter: counter });
       }
     });
-    const orderPrice = orderIngredients.map((item: { price: number; }) => item.price).reduce((acc: number, current: number) => acc + current, 0);
+    const orderPrice = orderIngredients.map((item) => {
+      if (item) return item.price
+    }).reduce((acc: any, current: any) => acc + current, 0);
 
     return ( 
       <section className={styles.main} style={{ marginTop: !modal ? '120px' : ''}}>

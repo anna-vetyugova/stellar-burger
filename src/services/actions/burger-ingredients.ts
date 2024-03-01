@@ -33,24 +33,14 @@ export const getIngredientsFailedAction = () : IGetIngredientsFailedAction => ({
   type: GET_INGREDIENTS_FAILED
 });
 
-export const getIngredientsList: any = () => (dispatch: any) => {  
-  // return function(dispatch) {
-  //   dispatch({
-  //     type: GET_INGREDIENTS_REQUEST
-  //   });
+
+export const getIngredientsList: any = () => (dispatch: any) => { 
   dispatch(getIngredientsRequestAction());
   getIngredients().then(res => {
     if (res && res.success) {
       dispatch(getIngredientsSuccessAction(res.data));
-      // dispatch({
-      //   type: GET_INGREDIENTS_SUCCESS,
-      //   ingredients: res.data
-      // });
     } else {
       dispatch(getIngredientsFailedAction());
-      // dispatch({
-      //   type: GET_INGREDIENTS_FAILED
-      // });
     }
   });
 };

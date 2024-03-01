@@ -126,7 +126,7 @@ type Login = {
   accessToken: string;
   refreshToken: string;
 }
-export function login(form: string) {
+export function login(form: { email: string, password: string}) {
   return request<Login>(`auth/login`, {
     method: 'POST',
     headers: {
@@ -185,15 +185,16 @@ export function resetPassword(form: { password: string, token: string }) {
 
 type Logout = {
   success: boolean;
+  token: string
 }
-export function logout() {
+export function logout(token: any) {
   return request<Logout>('auth/logout', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      'token': localStorage.getItem("refreshToken"),
+      'token': token,
     })
   })
 }

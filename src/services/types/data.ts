@@ -31,7 +31,7 @@ export type TIngredientsList= {
 } 
 export type TModal = {
   children?: ReactNode;
-  header?: string;
+  header?: string | undefined;
   closeModal: () => void
 } 
 export type TModalOverlay = {

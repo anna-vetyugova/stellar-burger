@@ -16,7 +16,7 @@ const OrderList: FC = () => {
   const dispatch = useAppDispatch();
 
   const ingredientsConstructor = useAppSelector((store) => store.ingredientsConstructor);
-  const bunItem : TIngredients = ingredientsConstructor['bun'];
+  const bunItem : TIngredients | null = ingredientsConstructor['bun'];
   const mainItems: {key: string, ingredient: TIngredients}[] = ingredientsConstructor['ingredients'];
 
   const [{ isHover }, dropTarget] = useDrop({

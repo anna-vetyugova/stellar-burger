@@ -1,11 +1,23 @@
 import { SET_AUTH_CHECKED, SET_USER } from "../constants";
 
-const initialState = {
-  user : null,
-  isAuthChecked: false
+export type TuserDataInitialState = {
+  user : {
+    email: string, 
+    name: string
+  },
+  isAuthChecked: boolean
+};
 
-}
-export const userAuthentificationReducer = (state = initialState, action) => {
+const userData: TuserDataInitialState = {
+  user : {
+    email: '',
+    name: ''
+  },
+  isAuthChecked: false
+};
+
+
+export const userAuthentificationReducer = (state = userData, action: any): TuserDataInitialState => {
   switch (action.type) {
     case SET_AUTH_CHECKED: {
       return { 
@@ -16,7 +28,7 @@ export const userAuthentificationReducer = (state = initialState, action) => {
     case SET_USER: {
       return { 
         ...state, 
-        user: action.payload 
+        user: action.user 
       };
     }
     default: {

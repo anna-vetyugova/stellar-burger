@@ -7,7 +7,7 @@ export interface ISetAuthCheckedAction {
 }
 export interface ISetUserAction {
   readonly type: typeof SET_USER;
-  readonly user: any
+  readonly user: string
 }
 export type TUserDataAction = 
   | ISetAuthCheckedAction
@@ -33,32 +33,32 @@ export const setAuthChecked: any = (value: boolean) => (dispatch: any) => {
 };
 
 export const setUser: any = (user: any) => (dispatch: any) => {
-  dispatch(setUserAction(user))
+  dispatch(setUserAction(user));
 };
 
-export const getUser: any = (accessToken: string) => (dispatch: any) => {
-  return async (dispatch: any) => {
-    const res = await api.getUser(accessToken);
+export const getUser: any = (accessToken: string) => async (dispatch: any) => {
+  const res = await api.getUser(accessToken).then((res) => {
     dispatch(setUser(res.user));
-  };
+  });
 };
 
-export const login: any = (form: string) => async (dispatch: any) => {
-    const res  = await api.login(form);
-    localStorage.setItem("accessToken", res.accessToken);
-    localStorage.setItem("refreshToken", res.refreshToken);
-    dispatch(setUser(res.user));
-    dispatch(setAuthChecked(true));
+export const login: any = (form: { email: string, password: string}) => async (dispatch: any) => {
+  console.log(form);
+    const res  = await api.login(form).then((res) => {
+      localStorage.setItem("accessToken", res.accessToken);
+      localStorage.setItem("refreshToken", res.refreshToken);
+      dispatch(setUser(res.user));
+      dispatch(setAuthChecked(true));
+    });
 };
 
-export const checkUserAuth: any = () => (dispatch: any) => {
-  const accessToken = localStorage.getItem("accessToken");
+export const checkUserAuth: any = (accessToken: string) => (dispatch: any) => {
   if (accessToken) {
       dispatch(getUser(accessToken))
         .catch(() => {
             localStorage.removeItem("accessToken");
             localStorage.removeItem("refreshToken");
-            dispatch(setUser(null));
+            // dispatch(setUser(null));
           })
         .finally(() => dispatch(setAuthChecked(true)));
   } else {
@@ -67,18 +67,20 @@ export const checkUserAuth: any = () => (dispatch: any) => {
 };
 
 export const registr: any = (form: any) => async (dispatch: any) => {
-  const res = await api.registr(form);
-  localStorage.setItem("accessToken", res.accessToken);
-  localStorage.setItem("refreshToken", res.refreshToken);
-  dispatch(setUser(res.user));
-  dispatch(setAuthChecked(true));
+  const res = await api.registr(form).then((res) => {
+    localStorage.setItem("accessToken", res.accessToken);
+    localStorage.setItem("refreshToken", res.refreshToken);
+    dispatch(setUser(res.user));
+    dispatch(setAuthChecked(true));
+  });
 }
 
-export const logout: any = (form: any) => async (dispatch: any) => {
-  await api.logout().then(() => {
+export const logout: any = (token: string) => async (dispatch: any) => {
+  await api.logout(token).then(() => {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
     dispatch(setUser(null));
+    
   }).catch(res => console.error(res));
 }
 

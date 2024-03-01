@@ -13,7 +13,9 @@ export const LoginPage: FC = () => {
 
   const [form, setValue] = useState({ email: '', password: '' });
   const user = useAppSelector((store) => store.user.user);
-
+  console.log('user');
+  console.log(user);
+  
   if (user) {
     return (
       <Navigate

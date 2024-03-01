@@ -22,7 +22,7 @@ export const Order: FC<{ order: TOrder }> = ({ order }) => {
     <section key={order._id} className={styles.orderMain} >
       <div className={styles.order}>
         <span className="text text_type_digits-default">
-          {order.number}
+          {order.number}&nbsp;
         </span>
         <span className="text text_type_main-small text_color_inactive">
           <FormattedDate

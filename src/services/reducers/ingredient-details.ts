@@ -1,10 +1,20 @@
 
 // import { SET_INGREDIENT_ITEM, DELETE_INGREDIENT_ITEM } from "../actions/ingredient-details";
 import { SET_INGREDIENT_ITEM, DELETE_INGREDIENT_ITEM } from "../constants";
+import { TIngredients } from "../types/data";
 
-const itemIngredient = '';
+// const itemIngredient = '';
 
-export const ingredientDetailsReducer = (state = itemIngredient, action) => {
+export type TitemIngredientState = {
+  itemIngredient: TIngredients | null
+};
+
+const itemIngredient: TitemIngredientState = {
+  itemIngredient: null
+};
+
+
+export const ingredientDetailsReducer = (state = itemIngredient, action: any): TitemIngredientState => {
   switch (action.type) {
     case SET_INGREDIENT_ITEM: {
       return { 
@@ -15,7 +25,7 @@ export const ingredientDetailsReducer = (state = itemIngredient, action) => {
     case DELETE_INGREDIENT_ITEM: {
       return { 
         ...state, 
-        itemIngredient: ''
+        itemIngredient: null
       };  
     }
     default: {

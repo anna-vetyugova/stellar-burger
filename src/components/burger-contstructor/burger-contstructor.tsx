@@ -21,7 +21,7 @@ export const BurgerConstructor: FC = () => {
   const user = useAppSelector((store) => store.user.user);
 
   const ingredientsConstructor = useAppSelector((store) => store.ingredientsConstructor);
-  const bunItem : TIngredients = ingredientsConstructor['bun'];
+  const bunItem : TIngredients | null = ingredientsConstructor['bun'];
   const mainItems: {key: string, ingredient: TIngredients}[] = ingredientsConstructor['ingredients'];
 
   const { modalState, openModal, closeModal } = useModal();
@@ -34,7 +34,9 @@ export const BurgerConstructor: FC = () => {
     } 
     const accessToken = localStorage.getItem("accessToken");
     const ingredients = mainItems.map(item => item.ingredient._id);
-    dispatch(getNumber([bunItem._id, ...ingredients, bunItem._id]), accessToken);
+    if (bunItem) {
+      dispatch(getNumber([bunItem._id, ...ingredients, bunItem._id], accessToken));
+    }
     handleClick();
   }
 

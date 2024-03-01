@@ -6,9 +6,7 @@ import doneIcon from '../../images/done.png'
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 
 const OrderDetails: FC  = () => {    
-  const { orderId } = useAppSelector(store => ({
-    orderId : store.order.orderDetails.number
-  }));
+  const  orderId  = useAppSelector(store => store.order.orderDetails.number);
   return (
     <>
     <section className={styles.main}>

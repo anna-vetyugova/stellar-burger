@@ -45,7 +45,8 @@ export const OrdersFeed: FC = () => {
   }, [location]);
 
   if( accessToken && wsUser.messages === 'Invalid or missing token') {
-    dispatch(refreshToken);
+    // dispatch(refreshToken);
+    refreshToken();
     dispatch(wsUserConnectionStart((`${wsUrl}/orders?token=${accessToken.replace('Bearer ', '')}`)));
   }
 

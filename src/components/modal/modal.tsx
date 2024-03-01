@@ -39,17 +39,15 @@ const Modal: FC<TModal> = ({
   }, [])
 
   const headerClass = header ? 'text text_type_main-large' : 'text text_type_digits-default';
-
   console.log(header);
-  console.log(number);
   return ReactDOM.createPortal( 
     <>
       <section className={modalStyles.modal} ref={modalRef}>
         <div className={modalStyles.header}>
-          <h3 className={headerClass}>{header ? header : '#' + number}</h3>
+        <h3 className={headerClass}>{header ? header : number ? '#' + number : null}</h3> 
           <div className={modalStyles.closeIconContainer}>
             <CloseIcon type="primary" onClick={closeModal}/>
-          </div>
+          </div> 
         </div>
         {children}
       </section>

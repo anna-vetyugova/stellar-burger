@@ -12,7 +12,8 @@ export const ProfileEdit: FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const user = useAppSelector((store) => store.user.user);
-  
+  console.log(user);
+
   const [isActive, setActive] = useState(false);
   const [form, setValue] = useState({ name: user.name, email: user.email, password: '' });
   

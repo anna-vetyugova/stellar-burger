@@ -3,13 +3,21 @@
 
 import { DELETE_INGREDIENT, CHANGE_ITEM_POSITION } from "../constants";
 import { DELETE_CONSTRUCTOR_ITEMS } from "../constants";
+import { TIngredients } from "../types/data";
 
-export const currentIngredients = {
-  bun: undefined,
+export type TcurrentIngredientsState = {
+  bun: TIngredients | null,
+  ingredients: { ingredient: TIngredients; key: string; }[]
+};
+
+const currentIngredients: TcurrentIngredientsState = {
+  bun: null,
   ingredients: []
 };
-const addedIngredints = [];
-export const constructorIngredientsReducer = (state = currentIngredients, action) => {
+
+const addedIngredints: { ingredient: TIngredients; key: string; }[] = [];
+
+export const constructorIngredientsReducer = (state = currentIngredients, action: any): TcurrentIngredientsState  => {
   switch (action.type) {
     case 'ADD_BUN_INGREDIENT': {
       return { 
@@ -18,7 +26,7 @@ export const constructorIngredientsReducer = (state = currentIngredients, action
       }  
     }
     case 'ADD_MAIN_INGREDIENT': {
-      const counter = state.ingredients.filter(item => item.ingredient._id === action.ingredient._id).length+1;
+      const counter = state.ingredients.filter((item: { ingredient: { _id: string; }; }) => item.ingredient._id === action.ingredient._id).length+1;
       action.ingredient.__v = counter;
       const newItem = { ingredient : action.ingredient, key: action.uniqueId };
       addedIngredints.push(newItem);
@@ -28,12 +36,12 @@ export const constructorIngredientsReducer = (state = currentIngredients, action
       }  
     }
     case DELETE_INGREDIENT: {
-      const itemIndex = state.ingredients.reduce((prev, item, index) => {
+      const itemIndex = state.ingredients.reduce((_prev, item: { ingredient: TIngredients; key: string; }, index: number) => {
         if (item.ingredient._id === action.id) {
           return index   
         }
-        else return null
-      },{});
+        else return 0
+      }, 0 as number );
       state.ingredients.splice(itemIndex, 1);
       const counterItem = state.ingredients.filter(item => item.ingredient._id === action.id);
       const counter = counterItem.length > 0 ? counterItem[0].ingredient.__v-- : null;

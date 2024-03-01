@@ -12,11 +12,12 @@ export const Profile: FC = () => {
   const dispatch = useAppDispatch();
   const location = useLocation();
   const orderNumber = useAppSelector(store => store.order.orderFeed);
- 
+
   const logOut = () => {
-    dispatch(logout());
+    const token = localStorage.getItem("refreshToken");
+    dispatch(logout(token));
   }
-  if (!orderNumber) {
+
   return (
     <section className={styles.main}>
       <div className={styles.navigation}>
@@ -32,8 +33,4 @@ export const Profile: FC = () => {
       <Outlet />
     </section>
   );
-  }
-  else {
-    return null
-  }
 }

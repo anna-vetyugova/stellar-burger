@@ -1,7 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-import App from "./components/app/app.tsx";
+
+import App from "./components/app/app";
 import reportWebVitals from "./reportWebVitals";
 
 import { compose, createStore, applyMiddleware } from 'redux';
@@ -12,6 +13,7 @@ import thunk from 'redux-thunk';
 import { BrowserRouter } from "react-router-dom";
 
 import { socketMiddleware } from "./services/middleware";
+
 import { 
   WS_FEED_CONNECTION_CLOSED,
   WS_FEED_CONNECTION_ERROR,
@@ -19,19 +21,16 @@ import {
   WS_FEED_CONNECTION_SUCCESS,
   WS_FEED_GET_MESSAGE,
   WS_FEED_SEND_MESSAGE,
-  WS_FEED_CONNECTION_STOP
-} from "./services/actions/wsFeedAction";
-import { 
-  WS_USER_SEND_MESSAGE,
+  WS_FEED_CONNECTION_STOP } from "./services/constants";
+
+import {
+   WS_USER_SEND_MESSAGE,
   WS_USER_CONNECTION_CLOSED,
   WS_USER_CONNECTION_ERROR,
   WS_USER_CONNECTION_START,
   WS_USER_CONNECTION_SUCCESS,
   WS_USER_GET_MESSAGE,
-  WS_USER_CONNECTION_STOP
- } from "./services/actions/wsUserAction";
-
-
+  WS_USER_CONNECTION_STOP } from "./services/constants";
 
  const wsFeedActions = {
   wsInit: WS_FEED_CONNECTION_START,
@@ -52,11 +51,13 @@ const wsUserActions = {
   onMessage: WS_USER_GET_MESSAGE
 };
 
-const composeEnhancers =
-  typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
-    : compose;
+declare global {
+  interface Window {
+    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
+  }
+}
 
+export const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const enhancer = composeEnhancers(applyMiddleware(thunk, socketMiddleware(wsUserActions), socketMiddleware(wsFeedActions)));
 export const store = createStore(rootReducer, enhancer);
 

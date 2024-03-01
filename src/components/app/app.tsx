@@ -13,6 +13,7 @@ import { checkUserAuth } from '../../services/actions/user-data';
 import { OnlyAuth, OnlyUnAuth } from '../protected-route';
 
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
+import { useDispatch } from 'react-redux';
 
 const App: FC = () => {
   const location = useLocation();
@@ -27,9 +28,11 @@ const App: FC = () => {
     deleteSetItem();
   };
 
+  const accessToken = localStorage.getItem("accessToken");
+
   useEffect(() => {
     dispatch(getIngredientsList());
-    dispatch(checkUserAuth());
+    dispatch(checkUserAuth(accessToken));
    }, [dispatch]);
  
    const deleteSetItem = () => {

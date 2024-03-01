@@ -28,7 +28,7 @@ const IngredientItem: FC<TIngredientItem> = ({
   });
 
   const ingredientsConstructor = useAppSelector((store) => store.ingredientsConstructor);
-  const bunItem : TIngredients = ingredientsConstructor['bun'];
+  const bunItem : TIngredients | null = ingredientsConstructor['bun'];
   const ingredients: {key: string, ingredient: TIngredients}[] = ingredientsConstructor['ingredients'];
   
   const bunCounter = bunItem && bunItem._id === ingredient._id ? 2 : null ; 

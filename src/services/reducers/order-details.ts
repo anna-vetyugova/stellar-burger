@@ -1,20 +1,33 @@
 // import { GET_ORDER_REQUEST, GET_ORDER_SUCCESS, GET_ORDER_FAILED,INCREASE_TOTAL_PRICE, DECREASE_TOTAL_PRICE, SET_ORDER_NUMBER, SET_ORDER_DATA, DELETE_ORDER_NUMBER } from "../actions/order-details";
 import { GET_ORDER_REQUEST, GET_ORDER_SUCCESS, GET_ORDER_FAILED,INCREASE_TOTAL_PRICE, DECREASE_TOTAL_PRICE, SET_ORDER_NUMBER, SET_ORDER_DATA, DELETE_ORDER_NUMBER } from "../constants";
-
+import { TIngredients, TOrder } from "../types/data";
 //объект созданного заказа
-const initialState = {
+export type TorderDetailsinitialState = {
   orderDetails : {
-    number : '',
+    number : number,
+    total : number
+  },
+  orderRequest: boolean,
+  orderFailed: boolean,
+
+  orderFeed : number,
+  orderFeedData: TOrder | null
+};
+
+const orderDetailsinitialState: TorderDetailsinitialState = {
+  orderDetails : {
+    number : 0,
     total : 0
   },
   orderRequest: false,
   orderFailed: false,
 
-  orderFeed : null,
+  orderFeed : 0,
   orderFeedData: null
-}  
+};
 
-export const orderDetailsReducer = (state = initialState, action) => {
+
+export const orderDetailsReducer = (state = orderDetailsinitialState, action: any): TorderDetailsinitialState => {
   switch (action.type) {
     case GET_ORDER_REQUEST: {
       return {
@@ -69,7 +82,7 @@ export const orderDetailsReducer = (state = initialState, action) => {
     case DELETE_ORDER_NUMBER: {
       return { 
         ...state, 
-        orderFeed : null,
+        orderFeed : 0,
         orderFeedData: null
       }
     }
