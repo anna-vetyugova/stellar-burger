@@ -6,19 +6,23 @@ import { WS_USER_CONNECTION_START,
   WS_USER_SEND_MESSAGE } from "../constants";
 
 import { getCurrentTimestamp } from "../../utils/datetime";
+import { TOrder } from "../types/data";
+import { TWsUserAction } from "../actions/wsUserAction";
 
 export type TwsUserInitialState = {
   wsConnected: boolean,
   messages: any,
+  orders: TOrder[]
   error: boolean | undefined
 };
 const wsUserInitialState: TwsUserInitialState = {
   wsConnected: false,
   messages: [],
+  orders: [],
   error: undefined
 };
 
-export const wsUserReducer = (state = wsUserInitialState, action: any): TwsUserInitialState => {
+export const wsUserReducer = (state = wsUserInitialState, action: TWsUserAction): TwsUserInitialState => {
   switch (action.type) {
         // Опишем обработку экшена с типом WS_CONNECTION_SUCCESS
         // Установим флаг wsConnected в состояние true
@@ -57,7 +61,8 @@ export const wsUserReducer = (state = wsUserInitialState, action: any): TwsUserI
         error: undefined,
         messages: state.messages.length
         ? [...state.messages, { ...action.payload, timestamp: new Date().getTime() / 1000 }]
-        : [{ ...action.payload, timestamp: new Date().getTime() / 1000 }]
+        : [{ ...action.payload, timestamp: new Date().getTime() / 1000 }],
+        orders: action.payload.orders
       };
       case WS_USER_CONNECTION_START:
         return {

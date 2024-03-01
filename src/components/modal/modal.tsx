@@ -1,5 +1,5 @@
 
-import React, { FC, type ReactNode, MouseEvent, PointerEvent } from "react";
+import React, { FC, type ReactNode } from "react";
 import ReactDOM from "react-dom";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import modalStyles from "./modal.module.css";
@@ -20,12 +20,12 @@ const Modal: FC<TModal> = ({
   const { number } = useParams();
 
   React.useEffect(() => {
-    const handleCloseOnEscape = (e: { key: string}) => {
+    const handleCloseOnEscape = (e: KeyboardEvent)  => {
         if (e.key === 'Escape') {
           closeModal();
         }
     }
-    const handleCloseOnOverlay = (e: any) => {
+    const handleCloseOnOverlay = (e: MouseEvent) => {
       if (modalRef.current && !modalRef.current.contains(e.target as HTMLDivElement)) {
         closeModal();
       }

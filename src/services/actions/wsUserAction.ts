@@ -17,6 +17,7 @@ export interface IwsUserConnectionSuccessAction {
 }
 export interface IwsUserConnectionErrorAction {
   readonly type: typeof WS_USER_CONNECTION_ERROR;
+  readonly payload: boolean
 }
 export interface IwsUserConnectionClosedAction {
   readonly type: typeof WS_USER_CONNECTION_CLOSED;
@@ -26,14 +27,15 @@ export interface IwsUserConnectionStopAction {
 }
 export interface IwsGetUserMessageAction {
   readonly type: typeof WS_USER_GET_MESSAGE;
-  readonly message: string;
+  readonly message: {};
+  payload: any
 }
 export interface IwsSendUserMessageAction {
   readonly type: typeof WS_USER_SEND_MESSAGE;
   readonly message: string;
 }
 
-export type TWsFeedAction =
+export type TWsUserAction =
   | IwsUserConnectionStartAction
   | IwsUserConnectionSuccessAction
   | IwsUserConnectionErrorAction
@@ -70,8 +72,9 @@ export const wsUserConnectionSuccess = (): IwsUserConnectionSuccessAction => ({
 //     type: WS_USER_CONNECTION_ERROR,
 //   };
 // };
-export const wsUserConnectionError = (): IwsUserConnectionErrorAction => ({
+export const wsUserConnectionError = (payload: boolean): IwsUserConnectionErrorAction => ({
   type: WS_USER_CONNECTION_ERROR,
+  payload
 });
 
 // export const wsUserConnectionClosed = () => {
@@ -100,9 +103,10 @@ export const wsUserConnectionStop = (): IwsUserConnectionStopAction => ({
 //     payload: message,
 //   };
 // };
-export const wsGetUserMessage = (message: string): IwsGetUserMessageAction => ({
+export const wsGetUserMessage = (message: {}, payload: any): IwsGetUserMessageAction => ({
   type: WS_USER_GET_MESSAGE,
   message,
+  payload
 });
 
 

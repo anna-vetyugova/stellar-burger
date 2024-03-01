@@ -17,14 +17,13 @@ export const FeedInfo: FC<{ modal: boolean }> = ({
   modal
 }) => {
   const location = useLocation();
-  const { wsConnected, messages } = useAppSelector(store => store.wsFeed);
 
   const dispatch = useAppDispatch();
   const { number } = useParams();
 
   useEffect(()=>{
       dispatch({type: SET_ORDER_NUMBER, number });
-      dispatch(getFeedOrderData(number));
+      if (number) dispatch(getFeedOrderData(number));
     return () => {
       dispatch({type: DELETE_ORDER_NUMBER });
     }
@@ -50,7 +49,7 @@ export const FeedInfo: FC<{ modal: boolean }> = ({
     });
     const orderPrice = orderIngredients.map((item) => {
       if (item) return item.price
-    }).reduce((acc: any, current: any) => acc + current, 0);
+    }).reduce((acc: number, current = 0) => acc + current, 0);
 
     return ( 
       <section className={styles.main} style={{ marginTop: !modal ? '120px' : ''}}>

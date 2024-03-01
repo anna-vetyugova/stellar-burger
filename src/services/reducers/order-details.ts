@@ -1,17 +1,18 @@
 // import { GET_ORDER_REQUEST, GET_ORDER_SUCCESS, GET_ORDER_FAILED,INCREASE_TOTAL_PRICE, DECREASE_TOTAL_PRICE, SET_ORDER_NUMBER, SET_ORDER_DATA, DELETE_ORDER_NUMBER } from "../actions/order-details";
 import { GET_ORDER_REQUEST, GET_ORDER_SUCCESS, GET_ORDER_FAILED,INCREASE_TOTAL_PRICE, DECREASE_TOTAL_PRICE, SET_ORDER_NUMBER, SET_ORDER_DATA, DELETE_ORDER_NUMBER } from "../constants";
 import { TIngredients, TOrder } from "../types/data";
+import { TOrderDetailsAction } from "../actions/order-details";
 //объект созданного заказа
 export type TorderDetailsinitialState = {
   orderDetails : {
-    number : number,
+    number : number | undefined,
     total : number
   },
   orderRequest: boolean,
   orderFailed: boolean,
 
-  orderFeed : number,
-  orderFeedData: TOrder | null
+  orderFeed : number | undefined | string,
+  orderFeedData: TOrder | null 
 };
 
 const orderDetailsinitialState: TorderDetailsinitialState = {
@@ -27,7 +28,7 @@ const orderDetailsinitialState: TorderDetailsinitialState = {
 };
 
 
-export const orderDetailsReducer = (state = orderDetailsinitialState, action: any): TorderDetailsinitialState => {
+export const orderDetailsReducer = (state = orderDetailsinitialState, action: TOrderDetailsAction): TorderDetailsinitialState => {
   switch (action.type) {
     case GET_ORDER_REQUEST: {
       return {
@@ -63,7 +64,7 @@ export const orderDetailsReducer = (state = orderDetailsinitialState, action: an
         ...state, 
         orderDetails : {
           ...state.orderDetails,
-          total: state.orderDetails.total-action.item 
+          total: state.orderDetails.total - parseInt(action.item) 
         }
       }
     }

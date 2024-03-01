@@ -28,7 +28,7 @@ const App: FC = () => {
     deleteSetItem();
   };
 
-  const accessToken = localStorage.getItem("accessToken");
+  const accessToken = localStorage.getItem("accessToken") ? localStorage.getItem("accessToken") : null;
 
   useEffect(() => {
     dispatch(getIngredientsList());
@@ -54,9 +54,10 @@ const App: FC = () => {
             
             
             <Route path='/profile' element={<OnlyAuth component={<Profile/>} />}>
-            <Route index element={<OnlyAuth component={<ProfileEdit/>} />} />
+            <Route path='/profile' index element={<OnlyAuth component={<ProfileEdit/>} />} />
               <Route path='/profile/orders' element={<OnlyAuth component={<ProfileOrders/>} />} />
             </Route>
+            
             <Route path='/profile/orders/:number' element={<OnlyAuth component={<FeedInfo modal={false} />}/>} />
 
             <Route path='/feed' element={<Feed/>}/>

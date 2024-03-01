@@ -13,8 +13,6 @@ export const LoginPage: FC = () => {
 
   const [form, setValue] = useState({ email: '', password: '' });
   const user = useAppSelector((store) => store.user.user);
-  console.log('user');
-  console.log(user);
   
   if (user) {
     return (
@@ -29,7 +27,7 @@ export const LoginPage: FC = () => {
   }
   const onSubmit = (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(login(form));
+    dispatch(login({ email: form.email , password: form.password}));
   }
 
   return (

@@ -13,6 +13,7 @@ import priceIcon from "../../../images/ingredient-icon.svg"
 import { useAppDispatch } from "../../hooks/hooks";
 
 import { TIngredients, TConstructorItem } from "../../../services/types/data";
+import { Identifier } from "dnd-core";
 
 const ConstructorItem: FC<TConstructorItem> = ({ 
   item, 
@@ -26,14 +27,18 @@ const ConstructorItem: FC<TConstructorItem> = ({
     const target = (event.target as HTMLElement).closest('li') as HTMLLIElement;
     const price = target.getAttribute('data-price');
     const id = target.getAttribute('id');
-    dispatch({
-      type: DELETE_INGREDIENT,
-      id: id
-    });
-    dispatch({
-      type: DECREASE_TOTAL_PRICE,
-      item: price
-    });
+    if (id) {
+      dispatch({
+        type: DELETE_INGREDIENT,
+        id: id
+      });
+    }
+    if (price) {
+      dispatch({
+        type: DECREASE_TOTAL_PRICE,
+        item: price
+      });
+    } 
   }
 
   const [{ isDrag }, drag] = useDrag({
@@ -41,53 +46,58 @@ const ConstructorItem: FC<TConstructorItem> = ({
     item: () => {
       return { id: item._id, index: index };
     },
-    collect: (monitor: { isDragging: () => any; }) => ({
+    collect: (monitor) => ({
       isDrag: monitor.isDragging(),
     }),
   });
 
-  const [{ handlerId }, drop] = useDrop({
-    accept: "dragItem",
-    collect: (monitor: { getHandlerId: () => any; }) => {
-      return {
-        handlerId: monitor.getHandlerId(),
-      };
-    },
-    hover(item: { index: number | null; }, monitor: { getClientOffset: () => any; }) {
-      if (!ref.current) {
+const [{ handlerId }, drop] = useDrop<
+  {
+    ingredient: TIngredients; // описание полей ингредиента
+    index: number;
+  },
+  unknown,
+  { handlerId: Identifier | null } // тип из библиотеки dnd-core
+>({
+  accept: "dragItem",
+  collect(monitor) {
+    return {
+      handlerId: monitor.getHandlerId(),
+    };
+  },
+  hover(item, monitor) {
+    if (!ref.current) {
         return
-      }
-      const dragIndex = item.index
-      const hoverIndex = index
+    }
+    const dragIndex = item.index
+    const hoverIndex = index; 
+    if (dragIndex === hoverIndex) {
+      return
+    }
+    if (dragIndex === hoverIndex) {
+      return;
+    }
+    const hoverBoundingRect = ref.current?.getBoundingClientRect();
+    const clientOffset = monitor.getClientOffset();
+    if (!hoverBoundingRect || !clientOffset) return;
+    const hoverMiddleY =
+      (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+    const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+    if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
+      return;
+    }
+    if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
+      return;
+    }
+    dispatch({
+      type: CHANGE_ITEM_POSITION,
+      hoverIndex: hoverIndex,
+      dragIndex: dragIndex
+    });
+    item.index = hoverIndex;
+  },
+});
 
-      // Don't replace items with themselves
-      if (dragIndex === hoverIndex) {
-        return
-      }
-
-      // Determine rectangle on screen
-      const hoverBoundingRect = ref.current?.getBoundingClientRect()
-      const hoverMiddleY =
-        (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
-
-      // Determine mouse position
-      const clientOffset = monitor.getClientOffset()
-      const hoverClientY = clientOffset.y - hoverBoundingRect.top
-
-      if (dragIndex && hoverIndex && dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
-        return
-      }
-      if (dragIndex && hoverIndex && dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
-        return
-      }
-      dispatch({
-        type: CHANGE_ITEM_POSITION,
-        hoverIndex: hoverIndex,
-        dragIndex: dragIndex
-      });
-      item.index = hoverIndex
-    },
-  });
   drag(drop(ref));
 
   return item ? (

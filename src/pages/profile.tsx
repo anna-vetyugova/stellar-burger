@@ -15,7 +15,7 @@ export const Profile: FC = () => {
 
   const logOut = () => {
     const token = localStorage.getItem("refreshToken");
-    dispatch(logout(token));
+    if(token) dispatch(logout(token));
   }
 
   return (

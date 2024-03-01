@@ -1,18 +1,16 @@
 import styles from "../pages/profile.module.css"
 import { Input, EmailInput, PasswordInput, Button } from "@ya.praktikum/react-developer-burger-ui-components";
-import React, { useState, FC, MouseEvent, useRef, ChangeEvent } from "react";
+import React, { useState, FC, MouseEvent, useRef, ChangeEvent, FormEvent } from "react";
 import { useNavigate, useLocation } from 'react-router-dom';
 
 import { updateUserProfile } from "../services/actions/user-data";
 import { useAppDispatch, useAppSelector } from "../components/hooks/hooks";
 
 export const ProfileEdit: FC = () => {
-
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const location = useLocation();
   const user = useAppSelector((store) => store.user.user);
-  console.log(user);
 
   const [isActive, setActive] = useState(false);
   const [form, setValue] = useState({ name: user.name, email: user.email, password: '' });
@@ -25,11 +23,16 @@ export const ProfileEdit: FC = () => {
   const onSubmit = (e: MouseEvent<HTMLFormElement>) => {
     e.preventDefault();
     const accessToken = localStorage.getItem("accessToken");
-    dispatch(updateUserProfile(form, accessToken));
+    console.log(accessToken);
+    if (accessToken) dispatch(updateUserProfile({ name: form.name, email: form.email, password: ''}, accessToken));
   }
 
   const onReset = () => {
-    setValue({ ...form, name : user.name, email: user.email, password: '' });
+    setValue({ 
+      ...form, 
+      name : user.name, 
+      email: user.email, 
+      password: '' });
   }
   const [isDisabled, setIsDisabled] = useState(true);
   
@@ -39,7 +42,8 @@ export const ProfileEdit: FC = () => {
     setIsDisabled(!isDisabled);
   };
 
-  return (
+
+  return ( 
     <form className={styles.inputs} onSubmit={onSubmit}>
       <Input
         type={'text'}

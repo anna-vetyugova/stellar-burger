@@ -1,11 +1,12 @@
 import { getIngredients } from "../../utils/burger-api";
-
 import { GET_INGREDIENTS_REQUEST, GET_INGREDIENTS_SUCCESS, GET_INGREDIENTS_FAILED, TAB_SWITCH } from "../constants";
-
 import { TIngredients } from "../types/data";
+import { AppThunk } from "../reducers";
 
 export interface ITabSwitchAction {
   readonly type: typeof TAB_SWITCH;
+  readonly tab?: string;
+  readonly newTab?: string
 }
 export interface IGetIngredientsRequestAction {
   readonly type: typeof GET_INGREDIENTS_REQUEST;
@@ -34,7 +35,7 @@ export const getIngredientsFailedAction = () : IGetIngredientsFailedAction => ({
 });
 
 
-export const getIngredientsList: any = () => (dispatch: any) => { 
+export const getIngredientsList = (): AppThunk => (dispatch) => { 
   dispatch(getIngredientsRequestAction());
   getIngredients().then(res => {
     if (res && res.success) {

@@ -7,7 +7,7 @@ import {
   WS_FEED_GET_MESSAGE,
   WS_FEED_SEND_MESSAGE,
 } from "../constants";
-
+import { TOrder } from "../types/data";
 
 export interface IwsFeedConnectionStartAction {
   readonly type: typeof WS_FEED_CONNECTION_START;
@@ -18,6 +18,7 @@ export interface IwsFeedConnectionSuccessAction {
 }
 export interface IwsFeedConnectionErrorAction {
   readonly type: typeof WS_FEED_CONNECTION_ERROR;
+  readonly payload: boolean
 }
 export interface IwsFeedConnectionClosedAction {
   readonly type: typeof WS_FEED_CONNECTION_CLOSED;
@@ -28,6 +29,11 @@ export interface IwsFeedConnectionStopAction {
 export interface IwsGetFeedMessageAction {
   readonly type: typeof WS_FEED_GET_MESSAGE;
   readonly message: [];
+  readonly payload: {
+    orders: TOrder[],
+    total: number,
+    totalToday: number
+  }
 }
 export interface IwsSendFeedMessageAction {
   readonly type: typeof WS_FEED_SEND_MESSAGE;
@@ -70,8 +76,9 @@ export const wsFeedConnectionSuccess = (): IwsFeedConnectionSuccessAction => ({
 //     type: WS_FEED_CONNECTION_ERROR
 //   };
 // };
-export const wsFeedConnectionError = (): IwsFeedConnectionErrorAction => ({
+export const wsFeedConnectionError = (payload: boolean): IwsFeedConnectionErrorAction => ({
   type: WS_FEED_CONNECTION_ERROR,
+  payload
 });
 
 // export const wsFeedConnectionClosed = () => {
@@ -98,9 +105,12 @@ export const wsFeedConnectionStop = (): IwsFeedConnectionStopAction => ({
 //     payload: message
 //   };
 // };
-export const wsGetFeedMessage = (message: []): IwsGetFeedMessageAction => ({
+export const wsGetFeedMessage = (message: [], payload: {
+  orders: TOrder[], total: number, totalToday: number
+}): IwsGetFeedMessageAction => ({
   type: WS_FEED_GET_MESSAGE,
   message,
+  payload
 });
 
 // export const wsSendFeedMessage = message => {

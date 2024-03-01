@@ -1,9 +1,11 @@
 // import { DELETE_INGREDIENT, CHANGE_ITEM_POSITION } from "../actions/burger-constructor";
 // import { DELETE_CONSTRUCTOR_ITEMS } from "../actions/order-details";
 
-import { DELETE_INGREDIENT, CHANGE_ITEM_POSITION } from "../constants";
+import { DELETE_INGREDIENT, CHANGE_ITEM_POSITION, ADD_BUN_INGREDIENT, ADD_MAIN_INGREDIENT } from "../constants";
 import { DELETE_CONSTRUCTOR_ITEMS } from "../constants";
 import { TIngredients } from "../types/data";
+import { TBurgerConstructorAction } from "../actions/burger-constructor";
+import { TOrderDetailsAction } from "../actions/order-details";
 
 export type TcurrentIngredientsState = {
   bun: TIngredients | null,
@@ -17,16 +19,16 @@ const currentIngredients: TcurrentIngredientsState = {
 
 const addedIngredints: { ingredient: TIngredients; key: string; }[] = [];
 
-export const constructorIngredientsReducer = (state = currentIngredients, action: any): TcurrentIngredientsState  => {
+export const constructorIngredientsReducer = (state = currentIngredients, action: TBurgerConstructorAction | TOrderDetailsAction): TcurrentIngredientsState  => {
   switch (action.type) {
-    case 'ADD_BUN_INGREDIENT': {
+    case ADD_BUN_INGREDIENT: {
       return { 
         ...state,
         bun: action.ingredient 
       }  
     }
-    case 'ADD_MAIN_INGREDIENT': {
-      const counter = state.ingredients.filter((item: { ingredient: { _id: string; }; }) => item.ingredient._id === action.ingredient._id).length+1;
+    case ADD_MAIN_INGREDIENT: {
+      const counter = state.ingredients.filter(item => item.ingredient._id === action.ingredient._id).length+1;
       action.ingredient.__v = counter;
       const newItem = { ingredient : action.ingredient, key: action.uniqueId };
       addedIngredints.push(newItem);
@@ -36,7 +38,7 @@ export const constructorIngredientsReducer = (state = currentIngredients, action
       }  
     }
     case DELETE_INGREDIENT: {
-      const itemIndex = state.ingredients.reduce((_prev, item: { ingredient: TIngredients; key: string; }, index: number) => {
+      const itemIndex = state.ingredients.reduce((_prev, item, index: number) => {
         if (item.ingredient._id === action.id) {
           return index   
         }

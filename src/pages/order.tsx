@@ -13,10 +13,11 @@ export const Order: FC<{ order: TOrder }> = ({ order }) => {
   const today = new Date(order.createdAt);
 
   const ingredientsList = useAppSelector((store) => store.ingredientsList.ingredients);
-
-  const orderIngredients: any[] = order.ingredients.length > 0 ? order.ingredients.map((id) => ingredientsList.find((item: { _id: string; }) => item._id === id)) : [];
-
-  const orderPrice: number = orderIngredients.length > 0 ? orderIngredients.map((item: { price: number; }) => item.price).reduce((acc: number, current: number) => acc + current, 0): 0;
+  const orderIngredients = order.ingredients.length > 0 ? order.ingredients.map((id) => ingredientsList.find((item) => item._id === id)) : [];
+  
+  const orderPrice: number = orderIngredients.length > 0 ? orderIngredients.map( item => {
+    if (item) return item.price
+  }).reduce((acc: number, current = 0) => acc + current, 0): 0;
 
   return ( orderIngredients.length > 0 ?
     <section key={order._id} className={styles.orderMain} >
@@ -47,23 +48,22 @@ export const Order: FC<{ order: TOrder }> = ({ order }) => {
       }
       <div className={styles.orderTotal}>
         <div className={styles.ingredientsContainer}>
-          {orderIngredients.map((ingregientItem: { image_mobile: string | undefined; }, index: number, arr: string | any[]) => {
-
+          {orderIngredients.map((ingregientItem, index, arr) => {
+            if (ingregientItem) {
             if (index < 5) return (
               <div className={styles.ingredient} key={index} style={{ marginLeft: index === 0 ? 0 : 48*index + 'px', zIndex: arr.length-index}}>
                 <img src={ingregientItem.image_mobile} className={styles.image}></img>
               </div>
             )
-
             else if (index === 5) return (
               <div className={styles.ingredient} key={index} style={{ marginLeft: '240px', zIndex: 1}}> 
                 <img src={ingregientItem.image_mobile} className={styles.image}></img>
                 {arr.length-1 > 5 && <span className={"text text_type_main-default " + styles.counter}>+{arr.length-1-index}</span>}
               </div>
             )
-
             else return null
-            })
+            }
+          })
           }
         </div>
         <span className={"text text_type_digits-default " + styles.price}>{orderPrice}<CurrencyIcon type={"secondary"}/></span>

@@ -1,13 +1,12 @@
 import { GET_INGREDIENTS_FAILED, GET_INGREDIENTS_REQUEST, GET_INGREDIENTS_SUCCESS, TAB_SWITCH } from "../constants";
-
 import { TIngredients } from "../types/data";
-
+import { TBurgerIngredientsAction } from "../actions/burger-ingredients";
 export type TIngredientsState = {
   ingredients: ReadonlyArray<TIngredients>;
   ingredientsRequest: boolean;
   ingredientsFailed: boolean;
   ingredientsIsLoaded: boolean;
-  currentTab: string;
+  currentTab: string | undefined;
 };
 
 const ingredientsInitialState: TIngredientsState = {
@@ -19,7 +18,7 @@ const ingredientsInitialState: TIngredientsState = {
 };
 
 
-export const burgerIngredientsReducer = (state = ingredientsInitialState, action: any): TIngredientsState => {
+export const burgerIngredientsReducer = (state = ingredientsInitialState, action: TBurgerIngredientsAction): TIngredientsState => {
   switch (action.type) {
     case GET_INGREDIENTS_REQUEST: {
       return {

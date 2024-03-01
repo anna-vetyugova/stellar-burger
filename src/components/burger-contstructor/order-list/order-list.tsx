@@ -11,6 +11,8 @@ import ConstructorItem from "../constructor-item/constructor-item";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 import { TIngredients } from "../../../services/types/data";
 import { INCREASE_TOTAL_PRICE } from "../../../services/constants";
+import { Identifier } from "dnd-core";
+import { ADD_BUN_INGREDIENT, ADD_MAIN_INGREDIENT } from "../../../services/constants";
 
 const OrderList: FC = () => {  
   const dispatch = useAppDispatch();
@@ -19,24 +21,42 @@ const OrderList: FC = () => {
   const bunItem : TIngredients | null = ingredientsConstructor['bun'];
   const mainItems: {key: string, ingredient: TIngredients}[] = ingredientsConstructor['ingredients'];
 
-  const [{ isHover }, dropTarget] = useDrop({
+  const [{ isHover }, dropTarget] = useDrop<
+    {
+      ingredient: TIngredients;
+      index: number
+    },
+    unknown,
+    { isHover: Identifier | null | boolean } // тип из библиотеки dnd-core
+    >
+    ({
     accept: ["ingredient"],
-    collect: (monitor: { isOver: () => any; }) => ({
+    collect: (monitor) => ({
       isHover: monitor.isOver(),
     }),
-    drop(item: { ingredient: { type: string; price: any; }; }) {
-      const type = item.ingredient.type === 'bun' ? 'ADD_BUN_INGREDIENT' : 'ADD_MAIN_INGREDIENT';
-      dispatch({
-        type: type,
-        ingredient: item.ingredient,
-        uniqueId: uuidv4()
-      });
+    drop(item: { ingredient: TIngredients }) {
+      if (item.ingredient.type === 'bun') {
+        dispatch({
+          type: ADD_BUN_INGREDIENT,
+          ingredient: item.ingredient,
+          uniqueId: uuidv4()
+        });
+      }
+      else {
+        dispatch({
+          type: ADD_MAIN_INGREDIENT,
+          ingredient: item.ingredient,
+          uniqueId: uuidv4()
+        });
+      };
       dispatch({
         type: INCREASE_TOTAL_PRICE,
         total: item.ingredient.type !== 'bun' ? item.ingredient.price : 0
       })
     },
   });
+  
+
   
   // const refIngrList = useRef(null);
   const refIngrList = useRef<HTMLUListElement>(null);

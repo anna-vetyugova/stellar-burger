@@ -15,8 +15,15 @@ export const OrdersFeed: FC = () => {
   const dispatch = useAppDispatch();
   const location = useLocation();
 
-  const wsFeed: { wsConnected: boolean, messages: [] } = useAppSelector(store => store.wsFeed);
-  const wsUser: { wsConnected: boolean, messages: any} = useAppSelector(store => store.wsUser);
+  const { wsUserConnected, userMessages, wsUserOrders } = useAppSelector(store => ({
+    wsUserConnected: store.wsUser.wsConnected,
+    userMessages: store.wsUser.messages,
+    wsUserOrders: store.wsUser.orders
+  }));
+  const { wsFeedConnected, wsFeedOrders } = useAppSelector(store => ({
+    wsFeedConnected: store.wsFeed.wsConnected,
+    wsFeedOrders: store.wsFeed.orders
+  }));
 
   const accessToken = localStorage.getItem("accessToken");
 
@@ -44,19 +51,19 @@ export const OrdersFeed: FC = () => {
     }
   }, [location]);
 
-  if( accessToken && wsUser.messages === 'Invalid or missing token') {
+  if( accessToken && userMessages === 'Invalid or missing token') {
     // dispatch(refreshToken);
     refreshToken();
     dispatch(wsUserConnectionStart((`${wsUrl}/orders?token=${accessToken.replace('Bearer ', '')}`)));
   }
 
-  const actualOrders = wsUser.wsConnected === true ? wsUser.messages[wsUser.messages.length-1] : wsFeed.messages[wsFeed.messages.length-1];
+  const actualOrders = wsUserConnected ? wsUserOrders :  wsFeedOrders;
 
-  return ( actualOrders && actualOrders.orders.length > 0 ?
+  return ( actualOrders ?
     <section className={styles.main}>
-      <div className={"custom-scroll " + styles.orders} style={{ width: wsFeed.wsConnected === true ? "600px" : "844px" }}>
-        <ul className={styles.list} style={{ marginRight: wsFeed.wsConnected === true ? "8px" : "0" }}>
-        {actualOrders && actualOrders.orders.map((order: TOrder, index: number) => (
+      <div className={"custom-scroll " + styles.orders} style={{ width: wsFeedConnected === true ? "600px" : "844px" }}>
+        <ul className={styles.list} style={{ marginRight: wsFeedConnected === true ? "8px" : "0" }}>
+         {actualOrders.map((order, index) => (
           <li key={order.number} className={styles.orderItemContainer}>
             <Link
               key={index}
@@ -67,7 +74,8 @@ export const OrdersFeed: FC = () => {
               <Order order={order} />
             </Link>
           </li>
-        ))}
+        ))
+         }
         </ul>
       </div>
       <Outlet />

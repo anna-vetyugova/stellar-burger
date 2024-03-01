@@ -1,4 +1,4 @@
-import { TIngredients } from "../services/types/data";
+import { TIngredients, TOrder } from "../services/types/data";
 const URL_API = 'https://norma.nomoreparties.space/api/';
 
 
@@ -32,10 +32,10 @@ export function getIngredients() {
 }
 
 type GetOrderData = {
-  orders: any[]
+  orders: TOrder[]
   success: boolean
 }
-export function getOrderData(number: number) {
+export function getOrderData(number: string) {
   return request<GetOrderData>(`orders/${number}`, {
     method: 'GET',
     headers: {
@@ -106,7 +106,11 @@ export const getOrderNumber = async (ingredients: TIngredients[], accessToken: s
 
 
 type GetUser = {
-  user: string;
+  user: {
+    email: string,
+    name: string,
+    password: string
+  };
   success: boolean
 }
 const getUser = async (accessToken: string) => {
@@ -121,7 +125,11 @@ const getUser = async (accessToken: string) => {
 
 
 type Login = {
-  user: string;
+  user: {
+    email: string,
+    password: string,
+    name: string
+  };
   success: boolean;
   accessToken: string;
   refreshToken: string;
@@ -138,7 +146,11 @@ export function login(form: { email: string, password: string}) {
 
 
 type Registr = {
-  user: string;
+  user: {
+    name: string,
+    email: string, 
+    password: string
+  };
   success: boolean;
   accessToken: string;
   refreshToken: string;
@@ -187,7 +199,7 @@ type Logout = {
   success: boolean;
   token: string
 }
-export function logout(token: any) {
+export function logout(token: string) {
   return request<Logout>('auth/logout', {
     method: 'POST',
     headers: {
@@ -203,9 +215,9 @@ export function logout(token: any) {
 type UpdateUserProfile = {
   accessToken: string;
   success: boolean;
-  user: any
+  user: { name: string; email: string; password: string; }
 }
-const updateUserProfile = async (form: string, accessToken: string) => {
+const updateUserProfile = async (form: { name: string | null; email: string | null; password: string; }, accessToken: string) => {
   return fetchWithRefresh<UpdateUserProfile>('auth/user', {
     method: 'PATCH',
     headers: {

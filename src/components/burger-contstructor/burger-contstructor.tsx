@@ -18,7 +18,8 @@ export const BurgerConstructor: FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const user = useAppSelector((store) => store.user.user);
+  // const user = useAppSelector((store) => store.user.user);
+  const user = useAppSelector(store => store.user.user);
 
   const ingredientsConstructor = useAppSelector((store) => store.ingredientsConstructor);
   const bunItem : TIngredients | null = ingredientsConstructor['bun'];
@@ -34,7 +35,7 @@ export const BurgerConstructor: FC = () => {
     } 
     const accessToken = localStorage.getItem("accessToken");
     const ingredients = mainItems.map(item => item.ingredient._id);
-    if (bunItem) {
+    if (bunItem && accessToken) {
       dispatch(getNumber([bunItem._id, ...ingredients, bunItem._id], accessToken));
     }
     handleClick();
