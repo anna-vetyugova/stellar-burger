@@ -1,17 +1,14 @@
 import { api } from "../../utils/burger-api";
 import { SET_AUTH_CHECKED, SET_USER } from "../constants";
 import { AppThunk } from "../reducers";
+import { TUser } from "../types/data";
 export interface ISetAuthCheckedAction {
   readonly type: typeof SET_AUTH_CHECKED;
   readonly payload: boolean
 }
 export interface ISetUserAction {
   readonly type: typeof SET_USER;
-  readonly payload: {
-    email?: string,
-    name?: string,
-    password?: string
-  } | null;
+  readonly payload: TUser | null
 
 }
 export type TUserDataAction = 
@@ -27,7 +24,7 @@ export const setAuthCheckedAction = (
   payload
 });
 export const setUserAction = (
-  payload: { email: string, name: string } | null
+  payload: TUser | null
 ): TUserDataAction => ({
   type: SET_USER,
   payload
@@ -37,7 +34,7 @@ export const setAuthChecked = (value: boolean): AppThunk => (dispatch) => {
   dispatch(setAuthCheckedAction(value))
 };
 
-export const setUser = (user: { email: string; name: string; password: string } | null): AppThunk => (dispatch) => { 
+export const setUser = (user: TUser | null): AppThunk => (dispatch) => { 
   dispatch(setUserAction(user))
 };
 
@@ -46,9 +43,18 @@ export const setUser = (user: { email: string; name: string; password: string } 
 //     dispatch(setUser(res.user));
 //   }); 
 // };
-export const getUser = (accessToken: string): AppThunk => async (dispatch) => { 
-  await api.getUser(accessToken).then((res) => dispatch(setUser(res.user))).catch(res => console.error(res));
-}
+// export const getUser = (accessToken: string): AppThunk => async (dispatch) => { 
+//   await api.getUser(accessToken);
+// }
+
+export const getUser = ():AppThunk<Promise<unknown>> => {
+  return (dispatch) => {
+    return api.getUser()
+      .then((res) => {
+        dispatch(setUser(res.user));
+      });
+  };
+};
 
 export const login = (form: { email: string, password: string}): AppThunk => async (dispatch) => {    
     const res  = await api.login(form).then((res) => {
@@ -61,20 +67,22 @@ export const login = (form: { email: string, password: string}): AppThunk => asy
     });
 };
 
-export const checkUserAuth = (accessToken: string | null): AppThunk => {
+export const checkUserAuth = (): AppThunk => {
   return (dispatch) => {
-    if (accessToken) {
-      dispatch(getUser(accessToken))
+    if (localStorage.getItem("accessToken")) {
+      dispatch(getUser())
+        .then(() => { })
+        .catch(() => {
           localStorage.removeItem("accessToken");
           localStorage.removeItem("refreshToken");
           dispatch(setUser(null));
-          dispatch(setAuthChecked(true));
+        })
+        .finally(() => dispatch(setAuthChecked(true)));
     } else {
       dispatch(setAuthChecked(true));
     }
   };
 };
-
 export const registr = (form: any): AppThunk => async (dispatch) => { 
   const res = await api.registr(form).then((res) => {
     localStorage.setItem("accessToken", res.accessToken);
@@ -93,7 +101,7 @@ export const logout = (token: string): AppThunk => async (dispatch) => {
   }).catch(res => console.error(res));
 }
 
-export const updateUserProfile = (form: { name: string; email: string; password: string; }, accessToken: string): AppThunk => async (dispatch) => { 
+export const updateUserProfile = (form: TUser, accessToken: string): AppThunk => async (dispatch) => { 
   await api.updateUserProfile(form, accessToken).then((res) => {
     dispatch(setUser(res.user));
     dispatch(setAuthChecked(true));

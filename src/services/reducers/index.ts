@@ -41,6 +41,10 @@ type TAppActions =
 | TWsFeedAction
 | TWsUserAction;
 
+export type RootState = ReturnType<typeof rootReducer>
+
+
+
 export type AppThunk<ReturnType = void> = ThunkAction<
   ReturnType,
   RootState,
@@ -49,7 +53,7 @@ export type AppThunk<ReturnType = void> = ThunkAction<
 >;
 
 
-export type RootState = ReturnType<typeof rootReducer>
+
 // export type AppDispatch = typeof store.dispatch;
 export type AppDispatch<TReturnType = void> = (action: TAppActions | AppThunk<TReturnType>) => TReturnType;
 

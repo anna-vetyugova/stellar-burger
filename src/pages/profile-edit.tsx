@@ -11,9 +11,13 @@ export const ProfileEdit: FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const user = useAppSelector((store) => store.user.user);
-
+  console.log(user);
   const [isActive, setActive] = useState(false);
-  const [form, setValue] = useState({ name: user.name, email: user.email, password: '' });
+
+  const userName = user ? user.name : '';
+  const userEmail = user ? user.email : '';
+
+  const [form, setValue] = useState({ name: String(userName), email: String(userEmail), password: '' });
   
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     const target = e.target as HTMLInputElement
@@ -24,16 +28,13 @@ export const ProfileEdit: FC = () => {
     e.preventDefault();
     const accessToken = localStorage.getItem("accessToken");
     console.log(accessToken);
-    if (accessToken) dispatch(updateUserProfile({ name: form.name, email: form.email, password: ''}, accessToken));
+    if (accessToken) dispatch(updateUserProfile({ name: form.name, email: form.email, password: form.password}, accessToken));
   }
 
   const onReset = () => {
-    setValue({ 
-      ...form, 
-      name : user.name, 
-      email: user.email, 
-      password: '' });
-  }
+    if (user) {
+    setValue({ ...form, name : String(user.name), email: String(user.email) , password: '' });
+  }}
   const [isDisabled, setIsDisabled] = useState(true);
   
   const inputRef = useRef<HTMLInputElement>(null);

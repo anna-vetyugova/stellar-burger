@@ -1,22 +1,14 @@
 import { SET_AUTH_CHECKED, SET_USER } from "../constants";
 import { TUserDataAction } from "../actions/user-data";
-
+import { TUser } from "../types/data";
 export type TuserDataInitialState = {
-  email: any;
-  name: any | string;
-  user : {
-    email?: string,
-    name?: string | undefined,
-    password?: string
-  } | null,
+  user : TUser | null,
   isAuthChecked: boolean
 };
 
 const userData: TuserDataInitialState = {
   user : null,
-  isAuthChecked: false,
-  email: '',
-  name: ''
+  isAuthChecked: false
 };
 
 

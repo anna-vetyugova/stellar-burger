@@ -47,3 +47,8 @@ export type TOrder = {
   updatedAt: Date;
   _id: string
 } 
+export type TUser = {
+  name?: string,
+  email?: string,
+  password?: string
+} 

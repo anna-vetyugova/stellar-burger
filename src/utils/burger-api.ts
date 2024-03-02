@@ -1,4 +1,4 @@
-import { TIngredients, TOrder } from "../services/types/data";
+import { TIngredients, TOrder, TUser } from "../services/types/data";
 const URL_API = 'https://norma.nomoreparties.space/api/';
 
 
@@ -6,7 +6,7 @@ export type TRequestOptions = {
   method: string;
   headers?: {
     'Content-Type': string;
-    authorization?: string;
+    authorization?: string | undefined;
   };
   body?: string;
 }
@@ -106,30 +106,22 @@ export const getOrderNumber = async (ingredients: TIngredients[], accessToken: s
 
 
 type GetUser = {
-  user: {
-    email: string,
-    name: string,
-    password: string
-  };
+  user: TUser;
   success: boolean
 }
-const getUser = async (accessToken: string) => {
+const getUser = async () => {
   return fetchWithRefresh<GetUser>('auth/user', {
   method: 'GET',
   headers: {
     'Content-Type': 'application/json',
-    'authorization': accessToken
+    'authorization': String(localStorage.getItem('accessToken'))
   }
   })
 }
 
 
 type Login = {
-  user: {
-    email: string,
-    password: string,
-    name: string
-  };
+  user: TUser;
   success: boolean;
   accessToken: string;
   refreshToken: string;
@@ -146,11 +138,7 @@ export function login(form: { email: string, password: string}) {
 
 
 type Registr = {
-  user: {
-    name: string,
-    email: string, 
-    password: string
-  };
+  user: TUser;
   success: boolean;
   accessToken: string;
   refreshToken: string;
@@ -215,9 +203,9 @@ export function logout(token: string) {
 type UpdateUserProfile = {
   accessToken: string;
   success: boolean;
-  user: { name: string; email: string; password: string; }
+  user: TUser
 }
-const updateUserProfile = async (form: { name: string | null; email: string | null; password: string; }, accessToken: string) => {
+const updateUserProfile = async (form: TUser | null, accessToken: string) => {
   return fetchWithRefresh<UpdateUserProfile>('auth/user', {
     method: 'PATCH',
     headers: {

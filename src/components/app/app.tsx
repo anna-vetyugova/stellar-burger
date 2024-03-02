@@ -14,6 +14,7 @@ import { OnlyAuth, OnlyUnAuth } from '../protected-route';
 
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import { useDispatch } from 'react-redux';
+import { ProtectedRoute } from '../protected-route';
 
 const App: FC = () => {
   const location = useLocation();
@@ -28,11 +29,11 @@ const App: FC = () => {
     deleteSetItem();
   };
 
-  const accessToken = localStorage.getItem("accessToken") ? localStorage.getItem("accessToken") : null;
-
+  // const accessToken = localStorage.getItem("accessToken") ? localStorage.getItem("accessToken") : null;
+  // console.log(accessToken);
   useEffect(() => {
     dispatch(getIngredientsList());
-    dispatch(checkUserAuth(accessToken));
+    dispatch(checkUserAuth());
    }, [dispatch]);
  
    const deleteSetItem = () => {
