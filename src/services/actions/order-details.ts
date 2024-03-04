@@ -8,11 +8,11 @@ export interface IGetOrderRequestAction {
 }
 export interface IGetOrderSuccessAction {
   readonly type: typeof GET_ORDER_SUCCESS;
-  readonly number?: number | undefined
+  readonly number?: number
 }
 export interface IGetOrderFailedAction {
   readonly type: typeof GET_ORDER_FAILED;
-  readonly number?: number | undefined
+  readonly number?: number
 }
 
 
@@ -71,7 +71,7 @@ export const setOrderDataAction = (
 
 
 
-export const getNumber = (ingredients: any, accessToken: string): AppThunk => (dispatch) => { 
+export const getNumber = (ingredients: string[], accessToken: string): AppThunk => (dispatch) => { 
   dispatch(getOrderRequestAction());
   getOrderNumber(ingredients, accessToken).then(res => {
     if (res && res.success) {

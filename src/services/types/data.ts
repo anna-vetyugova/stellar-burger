@@ -52,3 +52,9 @@ export type TUser = {
   email?: string,
   password?: string
 } 
+export type TwsUser = {
+  timestamp: number,
+  orders: TOrder[],
+  total: number,
+  totalToday: number
+}

@@ -9,6 +9,7 @@ import { getCurrentTimestamp } from "../../utils/datetime";
 import { TOrder } from "../types/data";
 import { TWsUserAction } from "../actions/wsUserAction";
 
+
 export type TwsUserInitialState = {
   wsConnected: boolean,
   messages: any,
@@ -23,6 +24,7 @@ const wsUserInitialState: TwsUserInitialState = {
 };
 
 export const wsUserReducer = (state = wsUserInitialState, action: TWsUserAction): TwsUserInitialState => {
+  
   switch (action.type) {
         // Опишем обработку экшена с типом WS_CONNECTION_SUCCESS
         // Установим флаг wsConnected в состояние true
@@ -55,6 +57,7 @@ export const wsUserReducer = (state = wsUserInitialState, action: TWsUserAction)
         // Обработка происходит, когда с сервера возвращаются данные
         // В messages передадим данные, которые пришли с сервера
     case WS_USER_GET_MESSAGE:
+      console.log(state);
       const timestamp = getCurrentTimestamp();
       return {
         ...state,

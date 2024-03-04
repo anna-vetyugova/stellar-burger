@@ -28,7 +28,6 @@ export interface IwsFeedConnectionStopAction {
 }
 export interface IwsGetFeedMessageAction {
   readonly type: typeof WS_FEED_GET_MESSAGE;
-  readonly message: [];
   readonly payload: {
     orders: TOrder[],
     total: number,
@@ -55,70 +54,31 @@ export const wsFeedConnectionStart = (
   type: WS_FEED_CONNECTION_START,
   payload,
 });
-// export const wsFeedConnectionStart = (url) => {
-//   return {
-//     type: WS_FEED_CONNECTION_START,
-//     payload: url
-//   };
-// };
 
-// export const wsFeedConnectionSuccess = () => {
-//   return {
-//     type: WS_FEED_CONNECTION_SUCCESS
-//   };
-// };
 export const wsFeedConnectionSuccess = (): IwsFeedConnectionSuccessAction => ({
   type: WS_FEED_CONNECTION_SUCCESS,
 });
 
-// export const wsFeedConnectionError = () => {
-//   return {
-//     type: WS_FEED_CONNECTION_ERROR
-//   };
-// };
 export const wsFeedConnectionError = (payload: boolean): IwsFeedConnectionErrorAction => ({
   type: WS_FEED_CONNECTION_ERROR,
   payload
 });
 
-// export const wsFeedConnectionClosed = () => {
-//   return {
-//     type: WS_FEED_CONNECTION_CLOSED
-//   };
-// };
 export const wsFeedConnectionClosed = (): IwsFeedConnectionClosedAction => ({
   type: WS_FEED_CONNECTION_CLOSED,
 });
 
-// export const wsFeedConnectionStop = () => {
-//   return {
-//     type: WS_FEED_CONNECTION_STOP
-//   };
-// };
 export const wsFeedConnectionStop = (): IwsFeedConnectionStopAction => ({
   type: WS_FEED_CONNECTION_STOP,
 });
 
-// export const wsGetFeedMessage = message => {
-//   return {
-//     type: WS_FEED_GET_MESSAGE,
-//     payload: message
-//   };
-// };
-export const wsGetFeedMessage = (message: [], payload: {
+export const wsGetFeedMessage = (payload: {
   orders: TOrder[], total: number, totalToday: number
 }): IwsGetFeedMessageAction => ({
   type: WS_FEED_GET_MESSAGE,
-  message,
   payload
 });
 
-// export const wsSendFeedMessage = message => {
-//   return {
-//     type: WS_FEED_SEND_MESSAGE,
-//     payload: message
-//   };
-// };
 export const wsSendFeedMessage = (
   message: []
 ): IwsSendFeedMessageAction => ({

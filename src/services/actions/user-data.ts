@@ -38,15 +38,6 @@ export const setUser = (user: TUser | null): AppThunk => (dispatch) => {
   dispatch(setUserAction(user))
 };
 
-// export const getUser = (accessToken: string): AppThunk => async (dispatch) => {   
-//   const res = await api.getUser(accessToken).then((res) => {
-//     dispatch(setUser(res.user));
-//   }); 
-// };
-// export const getUser = (accessToken: string): AppThunk => async (dispatch) => { 
-//   await api.getUser(accessToken);
-// }
-
 export const getUser = ():AppThunk<Promise<unknown>> => {
   return (dispatch) => {
     return api.getUser()
@@ -56,7 +47,7 @@ export const getUser = ():AppThunk<Promise<unknown>> => {
   };
 };
 
-export const login = (form: { email: string, password: string}): AppThunk => async (dispatch) => {    
+export const login = (form: TUser): AppThunk => async (dispatch) => {    
     const res  = await api.login(form).then((res) => {
       console.log(res);
       localStorage.setItem("accessToken", res.accessToken);
@@ -71,7 +62,6 @@ export const checkUserAuth = (): AppThunk => {
   return (dispatch) => {
     if (localStorage.getItem("accessToken")) {
       dispatch(getUser())
-        .then(() => { })
         .catch(() => {
           localStorage.removeItem("accessToken");
           localStorage.removeItem("refreshToken");
@@ -83,7 +73,7 @@ export const checkUserAuth = (): AppThunk => {
     }
   };
 };
-export const registr = (form: any): AppThunk => async (dispatch) => { 
+export const registr = (form: TUser): AppThunk => async (dispatch) => { 
   const res = await api.registr(form).then((res) => {
     localStorage.setItem("accessToken", res.accessToken);
     localStorage.setItem("refreshToken", res.refreshToken);

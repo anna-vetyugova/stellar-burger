@@ -7,7 +7,7 @@ import {
   WS_USER_GET_MESSAGE,
   WS_USER_SEND_MESSAGE,
 } from "../constants";
-
+import { TOrder } from "../types/data";
 export interface IwsUserConnectionStartAction {
   readonly type: typeof WS_USER_CONNECTION_START;
   readonly payload: string;
@@ -27,8 +27,13 @@ export interface IwsUserConnectionStopAction {
 }
 export interface IwsGetUserMessageAction {
   readonly type: typeof WS_USER_GET_MESSAGE;
-  readonly message: {};
-  payload: any
+  // readonly message: string[];
+  payload: {
+    orders: TOrder[],
+    total: number,
+    totalToday: number,
+    messages: string[]
+  }
 }
 export interface IwsSendUserMessageAction {
   readonly type: typeof WS_USER_SEND_MESSAGE;
@@ -44,13 +49,6 @@ export type TWsUserAction =
   | IwsGetUserMessageAction
   | IwsSendUserMessageAction;
 
-
-// export const wsUserConnectionStart = (url) => {
-//   return {
-//     type: WS_USER_CONNECTION_START,
-//     payload: url,
-//   };
-// };
 export const wsUserConnectionStart = (
   payload: string
 ): IwsUserConnectionStartAction => ({
@@ -58,64 +56,28 @@ export const wsUserConnectionStart = (
   payload,
 });
 
-// export const wsUserConnectionSuccess = () => {
-//   return {
-//     type: WS_USER_CONNECTION_SUCCESS,
-//   };
-// };
 export const wsUserConnectionSuccess = (): IwsUserConnectionSuccessAction => ({
   type: WS_USER_CONNECTION_SUCCESS,
 });
-
-// export const wsUserConnectionError = () => {
-//   return {
-//     type: WS_USER_CONNECTION_ERROR,
-//   };
-// };
 export const wsUserConnectionError = (payload: boolean): IwsUserConnectionErrorAction => ({
   type: WS_USER_CONNECTION_ERROR,
   payload
 });
-
-// export const wsUserConnectionClosed = () => {
-//   return {
-//     type: WS_USER_CONNECTION_CLOSED,
-//   };
-// };
 export const wsUserConnectionClosed = (): IwsUserConnectionClosedAction => ({
   type: WS_USER_CONNECTION_CLOSED,
 });
-
-
-// export const wsUserConnectionStop = () => {
-//   return {
-//     type: WS_USER_CONNECTION_STOP,
-//   };
-// };
 export const wsUserConnectionStop = (): IwsUserConnectionStopAction => ({
   type: WS_USER_CONNECTION_STOP,
 });
-
-
-// export const wsGetUserMessage = (message) => {
-//   return {
-//     type: WS_USER_GET_MESSAGE,
-//     payload: message,
-//   };
-// };
-export const wsGetUserMessage = (message: {}, payload: any): IwsGetUserMessageAction => ({
+export const wsGetUserMessage = (payload: {
+  orders: TOrder[],
+  total: number,
+  totalToday: number,
+  messages: string[]
+}): IwsGetUserMessageAction => ({
   type: WS_USER_GET_MESSAGE,
-  message,
   payload
 });
-
-
-// export const wsSendUserMessage = (message) => {
-//   return {
-//     type: WS_USER_SEND_MESSAGE,
-//     payload: message,
-//   };
-// };
 export const wsSendUserMessage = (message: string): IwsSendUserMessageAction => ({
   type: WS_USER_SEND_MESSAGE,
   message,

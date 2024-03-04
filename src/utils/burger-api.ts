@@ -91,7 +91,7 @@ type GetOrderNumber = {
   };
   success: boolean
 }
-export const getOrderNumber = async (ingredients: TIngredients[], accessToken: string) => {
+export const getOrderNumber = async (ingredients: string[], accessToken: string) => {
   return fetchWithRefresh<GetOrderNumber>('orders', {
     method: 'POST',
     headers: {
@@ -126,7 +126,7 @@ type Login = {
   accessToken: string;
   refreshToken: string;
 }
-export function login(form: { email: string, password: string}) {
+export function login(form: TUser) {
   return request<Login>(`auth/login`, {
     method: 'POST',
     headers: {
@@ -143,7 +143,7 @@ type Registr = {
   accessToken: string;
   refreshToken: string;
 }
-export function registr(form: string) {
+export function registr(form: TUser) {
   return request<Registr>(`auth/register`, {
     method: 'POST',
     headers: {
@@ -158,7 +158,7 @@ type ForgetPassword = {
   success: boolean;
   accessToken: string | null | undefined;
 }
-export function forgetPassword(form: { email: string }, accessToken: string) {
+export function forgetPassword(form: TUser, accessToken: string) {
   return request<ForgetPassword>(`password-reset`, {
     method: 'POST',
     headers: {
@@ -173,7 +173,7 @@ export function forgetPassword(form: { email: string }, accessToken: string) {
 type ResetPassword = {
   success: boolean;
 }
-export function resetPassword(form: { password: string, token: string }) {
+export function resetPassword(form: TUser) {
   return request<ResetPassword>('password-reset/reset', {
     method: 'POST',
     headers: {
@@ -205,7 +205,7 @@ type UpdateUserProfile = {
   success: boolean;
   user: TUser
 }
-const updateUserProfile = async (form: TUser | null, accessToken: string) => {
+const updateUserProfile = async (form: TUser, accessToken: string) => {
   return fetchWithRefresh<UpdateUserProfile>('auth/user', {
     method: 'PATCH',
     headers: {

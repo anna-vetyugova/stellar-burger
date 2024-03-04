@@ -6,19 +6,24 @@ import { WS_FEED_CONNECTION_CLOSED,
   WS_FEED_SEND_MESSAGE } from "../constants";
   
 import { getCurrentTimestamp } from "../../utils/datetime";
-import { TOrder } from "../types/data";
+import { TOrder, TwsUser } from "../types/data";
 import { TWsFeedAction } from "../actions/wsFeedAction";
+
 export type TwsFeedInitialState = {
   wsConnected: boolean,
-  orders: TOrder[],
   error: boolean | undefined,
+  messages: TwsUser[],
+
+  orders: TOrder[],
   total: number,
   totalToday: number
 };
 const wsFeedInitialState: TwsFeedInitialState = {
   wsConnected: false,
-  orders: [],
   error: undefined,
+  messages: [],
+
+  orders: [],
   total: 0,
   totalToday: 0
 };
@@ -53,10 +58,10 @@ export const wsFeedReducer = (state = wsFeedInitialState, action: TWsFeedAction)
         // В messages передадим данные, которые пришли с сервера
     case WS_FEED_GET_MESSAGE:
       const timestamp = getCurrentTimestamp();
-      console.log(action);
       return {
         ...state,
         error: undefined,
+        messages: [...state.messages, { ...action.payload, timestamp: getCurrentTimestamp()} ],
         orders: action.payload.orders,
         total: action.payload.total,
         totalToday: action.payload.totalToday
